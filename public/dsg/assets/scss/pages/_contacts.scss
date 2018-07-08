@@ -1,0 +1,85 @@
+.contacts-page {
+  .content {
+    align-items: center;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 51vw;
+      height: 100vh;
+      background-color: #000000;
+    }
+    .left {
+      .text-block-title {
+        text-transform: uppercase;
+        color: #fefefe;
+        font-size: get-vw(21px);
+        font-weight: 500;
+        letter-spacing: get-vw(2.08px);
+        line-height: get-vw(24.99px);
+        margin-bottom: get-vw(30px);
+      }
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        max-width: 400px;
+        margin-bottom: get-vw(10px);
+        li {
+          width: 50%;
+        }
+        a {
+          color: $white;
+          font-weight: 600;
+          letter-spacing: 1.25px;
+          line-height: 2.5rem;
+          display: block;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+      .email {
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 1.25px;
+        text-transform: uppercase;
+        color: $white;
+        a {
+          color: $white;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+    .right {
+      form {
+        width: 500px;
+        margin: 0 auto;
+      }
+      h2 {
+        white-space: nowrap;
+      }
+      input,
+      textarea {
+        width: 100%;
+        margin-bottom: 36px;
+      }
+      .btn {
+        width: auto;
+        margin-left: auto;
+        display: block;
+      }
+    }
+    .title {
+      font-size: get-vw(42px);
+      font-weight: 400;
+      line-height: get-vw(45.82px);
+      letter-spacing: get-vw(11.82px);
+      margin-bottom: get-vw(54px);
+    }
+    
+  }
+}

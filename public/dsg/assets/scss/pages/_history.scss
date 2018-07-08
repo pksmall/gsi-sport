@@ -1,0 +1,126 @@
+.history-page {
+  .content {
+    align-items: center;
+    .container {
+      margin-right: 4.6875vw;
+      padding-right: 0;
+    }
+    .col-12 {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .title {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin: get-vw(150px) 0 get-vw(42px);
+      h2 {
+        font-size: get-vw(65px);
+        margin: 0;
+      }
+      a {
+        margin-right: get-vw(80px);
+        color: #d33924;
+        font-size: 12px;
+        font-weight: 300;
+        line-height: 25px;
+        text-transform: uppercase;
+        letter-spacing: 2.56px;
+      }
+    }
+    .cart-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: get-vw(40px);
+      margin-right: get-vw(65px);
+      h3 {
+        margin: 0;
+        color: #fefefe;
+        font-family: "HelveticaNeueCyr-CondensedBold";
+        font-size: get-vw(33px);
+        line-height: get-vw(45.83px);
+        letter-spacing: get-vw(1.67px);
+      }
+    }
+    .btn {
+      width: 188px;
+      display: block;
+      text-align: center;
+    }
+  }
+  .product-block {
+    max-height: 45vh;
+    padding-top: 32px;
+    position: relative;
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      display: block;
+      width: 96%;
+      height: 1px;
+      background-color: rgba(256,256,256,.1);
+    }
+    &::before {
+      top: 0;
+    }
+    &::after {
+      bottom: 0;
+    }
+  }
+  .product-item {
+    margin-bottom: 60px;
+    .text-block-wrap {
+      width: 100%;
+      align-items: center;
+      display: flex;
+    }
+    .text-block {
+      width: 100%;
+      display: flex;
+    }
+    .product-image {
+      height: 98px;
+      min-width: 58px;
+    }
+    .product-title {
+      font-size: 21px;
+      line-height: 25px;
+      text-transform: uppercase;
+      letter-spacing: 5.11px;
+      margin-left: 32px;
+      margin-bottom: 0;
+    }
+    .product-info {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      .label {
+        font-size: 12px;
+        font-weight: 300;
+        line-height: 28.95px;
+        text-transform: uppercase;
+        letter-spacing: 2.04px;
+        color: $white;
+      }
+      input {
+        margin-left: 24px;
+        width: 30px;
+        text-align: center;
+      }
+      .date,
+      .price {
+        font-family: "HelveticaNeueCyr-CondensedBold";
+        margin-left: 110px;
+        font-size: 21px;
+        font-weight: 400;
+        line-height: 28.95px;
+        letter-spacing: 1.04px;
+        color: #fefefe;
+      }
+    }
+  }
+}

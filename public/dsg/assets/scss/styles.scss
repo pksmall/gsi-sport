@@ -1,0 +1,42 @@
+$white: #ffffff;
+$blue: #0984e3;
+$red: red;
+
+$transition: .3s ease-in;
+$slides-count: 4;
+$subslides-count: 3;
+
+@function get-vw($object) {
+  $vw: (1920 * 0.01) * 1px;
+  @return ($object / $vw) * 1vw;
+}
+
+@function get-vh($object) {
+  $vh: (1080 * 0.01) * 1px;
+  @return ($object / $vh) * 1vh;
+}
+
+@import 'layout/fonts';
+@import 'layout/layout';
+@import 'layout/header';
+@import 'layout/sidebar';
+@import 'layout/right-nav';
+@import 'layout/footer';
+
+@import 'pages/about';
+@import 'pages/contacts';
+@import 'pages/history';
+@import 'pages/login';
+@import 'pages/main';
+@import 'pages/news';
+@import 'pages/product-card';
+@import 'pages/products';
+
+@import 'ui-kit/bar';
+@import 'ui-kit/breadcrumbs';
+@import 'ui-kit/buttons';
+@import 'ui-kit/form';
+@import 'ui-kit/icons';
+@import 'ui-kit/product-item';
+@import 'ui-kit/slider';
+

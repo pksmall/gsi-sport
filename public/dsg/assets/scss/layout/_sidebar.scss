@@ -1,0 +1,122 @@
+@media (min-width: 1920px) {
+  .sidebar {
+    height: 170px;
+    ul {
+      li {
+        a {
+          font-size: 15px;
+          letter-spacing: 3.55px;
+          &:not(.disabled)::after {
+            width: 2px;
+          }
+          &:not(.disabled):hover,
+          &:not(.disabled).active {
+            &::after {
+              height: 50px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 1113px) {
+  .sidebar {
+    position: absolute;
+    z-index: 2;
+    width: 100vh;
+    height: get-vw(170px);
+    transform-origin: left top;
+    transform: rotate(-90deg) translateX(-100%);
+    padding: 0 19vh 0 7vh;
+    .trigger {
+      display: none;
+    }
+    ul {
+      height: 100%;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row-reverse;
+      li {
+        float: right;
+        line-height: normal;
+        a {
+          font-size: get-vw(15px);
+          font-family: 'HelveticaNeueCyr-Light';
+          letter-spacing: get-vw(3.55px);
+          text-transform: uppercase;
+          cursor: pointer;
+          color: $white;
+          opacity: .45;
+          transition: color $transition;
+          display: flex;
+          align-items: center;
+          height: 100%;
+          position: relative;
+          &:not(.disabled)::after {
+            content: '';
+            width: get-vw(2px);
+            height: 0;
+            display: block;
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translate(-50%, 0);
+            background-color: $white;
+            transition: height $transition;
+          }
+          &:hover,
+          &.active {
+            opacity: 1;
+            &::after {
+              height: get-vw(50px);
+            }
+          } 
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1112px) {
+  .sidebar {
+    width: 100vw;
+    top: 0;
+    position: absolute;
+    overflow: hidden;
+    min-height: 135px;
+    &.active {
+      ul {
+        opacity: 1;
+        z-index: 1000;
+      }
+    }
+    .trigger {
+      cursor: pointer;
+      display: block;
+      width: 135px;
+      height: 135px;
+      background-color: $blue;
+      border-radius: 50%;
+      position: absolute;
+      top: calc(-135px / 2);
+      right: calc(-135px / 2);
+      &::after {
+        content: '';
+        width: 200px;
+        height: 200px;
+        background-color: transparentize($blue, .8);
+        border-radius: 50%;
+        position: absolute;
+        top: -30px;
+        right: -30px;
+      }
+    }
+    ul {
+      opacity: 0;
+      z-index: -1;
+      position: relative;
+    }
+  }
+}

@@ -1,0 +1,88 @@
+.login-page {
+  .login-content {
+    padding: get-vh(200px) 0 7vh 0;
+    .title {
+      display: flex;
+      align-items: flex-end;
+      position: relative;
+      width: 100%;
+      margin-bottom: get-vw(68px);
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        bottom: get-vw(-36px);
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background-color: $white;
+        opacity: .15;
+      }
+      h1 {
+        margin-bottom: 0;
+        margin-right: auto;
+      }
+      a {
+        font-family: 'HelveticaNeueCyr-UltraLight';
+        text-transform: uppercase;
+        font-size: 13px;
+        letter-spacing: 1.25px;
+        color: $white;
+        opacity: .5;
+        display: block;
+        margin-left: get-vw(45px);
+        &.red {
+          color: #d33924;
+          opacity: 1;
+        }
+      }
+    }
+    h2 {
+      margin-bottom: 44px;
+    }
+  }
+  label {
+    &.login,
+    &.email,
+    &.date {
+      display: block;
+      color: $white;
+      font-family: "HelveticaNeueCyr-CondensedBold";
+      line-height: get-vw(25px);
+      text-transform: uppercase;
+      margin-bottom: 17px;
+    }
+    &.login {
+      font-size: get-vw(50px);
+      letter-spacing: get-vw(8.17px);
+    }
+    &.email {
+      font-size: 21px;
+      letter-spacing: 3.4px;
+    }
+    &.date {
+      font-size: 21px;
+      letter-spacing: 3.4px;
+    }
+  }
+  .profile-actions {
+    .btn {
+      width: 188px;
+      margin-right: 28px;
+    }
+  }
+}
+
+@media (min-width: 1920px) {
+  .login-page {
+    .login-content {
+      padding-top: 200px;
+      .title {
+        margin-bottom: get-vw(68px);
+        &::after {
+          bottom: -36px;
+        }
+      }
+    }
+  }
+}

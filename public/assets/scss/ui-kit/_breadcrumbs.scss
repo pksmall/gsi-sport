@@ -1,0 +1,122 @@
+.breadcrumbs {
+  display: flex;
+  li {
+    a {
+      text-transform: uppercase;
+      color: #fefefe;
+      font-family: 'HelveticaNeueCyr-Light';
+      font-size: 1.2rem;
+      line-height: get-vw(66px);
+      letter-spacing: .256rem;
+      margin-left: 51px;
+      position: relative;
+      &::before {
+        content: '';
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background-color: #ebebeb;
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: -26px;
+        transform: translateY(-50%);
+      }
+    }
+  }
+  &.secondary {
+    position: absolute;
+    left: get-vw(580px);
+    top: 50%;
+    transform: translateY(-50%);
+    li {
+      &:first-child {
+        a {
+          margin-left: 0;
+        }
+        a::before {
+          display: none;
+        }
+      }
+      a {
+        color: #fefefe;
+        opacity: .5;
+      }
+    }
+  }
+}
+
+.page-info {
+  position: absolute;
+  left: get-vw(580px);
+  top: 50%;
+  transform: translateY(-50%);
+  & > span {
+    font-family: 'HelveticaNeueCyr-Light';
+    line-height: get-vw(66px);
+    font-size: 1.2rem;
+    color: #969696;
+    margin-right: 60px;
+  }
+  .sort {
+    text-transform: uppercase;
+    letter-spacing: .256rem;
+    .blue-text {
+      cursor: pointer;
+      font-family: 'HelveticaNeueCyr-Roman';
+      color: $blue;
+      margin-left: 18px;
+    }
+  }
+}
+
+.select2-container .select2-selection--single {
+  height: auto;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  color: $blue;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  display: none;
+}
+.select2-dropdown {
+  background-color: transparent;
+  border: none;
+}
+.select2-container--default .select2-results__option[aria-selected=true],
+.select2-results__option {
+  background-color: #131619;
+  color: $blue;
+  text-transform: uppercase;
+  letter-spacing: 1.25px;
+}
+
+@media (min-width: 1920px) {
+  .breadcrumbs {
+    li {
+      a {
+        font-size: 12px;
+        line-height: 66px;
+        letter-spacing: 2.56px;
+        margin-left: 51px;
+      }
+    }
+    &.secondary {
+      left: 540px;
+    }
+  }
+  
+  .page-info {
+    left: 540px;
+    span {
+      line-height: 66px;
+      font-size: 12px;
+    }
+    .sort {
+      letter-spacing: 2.56px;
+    }
+  }
+}

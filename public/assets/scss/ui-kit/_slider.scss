@@ -1,0 +1,178 @@
+// @media only screen and (min-width: 1113px) {
+  .slick-slider:not(.product-card-carousel) {
+    .slick-list {
+      overflow: hidden;
+      height: 100vh !important;
+    }
+    .slick-dots {
+      position: absolute;
+      top: 50%;
+      right: get-vw(89px);
+      transform: translate(0, -50%);
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 21px;
+      cursor: pointer;
+      z-index: 4;
+      // &::after {
+      //   content: '';
+      //   width: 1px;
+      //   height: 90%;
+      //   background-color: $white;
+      //   opacity: .1;
+      //   position: absolute;
+      //   top: 0;
+      // }
+      li {
+        cursor: pointer;
+        width: 11px;
+        height: 11px;
+        display: flex;
+        flex-direction: column;
+        transition: background-color $transition;
+        z-index: 5;
+        position: relative;
+        margin-bottom: 8px;
+        padding: 12px;
+        box-sizing: content-box;
+        &::before {
+          content: '';
+          width: inherit;
+          height: inherit;
+          display: block;
+          border-radius: 100%;
+          background-color: $white;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+        .tab {
+          cursor: pointer;
+          width: 20vw;
+          min-width: 250px;
+          font-family: 'HelveticaNeueCyr-CondensedRegular';
+          color: $white;
+          background-color: transparent;
+          border: none;
+          padding: 0;
+          text-align: right;
+          text-transform: uppercase;
+          position: absolute;
+          top: 50%;
+          right: 77px;
+          transform: translate(0, -50%);
+          font-size: 1rem;
+          line-height: 5rem;
+          letter-spacing: .296rem;
+          text-transform: uppercase;
+        }
+        @for $i from 2 through $slides-count {
+          &:nth-child(#{$i}) {
+            width: 11px / $i * 1.75;
+            height: 11px / $i * 1.75;
+          }
+        }
+        &.slick-active {
+          width: 50px;
+          height: 50px;
+          &::before {
+            background-color: $blue;
+          }
+          &:hover::after {
+            animation: pulsation 1s ease-in-out infinite alternate;
+          }
+          .tab {
+            color: $blue;
+            font-family: 'HelveticaNeueCyr-CondensedBold';
+            font-size: 2.1rem;
+            line-height: 2.921rem;
+            letter-spacing: .592rem;
+            transform: translate(-15px, -50%);
+          }
+          &::after {
+            content: '';
+            width: 105px;
+            height: 105px;
+            display: block;
+            border-radius: 100%;
+            background-color: $blue;
+            opacity: .2;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+        }
+      } 
+    }
+  }
+  .slick-slide {
+    transition: opacity 1s ease-in-out;
+    opacity: 0;
+    &.slick-active {
+      opacity: 1;
+    }
+  }
+// }
+
+@media (min-width: 1920px) {
+  .slick-slider:not(.product-card-carousel) {
+    .slick-dots {
+      right: 89px;
+    }
+  }
+}
+
+@keyframes pulsation {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(.7);
+  }
+}
+
+@media only screen and (max-width: 1112px) {
+  .slick-slider:not(.product-card-carousel) {
+    .slick-dots {
+      top: 77%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-90deg);
+      &::after {
+        content: '';
+        width: 100vw;
+        height: 1px;
+        display: block;
+        background-color: $white;
+        opacity: .1;
+        position: absolute;
+        top: 50%;
+        transform: rotate(-90deg);
+      }
+      li {
+        width: 9px;
+        height: 9px;
+        padding: 6px;
+        @for $i from 2 through $slides-count {
+          &:nth-child(#{$i}) {
+            width: 9px / $i * 1.75;
+            height: 9px / $i * 1.75;
+          }
+        }
+        &.slick-active {
+          width: 25px;
+          height: 25px;
+          &::after {
+            width: 50px;
+            height: 50px;
+          }
+        }
+      }
+    }
+  }  
+}

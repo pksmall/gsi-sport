@@ -1,0 +1,13 @@
+.right-nav
+  .right
+    a(href='cart.html').cart
+      .product-num.blue-text 9
+      i.icon-cart
+    a(href='login.html').login
+      i.icon-login
+  .divider
+  .footer
+    ul
+      each href, val in {'F': 'https://facebook.com', 'In': 'https://indesign.com', 'Vk': 'https://vk.com'}
+        li
+          a(href=href)= val

@@ -1,0 +1,48 @@
+.footer {
+  margin-top: auto;
+  z-index: 1;
+  position: relative;
+  ul { 
+    display: flex;
+    li {
+      display: inline-flex;
+      flex-direction: row;
+      position: relative;
+      min-width: 21px;
+      max-width: 21px;
+      height: 24px;
+      justify-content: center;
+      align-items: flex-end;
+      margin-left: get-vw(24px);
+      a {
+        font-family: 'HelveticaNeueCyr-Medium';
+        text-transform: uppercase;
+        color: $blue;
+        font-size: get-vw(21px);
+        letter-spacing: get-vw(2.96px);
+        transition: font $transition;
+        position: absolute;
+        right: 0;
+        &:hover {
+          font-size: get-vw(30px);
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 1920px) {
+  .footer {
+    ul {
+      li {
+        min-width: 21px;
+        max-width: 21px;
+        margin-left: 28px;
+        a {
+          font-size: 21px;
+          letter-spacing: 2.96px;
+        }
+      }
+    }
+  }
+}

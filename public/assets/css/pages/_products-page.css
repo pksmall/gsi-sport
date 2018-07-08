@@ -1,0 +1,22 @@
+.products-page .carousel .item-wrap {
+  overflow: hidden; }
+  .products-page .carousel .item-wrap > div {
+    overflow-y: auto; }
+
+.products-page .carousel .row {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between; }
+
+.products-page .carousel .product-item {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1; }
+
+.products-page .carousel .text-block {
+  overflow: visible;
+  padding-right: 0; }
+
+@media (min-width: 1600px) {
+  .products-page .product-item {
+    max-width: 540px; } }

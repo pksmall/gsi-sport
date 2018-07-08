@@ -1,0 +1,28 @@
+.icon-close {
+  width: get-vw(16px);
+  height: get-vw(16px); }
+  .icon-close::before, .icon-close::after {
+    content: '';
+    width: get-vw(22.627px);
+    height: get-vw(2px);
+    background-color: #fefefe;
+    opacity: .5;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%; }
+  .icon-close::before {
+    -webkit-transform: translate(-50%, -50%) rotate(45deg);
+    -ms-transform: translate(-50%, -50%) rotate(45deg);
+    transform: translate(-50%, -50%) rotate(45deg); }
+  .icon-close::after {
+    -webkit-transform: translate(-50%, -50%) rotate(-45deg);
+    -ms-transform: translate(-50%, -50%) rotate(-45deg);
+    transform: translate(-50%, -50%) rotate(-45deg); }
+
+.icon-prev {
+  font-family: 'HelveticaNeueCyr-UltraLight';
+  color: #fefefe;
+  opacity: 0.55;
+  font-size: get-vw(44px);
+  cursor: pointer; }

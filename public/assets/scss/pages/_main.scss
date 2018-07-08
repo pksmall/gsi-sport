@@ -1,0 +1,139 @@
+.main-page {
+  width: inherit;
+  height: inherit;
+  .carousel {
+    .slick-dots {
+      li {
+        button {
+          display: none;
+        }
+      }
+    }
+    .carousel-item {
+      overflow: hidden;
+      position: relative;
+    } 
+    .item-wrap {
+      & > div:first-child {
+        margin-top: auto;
+        visibility: hidden;
+      }
+    }
+    .title {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .z-index-up {
+      z-index: 3;
+    }
+  }
+  h1 {
+    font-size: get-vw(151px);
+    line-height: get-vw(151.63px);
+    letter-spacing: get-vw(80px);
+    margin: 0 0 get-vw(56px) 0;
+    white-space: nowrap;
+    font-family: 'HelveticaNeueCyr-Bold';
+    span {
+      position: relative;
+    }
+    & > span {
+      color: $white; 
+    }
+    & > span.blue {
+      color: $blue;
+    }
+  }
+  small {
+    color: $white;
+    text-transform: uppercase;
+    font-size: get-vw(63px);
+    line-height: get-vw(72.46px);
+    letter-spacing: get-vw(17.16px);
+    font-family: 'HelveticaNeueCyr-Light';
+    position: relative;
+  }
+  img.racquet,
+  img.racquet-opacity {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+  img.racquet-opacity {
+    width: auto;
+    height: get-vh(525px);
+    right: get-vw(780px);
+  }
+  img.racquet {
+    width: auto;
+    height: get-vh(921px);
+    right: get-vw(90px);
+    z-index: 2;
+  }
+  .description {
+    width: 400px;
+    margin-bottom: -12px;
+    color: $white;
+    font-size: 14px;
+    line-height: 33.33px;
+    letter-spacing: .55px;
+    margin-top: auto;
+    &-title {
+      font-family: 'HelveticaNeueCyr-Medium';
+    }
+    &-text {
+      font-family: 'HelveticaNeueCyr-Thin';
+      color: #676767;
+    }
+  }
+  .right-nav::after {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 1112px) {
+  .main-page {
+    h1 {
+      font-size: 50px;
+      font-weight: 700;
+      line-height: 50px;
+      letter-spacing: 7px;
+      margin-bottom: 0;
+      z-index: 6;
+    }
+    small {
+      color: $white;
+      font-size: 18px;
+      line-height: 24px;
+      letter-spacing: 5px;
+    }
+    img.racquet-opacity,
+    img.racquet {
+      top: 40%;
+      transform: translate(50%, -50%);
+    }
+    img.racquet-opacity {
+      height: get-vh(240px);
+      right: 70%;
+    }
+    img.racquet {
+      height: get-vh(420px);
+      right: 30%;
+    }
+    .carousel {
+      .title {
+        margin-top: 200px;
+      }
+    }
+    .description {
+      width: auto;
+      max-width: 500px;
+      line-height: 20px;
+      .description-title {
+        margin-bottom: 5px;
+      }
+    }
+  }
+}

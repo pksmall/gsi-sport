@@ -1,0 +1,111 @@
+form {
+  width: 370px;
+  .form-group {
+    display: flex;
+    width: 100%;
+    margin-bottom: 47px;
+    position: relative;
+    label {
+      width: 60px;
+      margin-top: 6px;
+      margin-right: 24px;
+    }
+    input {
+      min-width: 290px;
+      width: 290px;
+      &.error {
+        border-bottom-color: $red;
+      }
+    }
+    span.error {
+      position: absolute;
+      color: $red;
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 1.25px;
+      line-height: 16px;
+      width: 290px;
+      bottom: -35px;
+      right: 0;
+    }
+  }
+  label {
+    font-family: 'HelveticaNeueCyr-Light';
+    color: $white;
+    // line-height: 28.95px;
+    letter-spacing: 2px;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+  input {
+    
+  }
+  textarea {
+    resize: none;
+    height: 80px;
+  }
+  .checkbox-wrap {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-bottom: 32px;
+    input {
+      display: none;
+      &:checked + label {
+        background-color: $blue;
+      }
+      &:checked + label::after {
+        display: block;
+      }
+    }
+    label {
+      position: relative;
+      display: block;
+      width: 16px;
+      height: 16px;
+      border: 1px solid $blue;
+      cursor: pointer;
+      &::after {
+        content: '';
+        display: none;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: $white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+    span {
+      font-family: 'HelveticaNeueCyr-UltraLight';
+      text-transform: uppercase;
+      font-size: 13px;
+      line-height: 16px;
+      letter-spacing: 1.25px;
+      color: #fefefe;
+      opacity: .5;
+      display: block;
+      margin-left: 26px;
+      white-space: nowrap;
+    }
+  }
+  .btn {
+    width: 188px;
+  }
+}
+
+input,
+textarea {
+  background: none;
+  border: none;
+  color: $white;
+  font-size: 12px;
+  border-bottom: 1px solid transparentize($white, .4);
+  transition: border $transition;
+  &:focus {
+    border-bottom-color: $blue;
+  }
+}
+

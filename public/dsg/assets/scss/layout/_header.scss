@@ -1,0 +1,132 @@
+header {
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: get-vw(66px);
+  position: relative;
+  z-index: 3;
+  &::after {
+    content: '';
+    min-width: 370px;
+    width: get-vw(508px);
+    height: get-vw(66px);
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    background: url('../img/breadcrumbs-background.png') no-repeat -16px top / cover;
+  }
+  .left {
+    .icon-prev,
+    .icon-close {
+      position: absolute;
+      left: get-vw(80px);
+      margin-left: -3px;
+      top: 50%;
+      transform: translateY(-50%);
+      line-height: get-vw(66px);
+      &:not(.icon-close) {
+        cursor: pointer;
+        transition: opacity $transition;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+    .logo {
+      a {
+        text-transform: uppercase;
+        color: #fefefe;
+        font-size: get-vw(21px);
+        font-family: 'HelveticaNeueCyr-Bold';
+        line-height: get-vw(66px);
+      }
+    }
+  }
+  .center {
+
+  }
+  .left,
+  .center {
+    display: flex;
+  }
+}
+
+.right {
+  display: flex;
+  height: get-vw(66px);
+  z-index: 5;
+  a {
+    display: flex;
+    align-items: center;
+    margin-left: 25px;
+    font-size: 17px;
+    font-family: 'HelveticaNeueCyr-UltraLight';
+    position: relative;
+    .product-num {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translate(-48px, -50%);
+    }
+    .icon-cart {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translate(0, -50%);
+      &:hover {
+        animation: bounce 2s infinite;
+      }
+    }
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: translate(0, -50%) rotate(-45deg);
+  }
+  15% {
+    transform: translate(0, -50%) rotate(45deg);
+  }
+  30% {
+    transform: translate(0, -50%) rotate(-20deg);
+  }
+  45% {
+    transform: translate(0, -50%) rotate(20deg);
+  }
+  60% {
+    transform: translate(0, -50%) rotate(-10deg);
+  }
+  75% {
+    transform: translate(0, -50%) rotate(10deg);
+  }
+  100% {
+    transform: translate(0, -50%);
+  }
+}
+
+@media (min-width: 1920px) {
+  header {
+    height: 66px;
+    &::after {
+      width: 508px;
+      height: 66px;
+    }
+    .left {
+      .icon-prev,
+      .icon-close {
+        left: 80px;
+        line-height: 66px;
+      }
+      .logo {
+        a {
+          font-size: 21px;
+          line-height: 66px;
+        }
+      }
+    }
+    
+  }
+}

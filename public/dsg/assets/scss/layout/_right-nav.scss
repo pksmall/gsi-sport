@@ -1,0 +1,195 @@
+@media (min-width: 1920px) {
+  .right-nav {
+    right: 90px;
+  }
+}
+
+@keyframes pulsation {
+  0% {
+    transform: translateY(-50%) scale(1);
+  }
+  100% {
+    transform: translateY( -50%) scale(.7);
+  }
+}
+
+@media only screen and (min-width: 1113px) {
+  .right-nav {
+    position: absolute;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 21px;
+    right: get-vw(90px);
+    padding: 50px 0 7vh;
+    .divider,
+    .tab::after {
+      display: block;
+      width: 1px;
+      flex: 1;
+      background-color: $white;
+      opacity: .1;
+      margin-right: 10px;
+      z-index: 1;
+    }
+    .tab {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1;
+      z-index: 1;
+      position: relative;
+      li {
+        padding: 12px;
+        box-sizing: content-box;
+      }
+      &::after {
+        content: '';
+        height: 100%;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+      & > li {
+        cursor: pointer;
+        margin-bottom: 16px;
+        margin-right: 74px;
+        position: relative; 
+        z-index: 2;
+        width: 16vw;
+        min-width: 250px;
+        text-align: right;
+        & + .sub-tab {
+          display: none;
+        }
+        &::after {
+          content: '';
+          width: 11px;
+          height: 11px;
+          display: block;
+          border-radius: 100%;
+          background-color: $white;
+          position: absolute;
+          top: 50%;
+          right: -69px;
+          transform: translateY(-50%);
+        }
+        @for $i from 2 through $slides-count {
+          &:nth-child(#{$i})::after {
+            $x: $i * .85;
+            width: 11px / $i * 1.75;
+            height: 11px / $i * 1.75;
+            right: -69px + $x;
+          }
+        }
+        &.tab-li {
+          &::after {
+            width: 10px;
+            height: 10px;
+            right: -69px;
+            background-color: $blue;
+          }
+        }
+        a {
+          text-transform: uppercase;
+          color: #ffffff;
+          font-family: "HelveticaNeueCyr-CondensedRegular";
+          font-size: 13px;
+          letter-spacing: 2.96px;
+        }
+      }
+      & > li.active {
+        margin-top: 16px;
+        & + .sub-tab {
+          display: block;
+        }
+        &::after {
+          right: -87px;
+          width: 50px;
+          height: 50px;
+          background-color: $blue;
+        }
+        &::before {
+          content: '';
+          width: 105px;
+          height: 105px;
+          display: block;
+          border-radius: 100%;
+          background-color: $blue;
+          opacity: .2;
+          position: absolute;
+          top: 50%;
+          right: -114px;
+          transform: translateY(-50%);
+        }
+        &:hover::before {
+          right: -168px;
+          animation: pulsation 1s ease-in-out infinite alternate;
+        }
+        a {
+          font-size: 21px;
+          font-family: "HelveticaNeueCyr-CondensedBold";
+          line-height: 29.21px;
+          text-transform: uppercase;
+          letter-spacing: 5.92px;
+          color: $blue;
+        }
+      }
+    }
+    .sub-tab {
+      & > li {
+        cursor: pointer;
+        margin-right: 74px;
+        position: relative;
+        margin: 2px 0;
+        z-index: 2;
+        width: 16vw;
+        min-width: 250px;
+        text-align: right;
+        &:last-child {
+          margin-bottom: 34px;
+        }
+        &::after {
+          content: '';
+          display: block;
+          position: absolute;
+          width: 10px;
+          height: 10px;
+          background-color: #e1e1e1;
+          border-radius: 100%;
+          top: 50%;
+          right: -69px;
+          transform: translateY(-50%);
+        }
+        @for $i from 2 through $subslides-count {
+          &:nth-child(#{$i})::after {
+            $x: $i * .7;
+            width: 10px / $i * 1.45;
+            height: 10px / $i * 1.45;
+            right: -69px + $x;
+          }
+        }
+        &.active {
+          a {
+            color: $blue;
+          }
+        }
+        & > a {
+          font-size: 10px;
+          font-weight: 400;
+          line-height: 14px;
+          letter-spacing: 1.96px;
+          color: $white;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1112px) {
+  .right-nav {
+    display: none;
+  }
+}
