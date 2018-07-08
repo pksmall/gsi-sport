@@ -36,14 +36,14 @@ RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 # enable apache module rewrite
 RUN a2enmod rewrite
 
-# copy prod env
-RUN cp .env.prod .env
-
 #copy source files and run composer
 COPY . $APP_HOME
 
 # install all PHP dependencies
 RUN composer install --no-interaction
+
+# copy prod env
+RUN cp .env.prod .env
 
 # dirs && premissions
 RUN chown -R www-data:www-data  $APP_HOME/storage $APP_HOME/bootstrap/cache
