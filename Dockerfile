@@ -42,6 +42,10 @@ COPY . $APP_HOME
 # install all PHP dependencies
 RUN composer install --no-interaction
 
+# dirs && premissions
+RUN mkdir $APP_HOME/storage $APP_HOME/bootstrap/cache
+RUN chown -R www-data:www-data  $APP_HOME/storage $APP_HOME/bootstrap/cache
+
 # copy prod env
 RUN cp .env.prod $APP_HOME/.env
 
