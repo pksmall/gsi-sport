@@ -43,7 +43,7 @@ COPY . $APP_HOME
 RUN composer install --no-interaction
 
 # dirs && premissions
-RUN mkdir $APP_HOME/storage $APP_HOME/bootstrap/cache
+RUN mkdir -p $APP_HOME/storage $APP_HOME/bootstrap/cache
 RUN chown -R www-data:www-data  $APP_HOME/storage $APP_HOME/bootstrap/cache
 
 # copy prod env
