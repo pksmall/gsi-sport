@@ -37,7 +37,7 @@ RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 RUN a2enmod rewrite
 
 # copy prod env
-RUN cp .env.prod $APP_HOME/.env
+RUN cp .env.prod .env
 
 #copy source files and run composer
 COPY . $APP_HOME
