@@ -1,4 +1,4 @@
-#start with our base image (the foundation) - version 7.1.5
+#start with our base image (the foundation)
 FROM php:7.2.7-apache
 
 #install all the system dependencies and enable PHP modules 
