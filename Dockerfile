@@ -45,8 +45,5 @@ RUN composer install --no-interaction
 # copy prod env
 RUN cp .env.prod .env
 
-# dirs && premissions
-RUN chown -R www-data:www-data  $APP_HOME/storage $APP_HOME/bootstrap/cache
-
 #change ownership of our applications
 RUN chown -R www-data:www-data $APP_HOME
