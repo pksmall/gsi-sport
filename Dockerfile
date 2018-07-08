@@ -36,6 +36,9 @@ RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 # enable apache module rewrite
 RUN a2enmod rewrite
 
+# copy prod env
+RUN cp .env.prod $APP_HOME/.env
+
 #copy source files and run composer
 COPY . $APP_HOME
 
@@ -45,9 +48,6 @@ RUN composer install --no-interaction
 # dirs && premissions
 RUN mkdir -p $APP_HOME/storage $APP_HOME/bootstrap/cache
 RUN chown -R www-data:www-data  $APP_HOME/storage $APP_HOME/bootstrap/cache
-
-# copy prod env
-RUN cp .env.prod $APP_HOME/.env
 
 #change ownership of our applications
 RUN chown -R www-data:www-data $APP_HOME
