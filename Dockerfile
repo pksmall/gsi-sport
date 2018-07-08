@@ -42,5 +42,8 @@ COPY . $APP_HOME
 # install all PHP dependencies
 RUN composer install --no-interaction
 
+# copy prod env
+RUN cp .env.prod $APP_HOME/.env
+
 #change ownership of our applications
 RUN chown -R www-data:www-data $APP_HOME
