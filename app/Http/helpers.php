@@ -50,3 +50,4 @@ function input_generate($wrap_class = null, $label = null, $type, $input_value =
 
     return $input;
 }
+
