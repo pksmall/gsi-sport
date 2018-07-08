@@ -46,7 +46,6 @@ COPY . $APP_HOME
 RUN composer install --no-interaction
 
 # dirs && premissions
-RUN mkdir -p $APP_HOME/storage $APP_HOME/bootstrap/cache
 RUN chown -R www-data:www-data  $APP_HOME/storage $APP_HOME/bootstrap/cache
 
 #change ownership of our applications
