@@ -51,23 +51,40 @@ $locales = ['ru', 'ua', 'en'];
                                     @foreach($locales as $key => $locale)
                                         <div class="tab-pane fade @if($key == 0) show active @endif" id="v-pills-locale-{{ $locale }}" role="tabpanel" aria-labelledby="v-pills-locale-{{ $locale }}-tab">
                                             <div class="form-group row">
-                                                <label for="name" class="col-sm-2 col-form-label">Название<sup class="required">*</sup></label>
+                                                <label for="name" class="col-sm-2 col-form-label">Общее заглавие<sup class="required">*</sup></label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="name" name="item_locales[{{ $locale }}][name]" value="@if(isset($item)) {{ $item->locales[$key]->name }} @endif">
+                                                    <input type="text" class="form-control" id="name" name="item_locales[{{ $locale }}][name]"
+                                                           value="@if(isset($item->locales[$key]->name)) {{ $item->locales[$key]->name }} @else {{ ''  }} @endif">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                            <label for="sticker" class="col-sm-2 col-form-label">Разделить общее заглавие?</label>
+                                                <div class="col-sm-10">
+                                                    <select style="min-height: 10px" class="form-control" id="store_subtract" name="item_locales[{{ $locale }}][is_span]">
+                                                        <option value="1" @if(isset($item->locales[$key]->is_span) && $item->locales[$key]->is_span > 0) selected @endif>Да</option>
+                                                        <option value="0" @if(isset($item->locales[$key]->is_span) && $item->locales[$key]->is_span == 0) selected @endif>Нет</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="name" class="col-sm-2 col-form-label">Заглавие описания<sup class="required">*</sup></label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="name" name="item_locales[{{ $locale }}][title_desc]" value="@if(isset($item->locales[$key]->is_span)) {{ $item->locales[$key]->title_desc }} @endif">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="description" class="col-sm-2 col-form-label">Описание</label>
                                                 <div class="col-sm-10">
-                                                    <textarea class="form-control summernote" id="description" name="item_locales[{{ $locale }}][description]" rows="3">@if(isset($item)) {!! $item->locales[$key]->description !!} @endif</textarea>
+                                                    <textarea class="form-control summernote" id="description" name="item_locales[{{ $locale }}][description]" rows="3">@if(isset($item->locales[$key]->is_span)) {!! $item->locales[$key]->description !!} @endif</textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="name" class="col-sm-2 col-form-label">Ссылка</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="name" name="item_locales[{{ $locale }}][link]" value="@if(isset($item)) {{ $item->locales[$key]->link }} @endif">
+                                                    <input type="text" class="form-control" id="name" name="item_locales[{{ $locale }}][link]" value="@if(isset($item->locales[$key]->is_span)) {{ $item->locales[$key]->link }} @endif">
                                                 </div>
                                             </div>
+
                                         </div>
                                     @endforeach
                                 </div>

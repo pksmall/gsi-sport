@@ -9,5 +9,5 @@
     <!-- admin.css -->
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}"/>
 
-    <title>Camotec Adminpanel</title>
+    <title>GSISport Adminpanel</title>
 </head>

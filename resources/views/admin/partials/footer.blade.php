@@ -21,7 +21,7 @@
 <script>
   $(document).ready(function() {
     $('.summernote').summernote({
-      height: 200
+        height: 200
     });
     $('[data-toggle="datepicker"]').datepicker({
       format: 'yyyy-mm-dd'

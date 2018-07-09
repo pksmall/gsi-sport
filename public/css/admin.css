@@ -57,13 +57,15 @@
 }
 
 select.form-control{
-    min-height: 200px !important;
+    min-height: 200px;
 }
 
 .note-editor.note-frame .note-editing-area .note-editable{
+    background-color: #9c9c9c !important;
     padding: 40px 30px 10px 30px !important;
 }
 
 .dropdown-menu{
     top: 30px !important;
 }
+

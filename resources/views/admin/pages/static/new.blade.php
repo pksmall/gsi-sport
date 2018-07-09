@@ -53,31 +53,31 @@ $locales = ['ru', 'ua', 'en'];
                                             <div class="form-group row">
                                                 <label for="name" class="col-sm-2 col-form-label">Название<sup class="required">*</sup></label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="name" name="item_locales[{{ $locale }}][name]" value="@if(isset($page)) {{ $page->locales[$key]->name }} @endif">
+                                                    <input type="text" class="form-control" id="name" name="item_locales[{{ $locale }}][name]" value="@if(isset($page->locales[$key]->name)) {{ $page->locales[$key]->name }} @endif">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="slug" class="col-sm-2 col-form-label">ЧПУ</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="slug" name="item_locales[{{ $locale }}][slug]" value="@if(isset($page)) {{ $page->locales[$key]->slug }} @endif">
+                                                    <input type="text" class="form-control" id="slug" name="item_locales[{{ $locale }}][slug]" value="@if(isset($page->locales[$key]->slug)) {{ $page->locales[$key]->slug }} @endif">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="short_description" class="col-sm-2 col-form-label">Краткое описание</label>
                                                 <div class="col-sm-10">
-                                                    <textarea class="form-control summernote" id="short_description" name="item_locales[{{ $locale }}][short_description]" rows="3">@if(isset($page)) {{ $page->locales[$key]->short_description }} @endif</textarea>
+                                                    <textarea class="form-control summernote" id="short_description" name="item_locales[{{ $locale }}][short_description]" rows="3">@if(isset($page->locales[$key]->short_description)) {{ $page->locales[$key]->short_description }} @endif</textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="description" class="col-sm-2 col-form-label">Описание</label>
                                                 <div class="col-sm-10">
-                                                    <textarea class="form-control summernote" id="description" name="item_locales[{{ $locale }}][description]" rows="3">@if(isset($page)) {!! $page->locales[$key]->description !!} @endif</textarea>
+                                                    <textarea class="form-control summernote" id="description" name="item_locales[{{ $locale }}][description]" rows="3">@if(isset($page->locales[$key]->description)) {!! $page->locales[$key]->description !!} @endif</textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="meta_title" class="col-sm-2 col-form-label">Мета-тег Title</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="meta_title" name="item_locales[{{ $locale }}][meta_title]">
+                                                    <input type="text" class="form-control" id="meta_title" name="item_locales[{{ $locale }}][meta_title]" value="@if(isset($page->locales[$key]->meta_title)) {!! $page->locales[$key]->meta_title !!} @endif">
                                                 </div>
                                             </div>
                                             <div class="form-group row">

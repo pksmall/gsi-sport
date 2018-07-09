@@ -12,9 +12,9 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
 
     <!-- site asset -->
+    <link href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" rel="stylesheet">
     <link href="{{ asset('assets/libs/select2/select2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/libs/bootstrap/bootstrap-grid.min.css') }}" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" rel="stylesheet">
     <link href="{{ asset('assets/libs/custom-scrollbar/custom-scrollbar.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/styles.css') }}" rel="stylesheet">
 
@@ -41,6 +41,8 @@
 <script src="{{ asset('assets/libs/custom-scrollbar/custom-scrollbar.concat.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/js/products.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/js/main.js') }}" type="text/javascript"></script>
+<script src="{{ asset('js/jquery.validation.min.js') }}"></script>
+<script src="{{ asset('js/custom.js') }}"></script>
 
 </body>
 </html>

@@ -44,7 +44,7 @@
                                 </li>
                             </ul>
                         </td>
-                        {{--<td><a href="{{ route('show_slide', $slide->id) }}" class="btn btn-primary">Просмотр слайда</a></td>--}}
+                        {{-- <td><a href="{{ route('show_slide', $slide->id) }}" class="btn btn-primary">Просмотр слайда</a></td> --}}
                     </tr>
                 @endforeach
                 </tbody>

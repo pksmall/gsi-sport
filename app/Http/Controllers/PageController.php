@@ -1252,9 +1252,10 @@ class PageController extends Controller
 
     public function contacts()
     {
-        $this->setTitle(trans('base.contacts'));
-        view()->share('social', Social::all());
-        return view('front/pages/contacts')->with(['settings' => Settings::first()]);
+        $static_page = StaticPagesTranslation::with('page')->where('slug', 'contacts')->first();
+        $static_page_locales = StaticPage::find($static_page->page_id)->locales;
+        $this->setTitle(trans($static_page_locales[0]->meta_title));
+        return view('front/pages/contacts')->with(['static_page' => $static_page, 'static_page_locales' => $static_page_locales]);
     }
 
     public function about()

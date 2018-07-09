@@ -1438,6 +1438,10 @@ padding: 18.51852vh 0 7vh 0;}
     transform: translate(-50%, -50%);
     z-index: 1; }
   .main-page img.racquet-opacity {
+      top: 30%;
+      opacity: .3;
+      transform: rotate(-35deg);
+      left: 30%;
     width: auto;
     height: 48.61111vh;
     right: 40.625vw; }
@@ -3092,3 +3096,23 @@ margin-right:15px;
         .slick-slider:not(.product-card-carousel) .slick-dots li.slick-active::after {
           width: 50px;
           height: 50px; } }
+
+/* Forms Validations */
+input.valid {
+    color: green;
+    text-transform: uppercase;
+    font-size: 10px;
+}
+
+label.error{
+    color: red;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 1.25px;
+    max-width: 96%;
+    padding: -250px 0 -50px -205px;
+}
+
+.hide-box {
+    display: none!important;
+}

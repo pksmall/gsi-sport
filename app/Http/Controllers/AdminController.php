@@ -388,7 +388,7 @@ class AdminController extends Controller
 
     private function imageUpload(Request $request, $name) {
         $this->validate($request, [
-            $name => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4192',
+            $name => 'required|max:9999999',
         ]);
 
         if ($request->hasFile($name)) {
@@ -2274,7 +2274,7 @@ class AdminController extends Controller
 
     private function slideUpload(Request $request, $name) {
         $this->validate($request, [
-            $name => 'required|mimes:jpeg,png,jpg,gif,svg,mp4,ogx,oga,ogv,ogg,webm,3gp|max:10000',
+            $name => 'required|mimes:jpeg,png,jpg,gif,svg,mp4,ogx,oga,ogv,ogg,webm,3gp,html|max:10000',
         ]);
 
         if ($request->hasFile($name)) {
@@ -2303,6 +2303,8 @@ class AdminController extends Controller
 
     public function update_slide($id, Request $request)
     {
+        //dd($request->all());
+
         $slide = Slide::find($id);
         $slide->update($request->get('item'));
 
@@ -2314,12 +2316,13 @@ class AdminController extends Controller
                 $index = 0;
                 foreach ($request->get('item_locales') as $key => $iteml)
                 {
-                    if ($slide_locales[$index]->locale == $key)
-                    {
-                        //dd($item_locales[$index], $iteml);
-                        $slide_locales[$index]->update($iteml);
+                    if (isset($slide_locales[$index]->name)) {
+                        if ($slide_locales[$index]->locale == $key) {
+                            //dd($item_locales[$index], $iteml);
+                            $slide_locales[$index]->update($iteml);
+                        }
+                        $index++;
                     }
-                    $index++;
                 }
             }
         }
@@ -2343,8 +2346,6 @@ class AdminController extends Controller
 
         Session::flash('success', 'Cлайд успешно изменен!');
         return redirect()->back();
-
-        //dd($request->all());
     }
 
     public function destroy_slide($id)

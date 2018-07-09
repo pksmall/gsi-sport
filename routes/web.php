@@ -209,6 +209,8 @@ Route::get('/news', 'PageController@news')->name('news');
 Route::get('/news/{slug}', 'PageController@post')->name('post');
 Route::get('/news/cat/{slug}', 'PageController@blog_category')->name('blog_category');
 
+Route::get('/contactformsend', 'AjaxController@send');
+Route::post('/contactformsend', 'AjaxController@send');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function () {
 

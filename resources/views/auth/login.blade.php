@@ -19,12 +19,12 @@
                     <form action="{{ route('login') }}" method="post" >
                         @csrf
                         <div class="form-group">
-                            <label for="login">Логин:</label>
-                            <input id="login" type="text" placeholder="Логин" required>
+                            <label for="login">Email:</label>
+                            <input name="email" id="login" type="text" placeholder="Email" required>
                         </div>
                         <div class="form-group">
                             <label for="password">Пароль:</label>
-                            <input id="password" type="password" placeholder="Пароль" required>
+                            <input name="password" id="password" type="password" placeholder="Пароль" required>
                         </div>
                         <div class="checkbox-wrap">
                             <input id="save-password" type="checkbox">
