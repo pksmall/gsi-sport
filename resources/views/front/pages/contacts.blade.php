@@ -33,7 +33,7 @@
                     <div class="right col-6">
                         <form id="contactForm" action="{{ url('/contactformsend') }}" method="post">
                             <div class="alert alert-success hide-box mt-4" id="contactSuccess">
-                                <p><strong>Успех!</strong> Мы получили ваще сообщение.</p>
+                                <p><strong>Успех!</strong> Мы получили ваше сообщение.</p>
                             </div>
 
                             <div class="alert alert-danger hide-box mt-4" id="contactError">

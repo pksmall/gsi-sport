@@ -159,10 +159,27 @@ class PageController extends Controller
     {
         $items = Item::with('locales', 'preview')->where('is_active', true)->paginate(isset($this->config->item_limit) ? $this->config->item_limit : 10);
 
+        $categories = array();
+        foreach($items as $item) {
+            if (isset($categories[$item->categories[0]->parent_id])) {
+                $categories[$item->categories[0]->parent_id] += 1;
+            } else {
+                $categories[$item->categories[0]->parent_id] = 0;
+                $categories[$item->categories[0]->parent_id] += 1;
+            }
+            if (isset($categories[$item->categories[0]->id])) {
+                $categories[$item->categories[0]->id] += 1;
+            } else {
+                $categories[$item->categories[0]->id] = 0;
+                $categories[$item->categories[0]->id] += 1;
+            }
+        }
+        //dd($categories);
+
         $additional_menu = ItemCategory::where('is_additional_menu', true)->get();
         $additional_menu->load('locales', 'subcategories.locales', 'subcategories', 'subcategories.subcategories.locales', 'subcategories.preview');
 
-        return view('front/pages/shop')->with(['items' => $items, 'filters' => $this->filter_items(), 'additional_menu' => $additional_menu]);
+        return view('front/pages/shop')->with(['items' => $items, 'sumitems' => $categories, 'filters' => $this->filter_items(), 'additional_menu' => $additional_menu]);
     }
 
 
@@ -508,14 +525,14 @@ class PageController extends Controller
 
         $is_fav = false;*/
 
-        if(Auth::check())
+/*        if(Auth::check())
         {
             $item_is_fav = FavoriteItem::where([['client_id', Auth::user()->id], ['item_id', $item->item->id]])->first();
             if ($item_is_fav)
             {
                 $is_fav = true;
             }
-        }
+        }*/
         //, 'recommended_items' => $recommended_items, 'type_delivery' => $type_delivery, 'type_pay' => $type_pay, 'is_fav' => $is_fav
         return view('front/pages/item')->with(['item' => $item]);
     }
@@ -1260,9 +1277,12 @@ class PageController extends Controller
 
     public function about()
     {
+        $static_page = StaticPagesTranslation::with('page')->where('slug', 'about')->get();
+        foreach ($static_page as $one_page) {
+            $categories[] = $one_page->name;
+        }
         $this->setTitle(trans('base.about'));
-        view()->share('social', Social::all());
-        return view('front/pages/about')->with(['settings' => Settings::first()]);
+        return view('front/pages/about')->with(['static_page' => $static_page, 'categories' => $categories]);
     }
 
     public function blog()
@@ -1276,9 +1296,17 @@ class PageController extends Controller
     public function news()
     {
         $this->setTitle(trans('base.blog'));
-        $posts = BlogArticlesTranslation::where('locale', App::getLocale())->paginate(10);
-        $posts_categories = BlogCategoriesTranslation::where('locale', App::getLocale())->get();
-        return view('front/pages/news')->with(['posts' => $posts, 'posts_categories' => $posts_categories]);
+        //App::getLocale()
+        $metaPosts = BlogArticle::orderBy('id', 'DESC')->paginate(10);
+        foreach ($metaPosts as $mpost) {
+            $mCreatedAt[$mpost->id] = $mpost->created_at;
+        }
+        $posts = BlogArticlesTranslation::where('locale', 'ru')->orderBy('id', 'DESC')->paginate(10);
+        foreach ($posts as $one_post) {
+            $categories[] = $one_post->meta_title;
+        }
+        //dd($mCreatedAt);
+        return view('front/pages/news')->with(['posts' => $posts, 'mcreated' => $mCreatedAt, 'categories' => $categories]);
     }
 
     public function blog_category($slug)

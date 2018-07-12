@@ -13,65 +13,38 @@
 	<!-- news -->
 	<div class="carousel">
 		<div class="container news-content">
+            <?php $index = 1; ?>
+			@foreach($posts as $one_post)
 			<div class="row item-wrap tab-content">
 				<div class="col-7 news">
-					<h1> <span>Выиграй теннисный стол </span><span class="blue-text">G-profi </span><span>акционный розыгрыш</span></h1>
+					<h1> <span>{{ $one_post->name }}</span></h1>
 					<div class="text-block-wrap">
 						<div class="text-block custom-scroll">
-							<p>Покупая любой из теннисных столов нашего производства, вы автоматически становитесь участником розыгрыша и получаете возможность выиграть профессиональный теннисный стол G-profi! Для участия в розыгрыше вам нужно всего-навсего оформить свой заказ через корзину нашего сайта. При этом вашему заказу будет присвоен уникальный номер, на основе которого впоследствии будет производиться сам розыгрыш. Определение победителя произойдет 1 июля 2018 года в день окончания ежегодного открытого рейтингового турнира по настольному теннису, проводимому под эгидой GSI-sport. </p>
-							<p class="m-1">Сам процесс розыгрыша будет снят на видео и выложен на нашей информационной страничке в YouTube. </p>
-							<p class="m-0">Срок действия акции: 12.03.2018 – 30.06.2018</p>
+							{!! $one_post->description !!}
 						</div>
 					</div>
-					<div class="page-info-mob"><span style="float:left;">09 марта 2018 12:26:29</span><span style="float:right;">Просмотров: 224</span></div>
+					<div class="page-info-mob" id="dateset{{$index++}}"><span style="float:left;">{{ $mcreated[$one_post->article_id]->format("d-m-Y h:i:s") }}</span><span style="float:right;">Просмотров: <?php echo rand(1, 230) ?></span></div>
 					<div class="center">
 						<button class="btn transparent">Поделиться</button>
 					</div>
 				</div>
 			</div>
-			<div class="row item-wrap tab-content">
-				<div class="col-7">
-					<h1> <span>Выиграй теннисный стол </span><span class="blue-text">G-profi </span><span>акционный розыгрыш</span></h1>
-					<div class="text-block-wrap">
-						<div class="text-block custom-scroll">
-							<p>Покупая любой из теннисных столов нашего производства, вы автоматически становитесь участником розыгрыша и получаете возможность выиграть профессиональный теннисный стол G-profi! Для участия в розыгрыше вам нужно всего-навсего оформить свой заказ через корзину нашего сайта. При этом вашему заказу будет присвоен уникальный номер, на основе которого впоследствии будет производиться сам розыгрыш. Определение победителя произойдет 1 июля 2018 года в день окончания ежегодного открытого рейтингового турнира по настольному теннису, проводимому под эгидой GSI-sport. </p>
-							<p class="m-1">Сам процесс розыгрыша будет снят на видео и выложен на нашей информационной страничке в YouTube. </p>
-							<p class="m-0">Срок действия акции: 12.03.2018 – 30.06.2018</p>
-						</div>
-					</div>
-					<div class="page-info-mob"><span style="float:left;">09 марта 2018 12:26:29</span><span style="float:right;">Просмотров: 224</span></div>
-					<button class="btn transparent">Поделиться    </button>
-				</div>
-			</div>
-			<div class="row item-wrap tab-content">
-				<div class="col-7">
-					<h1> <span>Выиграй теннисный стол </span><span class="blue-text">G-profi </span><span>акционный розыгрыш</span></h1>
-					<div class="text-block-wrap">
-						<div class="text-block custom-scroll">
-							<p>Покупая любой из теннисных столов нашего производства, вы автоматически становитесь участником розыгрыша и получаете возможность выиграть профессиональный теннисный стол G-profi! Для участия в розыгрыше вам нужно всего-навсего оформить свой заказ через корзину нашего сайта. При этом вашему заказу будет присвоен уникальный номер, на основе которого впоследствии будет производиться сам розыгрыш. Определение победителя произойдет 1 июля 2018 года в день окончания ежегодного открытого рейтингового турнира по настольному теннису, проводимому под эгидой GSI-sport. </p>
-							<p class="m-1">Сам процесс розыгрыша будет снят на видео и выложен на нашей информационной страничке в YouTube. </p>
-							<p>Срок действия акции: 12.03.2018 – 30.06.2018</p>
-						</div>
-					</div>
-					<div class="page-info-mob"><span style="float:left;">09 марта 2018 12:26:29</span><span style="float:right;">Просмотров: 224</span></div>
-					<button class="btn transparent">Поделиться    </button>
-				</div>
-			</div>
-			<div class="row item-wrap tab-content">
-				<div class="col-7">
-					<h1> <span>Выиграй теннисный стол </span><span class="blue-text">G-profi </span><span>акционный розыгрыш</span></h1>
-					<div class="text-block-wrap">
-						<div class="text-block custom-scroll">
-							<p>Покупая любой из теннисных столов нашего производства, вы автоматически становитесь участником розыгрыша и получаете возможность выиграть профессиональный теннисный стол G-profi! Для участия в розыгрыше вам нужно всего-навсего оформить свой заказ через корзину нашего сайта. При этом вашему заказу будет присвоен уникальный номер, на основе которого впоследствии будет производиться сам розыгрыш. Определение победителя произойдет 1 июля 2018 года в день окончания ежегодного открытого рейтингового турнира по настольному теннису, проводимому под эгидой GSI-sport. </p>
-							<p class="m-1">Сам процесс розыгрыша будет снят на видео и выложен на нашей информационной страничке в YouTube. </p>
-							<p class="m-0">Срок действия акции: 12.03.2018 – 30.06.2018</p>
-						</div>
-					</div>
-					<div class="page-info-mob"><span style="float:left;">09 марта 2018 12:26:29</span><span style="float:right;">Просмотров: 224</span></div>
-					<button class="btn transparent">Поделиться    </button>
-				</div>
-			</div>
+			@endforeach
 		</div>
 	</div>
 </div>
+@endsection
+
+@section('page-js-script')
+    <script type="text/javascript">
+        $(function() {
+            var newhtml = $('#dateset'+$('.tab .active').data('content-id')).html();
+            $('.page-info').html(newhtml);
+            $('.tab li').on('click',function(){
+                //alert($(this).data('content-id'));
+                newhtml = $('#dateset'+$(this).data('content-id')).html();
+                $('.page-info').html(newhtml);
+            });
+        });
+    </script>
 @endsection

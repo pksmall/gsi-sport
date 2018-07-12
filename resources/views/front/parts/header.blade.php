@@ -40,7 +40,7 @@
             @endif
             @if (Route::is('news'))
             <div class="center">
-                <div class="page-info"><span>09 марта 2018 12:26:29</span><span>Просмотров: 224</span></div>
+                <div class="page-info"></div>
             </div>
             @endif
         </div>

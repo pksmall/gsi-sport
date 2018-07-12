@@ -43,7 +43,7 @@
 <script src="{{ asset('assets/js/main.js') }}" type="text/javascript"></script>
 <script src="{{ asset('js/jquery.validation.min.js') }}"></script>
 <script src="{{ asset('js/custom.js') }}"></script>
-
+@yield('page-js-script')
 </body>
 </html>
 
