@@ -81,7 +81,7 @@ class PageController extends Controller
         $this->prepare_page();
     }
 
-    public static function prepare_page()
+    public function prepare_page()
     {
         $parent_categories = ItemCategory::whereNull('parent_id')->orderBy('sort_order', 'asc')->get()->load('locales');
 
@@ -103,7 +103,7 @@ class PageController extends Controller
             'config' => Config::first(),
             'settings' => Settings::first(),
             'social' => Social::all(),
-            'footer_menu' => $footer_menu
+            'footer_menu' => $footer_menu,
         ]);
     }
 
@@ -151,7 +151,7 @@ class PageController extends Controller
 
         $slides = Slide::where('is_active', true)->get();
         $slides->load(['locales', 'slide_asset']);
-        return view('front/pages/index')->with(['slides' => $slides]);
+        return view('front/pages/index')->with(['slides' => $slides, 'cartTotal' => $this->carttotal()]);
     }
 
 
@@ -179,10 +179,31 @@ class PageController extends Controller
         $additional_menu = ItemCategory::where('is_additional_menu', true)->get();
         $additional_menu->load('locales', 'subcategories.locales', 'subcategories', 'subcategories.subcategories.locales', 'subcategories.preview');
 
-        return view('front/pages/shop')->with(['items' => $items, 'sumitems' => $categories, 'filters' => $this->filter_items(), 'additional_menu' => $additional_menu]);
+        return view('front/pages/shop')->with(['items' => $items, 'cartTotal' => $this->carttotal(), 'sumitems' => $categories, 'filters' => $this->filter_items(), 'additional_menu' => $additional_menu]);
     }
 
 
+    private  function carttotal()
+    {
+        //if (Auth::check()) {
+        //    $this->check_client_session_cart();
+        //}
+        $cart = $this->get_cart();
+        //dd($cart);
+        if (!empty($cart['cart'])) {
+/*            echo "<pre>";
+            print_r($cart['cart']);
+            echo "</pre>";
+            dd($cart['cart']); */
+            if($cart['cart']->items > 0) {
+                $cartTotal = count($cart['cart']->items);
+            }
+        } else {
+            $cartTotal = 0;
+        }
+
+        return $cartTotal;
+    }
 
 
 
@@ -534,7 +555,7 @@ class PageController extends Controller
             }
         }*/
         //, 'recommended_items' => $recommended_items, 'type_delivery' => $type_delivery, 'type_pay' => $type_pay, 'is_fav' => $is_fav
-        return view('front/pages/item')->with(['item' => $item]);
+        return view('front/pages/item')->with(['item' => $item, 'cartTotal' => $this->carttotal()]);
     }
 
     public function store_comment(StoreCommentRequest $request)
@@ -619,18 +640,14 @@ class PageController extends Controller
 
     public function cart()
     {
-        if (Auth::check()) {
+        /*if (Auth::check()) {
             $this->check_client_session_cart();
-        }
+        }*/
         $this->setTitle(trans('base.cart'));
         $cart = $this->get_cart();
         //dd($cart);
-        if (isset($cart['client']))
-        {
-            return view('front/pages/client-cart')->with(['cart' => $cart['cart']]);
-        }
         //return view('front/pages/guest-cart')->with(['cart' => $cart]);
-        return view('front/pages/client-cart')->with(['cart' => $cart]);
+        return view('front/pages/client-cart')->with(['cart' => $cart, 'cartTotal' => $this->carttotal()]);
     }
 
     private function check_client_session_cart()
@@ -737,13 +754,44 @@ class PageController extends Controller
     {
         $cart = null;
         $client = null;
-        if (Auth::check()) {
+        /*
             $cart = Auth::user()->cart;
+
+        } else { */
+        if (Auth::check()) {
             $client = Auth::user()->id;
-        } else {
-            $cart = Session::has('cart') ? Session::get('cart') : null;
         }
+        $cart = Session::has('cart') ? Session::get('cart') : null;
+        //}
         return ['cart' => $cart, 'client' => $client];
+    }
+
+    public function empty_cart()
+    {
+        $this->setTitle(trans('base.cart'));
+        $cart = $this->get_cart();
+
+        if (!empty($cart['cart']->items)){
+            //dd($cart['cart']->items);
+            foreach($cart['cart']->items as $item) {
+                if (Auth::check()) {
+                    //dd($item['item']->id);
+                    $cart_item = ClientCart::where('item_id', $item['item']->id);
+                    //dd($cart_item);
+                    $cart_item->delete();
+                }
+
+            }
+        }
+
+        unset($cart['cart']);
+        if (empty($cart['cart'])) {
+            Session::forget('cart');
+        }
+
+        Session::flash('cart-update', true);
+
+        return redirect()->back();
     }
 
     public function delete_cart_item($id)
@@ -1097,7 +1145,29 @@ class PageController extends Controller
             return redirect()->route('index');
         }
         $this->setTitle(trans('item.profile_title'));
-        return view('front/pages/profile')->with(['user' => Auth::user()]);
+        return view('front/pages/profile')->with(['user' => Auth::user(), 'cartTotal' => $this->carttotal()]);
+    }
+
+    public function profile_edit()
+    {
+        if (!Auth::check())
+        {
+            return redirect()->route('index');
+        }
+        $this->setTitle(trans('item.profile_title'));
+        return view('front/pages/profile_edit')->with(['user' => Auth::user(), 'cartTotal' => $this->carttotal()]);
+    }
+
+    public function history()
+    {
+        /*if (Auth::check()) {
+            $this->check_client_session_cart();
+        }*/
+        $this->setTitle(trans('base.cart'));
+        $cart = $this->get_cart();
+        //dd($cart);
+        //return view('front/pages/guest-cart')->with(['cart' => $cart]);
+        return view('front/pages/client-history')->with(['cart' => $cart, 'cartTotal' => $this->carttotal()]);
     }
 
     public function update_profile(UpdateProfileRequest $request)
@@ -1106,6 +1176,7 @@ class PageController extends Controller
         {
             return redirect()->route('index');
         }
+        $user = Auth::user();
         $user_data = $request->all();
         if (!$user_data['password'] || !$user_data['password_confirmation']) {
             unset($user_data['password']);
@@ -1118,7 +1189,8 @@ class PageController extends Controller
         } else {
             $user_data['is_subscribe'] = false;
         }
-        Auth::user()->update($user_data);
+
+        $user->update($user_data);
         Session::flash('profile-update', true);
         return redirect()->back();
     }
@@ -1249,7 +1321,7 @@ class PageController extends Controller
             return abort('404');
         }
         $static_page_locales = StaticPage::find($static_page->page_id)->locales;
-        return view('front/pages/static')->with(['static_page' => $static_page, 'static_page_locales' => $static_page_locales]);
+        return view('front/pages/static')->with(['static_page' => $static_page, 'static_page_locales' => $static_page_locales, 'cartTotal' => $this->carttotal()]);
     }
 
 
@@ -1257,14 +1329,14 @@ class PageController extends Controller
     {
         $this->setTitle(trans('base.forgot'));
         view()->share('social', Social::all());
-        return view('front/pages/forgot')->with(['settings' => Settings::first()]);
+        return view('front/pages/forgot')->with(['settings' => Settings::first(), 'cartTotal' => $this->carttotal()]);
     }
 
     public function sign_up()
     {
         $this->setTitle(trans('base.sign_up'));
         view()->share('social', Social::all());
-        return view('front/pages/sign_up')->with(['settings' => Settings::first()]);
+        return view('front/pages/sign_up')->with(['settings' => Settings::first(), 'cartTotal' => $this->carttotal()]);
     }
 
     public function contacts()
@@ -1272,7 +1344,7 @@ class PageController extends Controller
         $static_page = StaticPagesTranslation::with('page')->where('slug', 'contacts')->first();
         $static_page_locales = StaticPage::find($static_page->page_id)->locales;
         $this->setTitle(trans($static_page_locales[0]->meta_title));
-        return view('front/pages/contacts')->with(['static_page' => $static_page, 'static_page_locales' => $static_page_locales]);
+        return view('front/pages/contacts')->with(['static_page' => $static_page, 'static_page_locales' => $static_page_locales, 'cartTotal' => $this->carttotal()]);
     }
 
     public function about()
@@ -1282,7 +1354,7 @@ class PageController extends Controller
             $categories[] = $one_page->name;
         }
         $this->setTitle(trans('base.about'));
-        return view('front/pages/about')->with(['static_page' => $static_page, 'categories' => $categories]);
+        return view('front/pages/about')->with(['static_page' => $static_page, 'categories' => $categories, 'cartTotal' => $this->carttotal()]);
     }
 
     public function blog()
@@ -1290,7 +1362,7 @@ class PageController extends Controller
         $this->setTitle(trans('base.blog'));
         $posts = BlogArticlesTranslation::where('locale', App::getLocale())->paginate(10);
         $posts_categories = BlogCategoriesTranslation::where('locale', App::getLocale())->get();
-        return view('front/pages/blog')->with(['posts' => $posts, 'posts_categories' => $posts_categories]);
+        return view('front/pages/blog')->with(['posts' => $posts, 'posts_categories' => $posts_categories, 'cartTotal' => $this->carttotal()]);
     }
 
     public function news()
@@ -1306,7 +1378,7 @@ class PageController extends Controller
             $categories[] = $one_post->meta_title;
         }
         //dd($mCreatedAt);
-        return view('front/pages/news')->with(['posts' => $posts, 'mcreated' => $mCreatedAt, 'categories' => $categories]);
+        return view('front/pages/news')->with(['posts' => $posts, 'mcreated' => $mCreatedAt, 'categories' => $categories, 'cartTotal' => $this->carttotal()]);
     }
 
     public function blog_category($slug)

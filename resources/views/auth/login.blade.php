@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="title">
-                        <h1>вход в личный кабинет</h1><a class="blue-a" href="/sign_up">регистрация</a><a href="/forgot">забыли пароль?</a>
+                        <h1>вход в личный кабинет</h1><a class="blue-a" href="/register">регистрация</a><a href="/forgot">забыли пароль?</a>
                     </div>
                     <h2 class="blue-text">введите ваш логин и пароль</h2>
                     <form action="{{ route('login') }}" method="post" >

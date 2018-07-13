@@ -19,7 +19,7 @@ use App\StaticPage;
 use App\StaticPagesTranslation;
 use Illuminate\Support\Facades\Session;
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/locale', function (\Illuminate\Http\Request $request) {
     if ($request->get('language') != 'ua')
@@ -82,7 +82,7 @@ foreach ($locales_arr as $locale)
         Route::get('/login', function () {
             if (\Illuminate\Support\Facades\Auth::check())
             {
-                dd(Auth0::getUser());
+                //dd(Auth0::getUser());
             }
 
             \App\Http\Controllers\PageController::prepare_page();
@@ -117,11 +117,13 @@ foreach ($locales_arr as $locale)
 }
 
 
+/*
 Route::get('/login', function () {
     if (\Illuminate\Support\Facades\Auth::check())
     {
         dd(Auth0::getUser());
     }
+    dd(Auth0::getUser());
     \App\Http\Controllers\PageController::prepare_page();
 
     return view('auth/login');
@@ -149,6 +151,7 @@ Route::get('/password/reset',function () {
 
     return view('auth/passwords/email');
 })->name('password.email');
+*/
 
 Route::get('/products', 'PageController@products')->name('products');
 Route::get('/shop', 'PageController@shop')->name('shop');
@@ -189,6 +192,8 @@ Route::get('/order-success', 'PageController@get_order_success')->name('get_orde
 Route::post('/order-success', 'PageController@order_success')->name('order_success');
 
 Route::get('/profile', 'PageController@profile')->name('profile');
+Route::get('/profile_edit', 'PageController@profile_edit')->name('profile_edit');
+Route::get('/history', 'PageController@history')->name('history');
 Route::post('/profile', 'PageController@update_profile')->name('update_profile');
 Route::get('/profile/addresses', 'PageController@addresses')->name('addresses');
 Route::post('/profile/address/edit', 'PageController@update_address')->name('update_address');
@@ -209,8 +214,15 @@ Route::get('/news', 'PageController@news')->name('news');
 Route::get('/news/{slug}', 'PageController@post')->name('post');
 Route::get('/news/cat/{slug}', 'PageController@blog_category')->name('blog_category');
 
+Route::get('/empty_cart', 'PageController@empty_cart');
+
+Route::get('/add_to_cart', 'AjaxController@add_to_cart');
+Route::post('/add_to_cart', 'AjaxController@add_to_cart');
+
 Route::get('/contactformsend', 'AjaxController@send');
 Route::post('/contactformsend', 'AjaxController@send');
+
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout_' . $locale);
 
 Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function () {
 

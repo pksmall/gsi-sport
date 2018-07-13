@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App;
+use App\ClientCart;
 use App\Role;
 use App\Settings;
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Contracts\Session\Session;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -33,6 +37,7 @@ class RegisterController extends Controller
     protected $redirectTo = '/profile';
 
     /**
+     *
      * Create a new controller instance.
      *
      * @return void
@@ -87,6 +92,7 @@ class RegisterController extends Controller
 
         $user->roles()->attach(Role::where('name', 'Клиент')->first());
 
+        /*
         if (isset(Settings::first()->email) && Settings::first()->email != null)
         {
             mail(Settings::first()->email, "Нова реєстрація клієнта на Camo-tec", 'Ось профіль клієнта: ' . route('show_client', $user->id) . '.',
@@ -114,8 +120,59 @@ class RegisterController extends Controller
                     "From: webmaster@camo-tec.com\r\n"
                     ."X-Mailer: PHP/" . phpversion());
             }
-        }
+        }*/
 
         return $user;
     }
+
+    public function showRegistrationForm(Request $request)
+    {
+        $cartTotal = $this->carttotal($request);
+
+        return view('auth.register', compact('cartTotal'));
+    }
+
+    private function get_cart($request)
+    {
+        $cart = null;
+        $client = null;
+        if (Auth::check()) {
+            $cart = Auth::user()->cart;
+            $client = Auth::user()->id;
+        } else {
+            $cart = $request->has('cart') ? $request->get('cart') : null;
+        }
+        return ['cart' => $cart, 'client' => $client];
+    }
+
+    private function check_client_session_cart($request)
+    {
+        $cart = $request->get('cart');
+        if (isset($cart->items) && count($cart->items) > 0) {
+            foreach ($cart->items as $item)
+            {
+                ClientCart::create([
+                    'client_id' => Auth::user()->id,
+                    'item_id' => $item['item']->id,
+                    'qty' => $item['qty']
+                ]);
+            }
+            $request->forget('cart');
+        }
+    }
+    private  function carttotal($request)
+    {
+        if (Auth::check()) {
+            $this->check_client_session_cart($request);
+        }
+        $cart = $this->get_cart($request);
+        if (!empty($cart['cart'])) {
+            $cartTotal = count($cart['cart']->items);
+        } else {
+            $cartTotal = 0;
+        }
+
+        return $cartTotal;
+    }
+
 }

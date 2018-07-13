@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\ClientCart;
+use App\GuestCart;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PageController;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -102,5 +105,55 @@ class LoginController extends Controller
             $route_locale = 'index_en';
         }
         return redirect()->route($route_locale);
+    }
+
+    public function showLoginForm()
+    {
+        $cartTotal = $this->carttotal();
+
+        return view('auth.login', compact('cartTotal'));
+    }
+
+    private function get_cart()
+    {
+        $cart = null;
+        $client = null;
+        if (Auth::check()) {
+            $cart = Auth::user()->cart;
+            $client = Auth::user()->id;
+        } else {
+            $cart = Session::has('cart') ? Session::get('cart') : null;
+        }
+        return ['cart' => $cart, 'client' => $client];
+    }
+
+    private function check_client_session_cart()
+    {
+        $cart = Session::get('cart');
+        if (isset($cart->items) && count($cart->items) > 0) {
+            foreach ($cart->items as $item)
+            {
+                ClientCart::create([
+                    'client_id' => Auth::user()->id,
+                    'item_id' => $item['item']->id,
+                    'qty' => $item['qty']
+                ]);
+            }
+            Session::forget('cart');
+        }
+    }
+    private  function carttotal()
+    {
+        if (Auth::check()) {
+            $this->check_client_session_cart();
+        }
+        $cart = $this->get_cart();
+        if (!empty($cart['cart'])) {
+            $cartTotal = count($cart['cart']->items);
+        } else {
+            $cartTotal = 0;
+        }
+
+        return $cartTotal;
     }
 }

@@ -16,28 +16,25 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="title">
-                            <h1>регистрация</h1><a href="/login">Войти с помощью</a>
+                            <h1>Редактирования данных</h1><a href="/profile">Личный кабинет</a>
                         </div>
                         <h2 class="blue-text">заполните все поля для регистрации</h2>
-                        <form method="POST" action="{{ route('register') }}">
+                        <form method="POST" action="{{ url('/profile') }}">
                             @csrf
                             <div class="form-group">
                                 <label for="name" required>ФИО:</label>
-                                <input id="name" name="name" type="text" autofocus>
-                                @if ($errors->has('name'))
-                                    <span class="error">{{ $errors->first('name') }}</span>
-                                @endif
+                                <input id="name" name="name" type="text" value="{{ $user->name }}" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="telephone" required>Телефон:</label>
-                                <input id="telephone" name="telephone" type="text">
+                                <input id="telephone" name="telephone" type="text" value="{{ $user->telephone }}">
                                 @if ($errors->has('telephone'))
                                     <span class="error">{{ $errors->first('telephone') }}</span>
                                 @endif
                             </div>
                             <div class="form-group">
                                 <label for="email" required>e-mail:</label>
-                                <input id="email" name="email" type="email">
+                                <input id="email" name="email" type="email" value="{{ $user->email }}">
                                 @if ($errors->has('email'))
                                     <span class="error">{{ $errors->first('email') }}</span>
                                 @endif
@@ -56,11 +53,7 @@
                                     <span class="error">{{ $errors->first('password_confirmation') }} </span>
                                 @endif
                             </div>
-                            <div class="checkbox-wrap">
-                                <input id="save-password" type="checkbox">
-                                <label for="save-password"><span>принять пользовательское соглашение</span></label>
-                            </div>
-                            <button class="btn blue" type="submit">Войти    </button>
+                            <button class="btn blue" type="submit">Сохранить</button>
                         </form>
                     </div>
                 </div>

@@ -53,10 +53,15 @@ $(document).ready(function() {
   });
 
   $('.sub-tab > li').on('click', function() {
-    var $this = $(this);
-    $('.tab-content').removeClass('active');
-    $this.addClass('active').siblings().removeClass('active')
-        .closest('.page-wrap').find('.sub-tab-content').removeClass('active').eq($(this).index()).addClass('active');
+      var $this = $(this);
+      $('.tab-content').removeClass('active');
+      $('.sub-tab > li').removeClass('active');
+      $('.sub-tab-content').removeClass('active');
+      $this.addClass('active').siblings().removeClass('active');
+      $this.addClass('active').siblings().removeClass('active').closest('.page-wrap').find('.tab-content').removeClass('active');
+      var dId = $this.data('content-id');
+      //console.log('tables: ' + JSON.stringify($('#dateset'+dId)));
+      $('#dataset'+dId).addClass('active');
   });
 
   $('.history-page .mCSB_scrollTools .mCSB_draggerRail').css('background-color', 'transparent');
