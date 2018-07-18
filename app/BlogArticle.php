@@ -8,7 +8,7 @@ class BlogArticle extends Model
 {
 
     protected $fillable = [
-        'is_active', 'term_id', 'preview_id'
+        'is_active', 'term_id', 'preview_id', 'count_views'
     ];
 
     public function categories()

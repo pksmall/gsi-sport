@@ -98,17 +98,12 @@ class LoginController extends Controller
             Auth::logout();
         }
         $route_locale = 'index';
-        if (App::getlocale() == 'ru') {
-            $route_locale = 'index_ru';
-        }
-        if (App::getlocale() == 'en') {
-            $route_locale = 'index_en';
-        }
         return redirect()->route($route_locale);
     }
 
     public function showLoginForm()
     {
+        \App\Http\Controllers\PageController::prepare_page();
         $cartTotal = $this->carttotal();
 
         return view('auth.login', compact('cartTotal'));
@@ -149,7 +144,7 @@ class LoginController extends Controller
         }
         $cart = $this->get_cart();
         if (!empty($cart['cart'])) {
-            $cartTotal = count($cart['cart']->items);
+            $cartTotal = $cart['cart']->total_qty;
         } else {
             $cartTotal = 0;
         }

@@ -10,69 +10,69 @@
     @include('front/parts/rightnav')
 
     <!-- item -->
+    <div id="dataurl" action="{{ url('/add_to_cart') }}" token="{{ csrf_token() }}"></div>
     <div class="content product-card-content">
         <div class="container">
             <div class="row">
-
                 <div class="product-item col-12">
-
                     <div class="product-info-wrap">
                         <div class="product-title">
-                            Ракетка всепогодная
-                            <br>
-                            <span class="blue-text">Donic Alltec</span>
+                            {{ $item->name }}
                         </div>
                         <div class="product-info text-block-wrap">
                             <div class="text-block custom-scroll">
-                                <p>
-                                    Всепогодная ракетка для настольного тенниса
-                                    <span class="blue-text">DONIC ALLTEC</span>.
-                                </p>
-                                <div class="product-characteristic">
-                                    <div class="title mb-0">Заявленные характеристики:</div>
-                                    <ul>
-                                        <li>Скорость: 90
-                                            <div class="bar">
-                                                <div class="blue" style="width: 90%"></div>
-                                                <div class="red" style="width: 10%"></div>
-                                            </div>
-                                        </li>
-                                        <li>Вращение: 40
-                                            <div class="bar">
-                                                <div class="blue" style="width: 30%"></div>
-                                                <div class="red" style="width: 70%">  </div>
-                                            </div>
-                                        </li>
-                                        <li>Контроль: 70
-                                            <div class="bar">
-                                                <div class="blue" style="width: 70%"></div>
-                                                <div class="red" style="width: 30%">     </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <p>Материалы, из которых выполнена ракетка, устойчивы к воздействию дождя и солнца, а потому данная ракетка может быть рекомендована в комплектации со всепогодными теннисными столами. </p>
-                                <div class="product-code">Код товара: МТ-733012</div>
+                                {!! $item->description !!}
+                                <div class="product-code">Код товара: {{ $item->item->code }}</div>
                                 <div class="product-more">
-                                    <div class="product-price">665 грн</div>
+                                    <div class="product-price"> {{ $item->item->price }}грн</div>
                                 </div>
                             </div>
                         </div>
-                        <button class="btn blue">в корзину</button>
+                        <button class="btn blue" data-content-id="{{ $item->item_id }}">в корзину</button>
                     </div>
                     <div class="product-card-carousel" id="product-card-carousel">
                         <div class="product-image">
-                            <img src="/assets/img/product-img.svg">
-                            <span class="option option-1">Tiam nec lacus ut velit lacinia </span>
-                            <span class="option option-2"> Praesent laoreet sodales lorem</span>
-                            <span class="option option-3">Suspendisse arcu arcu</span>
+                            <img src="{{$item->item->preview->path}}" width="378" height="652">
                         </div>
-                        <div class="product-image"><img src="/assets/img/product-img.svg"></div>
-                        <div class="product-image"><img src="/assets/img/product-img.svg"></div>
+                        @foreach($item->item->gallery as $img)
+                            <div class="product-image"><img src="{{$img->path}}" width="378" height="652"></div>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
+@section('page-js-script')
+    <script type="text/javascript">
+        $(function() {
+            $('button').on('click',function(){
+                var itemId = $(this).data('content-id');
+                var dataurl = $('#dataurl');
+                console.log("item id: " + itemId + " dataurl:" + dataurl.attr('action'));
+
+                $.ajax({
+                    type: 'POST',
+                    url: dataurl.attr('action'),
+                    data: {
+                        item_id: itemId,
+                        _token:  dataurl.attr('token'),
+                        qty: 1,
+                        size: 0
+                    }
+                }).always(function(data, textStatus, jqXHR) {
+                    if (data.response == 'success') {
+                        console.log("resp data: " + data.data);
+                        $('#cartqty').html(data.data);
+                        return;
+                    } else {
+                        console.log("resp error");
+                        return;
+                    }
+                });
+
+            });
+        });
+    </script>
 @endsection

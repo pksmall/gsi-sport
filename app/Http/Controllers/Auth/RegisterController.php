@@ -8,7 +8,6 @@ use App\Role;
 use App\Settings;
 use App\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -125,14 +124,16 @@ class RegisterController extends Controller
         return $user;
     }
 
-    public function showRegistrationForm(Request $request)
+    public function showRegistrationForm()
     {
-        $cartTotal = $this->carttotal($request);
+        \App\Http\Controllers\PageController::prepare_page();
+
+        $cartTotal = $this->carttotal();
 
         return view('auth.register', compact('cartTotal'));
     }
 
-    private function get_cart($request)
+    private function get_cart()
     {
         $cart = null;
         $client = null;
@@ -140,12 +141,12 @@ class RegisterController extends Controller
             $cart = Auth::user()->cart;
             $client = Auth::user()->id;
         } else {
-            $cart = $request->has('cart') ? $request->get('cart') : null;
+            $cart = request()->session()->has('cart') ? request()->session()->get('cart') : null;
         }
         return ['cart' => $cart, 'client' => $client];
     }
 
-    private function check_client_session_cart($request)
+    private function check_client_session_cart()
     {
         $cart = $request->get('cart');
         if (isset($cart->items) && count($cart->items) > 0) {
@@ -160,14 +161,14 @@ class RegisterController extends Controller
             $request->forget('cart');
         }
     }
-    private  function carttotal($request)
+    private  function carttotal()
     {
         if (Auth::check()) {
-            $this->check_client_session_cart($request);
+            $this->check_client_session_cart();
         }
-        $cart = $this->get_cart($request);
+        $cart = $this->get_cart();
         if (!empty($cart['cart'])) {
-            $cartTotal = count($cart['cart']->items);
+            $cartTotal = $cart['cart']->total_qty;
         } else {
             $cartTotal = 0;
         }

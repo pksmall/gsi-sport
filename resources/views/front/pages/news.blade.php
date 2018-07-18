@@ -23,7 +23,7 @@
 							{!! $one_post->description !!}
 						</div>
 					</div>
-					<div class="page-info-mob" id="dateset{{$index++}}"><span style="float:left;">{{ $mcreated[$one_post->article_id]->format("d-m-Y h:i:s") }}</span><span style="float:right;">Просмотров: <?php echo rand(1, 230) ?></span></div>
+					<div class="page-info-mob" id="dateset{{$index++}}"><span style="float:left;">{{ $mcreated[$one_post->article_id]->format("d-m-Y h:i:s") }}</span><span style="float:right;">Просмотров: {{ $one_post->count_views }}</span></div>
 					<div class="center">
 						<button class="btn transparent">Поделиться</button>
 					</div>

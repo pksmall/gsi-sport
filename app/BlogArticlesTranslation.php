@@ -9,7 +9,7 @@ class BlogArticlesTranslation extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'article_id', 'locale', 'name', 'slug', 'short_description', 'description', 'meta_title', 'meta_description', 'meta_keywords'
+        'article_id', 'locale', 'name', 'slug', 'short_description', 'description', 'meta_title', 'meta_description', 'meta_keywords', 'count_views'
     ];
 
     public function post()

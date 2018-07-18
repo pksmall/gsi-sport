@@ -19,196 +19,26 @@ use App\StaticPage;
 use App\StaticPagesTranslation;
 use Illuminate\Support\Facades\Session;
 
-//Auth::routes();
-
-Route::get('/locale', function (\Illuminate\Http\Request $request) {
-    if ($request->get('language') != 'ua')
-    {
-        return redirect('/' . $request->get('language'));
-    } else {
-        return redirect('/');
-    }
-})->name('locale');
 
 Route::get('/', 'PageController@index')->name('index');
 
-$locales_arr = ['ru', 'en'];
-foreach ($locales_arr as $locale)
-{
-    Route::group(['prefix' => $locale], function () use ($locale){
-        Route::get('/', 'PageController@index')->name('index_' . $locale);
-        Route::get('/shop', 'PageController@shop')->name('shop_' . $locale);
-        Route::get('/shop/filter', 'PageController@filter')->name('filter_' . $locale);
-        Route::get('/shop/category/{slug}', 'PageController@items_category')->name('items_category_' . $locale);
-        Route::get('/shop/category/{slug}/filter', 'PageController@items_category_filter')->name('cat_filter_' . $locale);
-        Route::get('/shop/{slug}', 'PageController@item')->name('item_' . $locale);
-
-        Route::get('/shop/items/sale', 'PageController@sale')->name('sale_' . $locale);
-        Route::get('/shop/items/new', 'PageController@new_items')->name('new_' . $locale);
-
-        Route::get('/shop/items/search', 'PageController@search')->name('search_' . $locale);
-
-        Route::get('/cart', 'PageController@cart')->name('cart_' . $locale);
-        Route::post('/update_cart', 'PageController@update_cart')->name('update_cart_' . $locale);
-        Route::get('/checkout', 'PageController@checkout')->name('checkout_' . $locale);
-        Route::get('/order-success', 'PageController@get_order_success')->name('get_order_success_' . $locale);
-        Route::post('/order-success', 'PageController@order_success')->name('order_success_' . $locale);
-
-        Route::get('/profile', 'PageController@profile')->name('profile_' . $locale);
-        Route::post('/profile/address/edit', 'PageController@update_address')->name('update_address_' . $locale);
-        Route::post('/profile/address-delivery/edit', 'PageController@update_address_delivery')->name('update_address_delivery_' . $locale);
-        Route::get('/profile/addresses', 'PageController@addresses')->name('addresses_' . $locale);
-        Route::get('/profile/orders', 'PageController@orders')->name('my_orders_' . $locale);
-        Route::get('/profile/favorites', 'PageController@favorites')->name('my_favorites_' . $locale);
-        Route::get('/profile/subscribe', 'PageController@subscribe')->name('my_subscribe_' . $locale);
-        Route::get('/banned', 'PageController@banned')->name('banned_' . $locale);
-
-        Route::get('/technologies', 'PageController@technologies')->name('technologies_' . $locale);
-        Route::get('/technology/{slug}', 'PageController@technology')->name('technology_' . $locale);
-        Route::get('/technologies/cat/{slug}', 'PageController@technology_category')->name('technology_category_' . $locale);
-
-        Route::get('/static/{page}', 'PageController@static_page')->name('front_static_pages_' . $locale);
-
-        Route::get('/contacts', 'PageController@contacts')->name('contacts_' . $locale);
-        Route::post('/contacts/feedback', 'PageController@contacts_feedback')->name('contacts_feedback' . $locale);
-
-        Route::get('/about', 'PageController@about')->name('about_' . $locale);
-
-        Route::get('/blog', 'PageController@blog')->name('blog_' . $locale);
-        Route::get('/blog/{slug}', 'PageController@post')->name('post_' . $locale);
-        Route::get('/blog/cat/{slug}', 'PageController@blog_category')->name('blog_category_' . $locale);
-
-
-        Route::get('/login', function () {
-            if (\Illuminate\Support\Facades\Auth::check())
-            {
-                //dd(Auth0::getUser());
-            }
-
-            \App\Http\Controllers\PageController::prepare_page();
-
-            return view('auth/login');
-        })->name('login_' . $locale);
-
-        Route::get('/register', function () {
-            if (\Illuminate\Support\Facades\Auth::check())
-            {
-                //dd(123);
-            }
-
-            \App\Http\Controllers\PageController::prepare_page();
-
-            return view('auth/register');
-        })->name('register_' . $locale);
-
-        Route::get('/password/reset',function () {
-            if (\Illuminate\Support\Facades\Auth::check())
-            {
-                //dd(123);
-            }
-
-            \App\Http\Controllers\PageController::prepare_page();
-
-            return view('auth/passwords/email');
-        })->name('password.email_' . $locale);
-
-        Route::post('/logout', 'Auth\LoginController@logout')->name('logout_' . $locale);
-    });
-}
-
-
-/*
-Route::get('/login', function () {
-    if (\Illuminate\Support\Facades\Auth::check())
-    {
-        dd(Auth0::getUser());
-    }
-    dd(Auth0::getUser());
-    \App\Http\Controllers\PageController::prepare_page();
-
-    return view('auth/login');
-})->name('login');
-
-Route::get('/register', function () {
-
-    if (\Illuminate\Support\Facades\Auth::check())
-    {
-        //dd(123);
-    }
-
-    \App\Http\Controllers\PageController::prepare_page();
-
-    return view('auth/register');
-})->name('register');
-
-Route::get('/password/reset',function () {
-    if (\Illuminate\Support\Facades\Auth::check())
-    {
-        //dd(123);
-    }
-
-    \App\Http\Controllers\PageController::prepare_page();
-
-    return view('auth/passwords/email');
-})->name('password.email');
-*/
-
 Route::get('/products', 'PageController@products')->name('products');
-Route::get('/shop', 'PageController@shop')->name('shop');
-
-Route::get('/shop/filter', 'PageController@filter')->name('filter');
-Route::get('/shop/category/{slug}', 'PageController@items_category')->name('items_category');
-Route::get('/shop/category/{slug}/filter', 'PageController@items_category_filter')->name('cat_filter');
-
 Route::get('/products/{slug}', 'PageController@item')->name('item');
-Route::get('/shop/{slug}', 'PageController@item')->name('item');
-
-Route::get('/shop/items/sale', 'PageController@sale')->name('sale');
-Route::get('/shop/items/new', 'PageController@new_items')->name('new');
-
-Route::get('/shop/items/search', 'PageController@search')->name('search');
-
-Route::get('/static/{page}', 'PageController@static_page')->name('front_static_pages');
-
-Route::get('/contacts', 'PageController@contacts')->name('contacts');
-Route::post('/contacts/feedback', 'PageController@contacts_feedback')->name('contacts_feedback');
-
-Route::get('/technologies', 'PageController@technologies')->name('technologies');
-Route::get('/technology/{slug}', 'PageController@technology')->name('technology');
-Route::get('/technologies/cat/{slug}', 'PageController@technology_category')->name('technology_category');
-
-Route::get('/about', 'PageController@about')->name('about');
-Route::get('/sign_up', 'PageController@sign_up')->name('sign_up');
-Route::get('/forgot', 'PageController@forgot')->name('forgot');
-
-Route::get('/cart', 'PageController@cart')->name('cart');
-Route::post('/add_to_cart', 'PageController@add_to_cart')->name('add_to_cart');
-Route::post('/to_fav/{id}', 'PageController@to_fav')->name('to_fav');
-Route::post('/un_fav/{id}', 'PageController@un_fav')->name('un_fav');
-Route::get('/delete_cart_item/{id}', 'PageController@delete_cart_item')->name('delete_cart_item');
-Route::post('/update_cart', 'PageController@update_cart')->name('update_cart');
-Route::get('/checkout', 'PageController@checkout')->name('checkout');
-Route::get('/order-success', 'PageController@get_order_success')->name('get_order_success');
-Route::post('/order-success', 'PageController@order_success')->name('order_success');
 
 Route::get('/profile', 'PageController@profile')->name('profile');
 Route::get('/profile_edit', 'PageController@profile_edit')->name('profile_edit');
 Route::get('/history', 'PageController@history')->name('history');
 Route::post('/profile', 'PageController@update_profile')->name('update_profile');
-Route::get('/profile/addresses', 'PageController@addresses')->name('addresses');
-Route::post('/profile/address/edit', 'PageController@update_address')->name('update_address');
-Route::post('/profile/address-delivery/edit', 'PageController@update_address_delivery')->name('update_address_delivery');
-Route::get('/profile/favorites', 'PageController@favorites')->name('my_favorites');
-Route::get('/profile/orders', 'PageController@orders')->name('my_orders');
-Route::get('/profile/subscribe', 'PageController@subscribe')->name('my_subscribe');
-Route::post('/profile/subscribe', 'PageController@update_subscribe')->name('update_my_subscribe');
-Route::get('/banned', 'PageController@banned')->name('banned');
 
-Route::post('/comment/new', 'PageController@store_comment')->name('store_comment');
+Route::get('/contacts', 'PageController@contacts')->name('contacts');
+Route::post('/contacts/feedback', 'PageController@contacts_feedback')->name('contacts_feedback');
 
-Route::get('/blog', 'PageController@blog')->name('blog');
-Route::get('/blog/{slug}', 'PageController@post')->name('post');
-Route::get('/blog/cat/{slug}', 'PageController@blog_category')->name('blog_category');
+Route::get('/about', 'PageController@about')->name('about');
+//register in auth:route Route::get('/sign_up', 'PageController@sign_up')->name('sign_up');
+Route::get('/forgot', 'PageController@forgot')->name('forgot');
+
+Route::get('/cart', 'PageController@cart')->name('cart');
+Route::post('/add_to_cart', 'PageController@add_to_cart')->name('add_to_cart');
 
 Route::get('/news', 'PageController@news')->name('news');
 Route::get('/news/{slug}', 'PageController@post')->name('post');
@@ -216,13 +46,14 @@ Route::get('/news/cat/{slug}', 'PageController@blog_category')->name('blog_categ
 
 Route::get('/empty_cart', 'PageController@empty_cart');
 
-Route::get('/add_to_cart', 'AjaxController@add_to_cart');
+//ajax
 Route::post('/add_to_cart', 'AjaxController@add_to_cart');
-
-Route::get('/contactformsend', 'AjaxController@send');
+Route::post('/cart_qty_up', 'AjaxController@cart_qty_up');
+Route::post('/cart_qty_down', 'AjaxController@cart_qty_down');
+Route::post('/item_delete', 'AjaxController@item_delete');
 Route::post('/contactformsend', 'AjaxController@send');
 
-Route::get('/logout', 'Auth\LoginController@logout')->name('logout_' . $locale);
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function () {
 
@@ -367,3 +198,176 @@ Route::group(['prefix' => 'admin', 'middleware' => 'isAdmin'], function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+/* $locales_arr = ['ru', 'en'];
+foreach ($locales_arr as $locale)
+{
+    Route::group(['prefix' => $locale], function () use ($locale){
+        Route::get('/', 'PageController@index')->name('index_' . $locale);
+        Route::get('/shop', 'PageController@shop')->name('shop_' . $locale);
+        Route::get('/shop/filter', 'PageController@filter')->name('filter_' . $locale);
+        Route::get('/shop/category/{slug}', 'PageController@items_category')->name('items_category_' . $locale);
+        Route::get('/shop/category/{slug}/filter', 'PageController@items_category_filter')->name('cat_filter_' . $locale);
+        Route::get('/shop/{slug}', 'PageController@item')->name('item_' . $locale);
+
+        Route::get('/shop/items/sale', 'PageController@sale')->name('sale_' . $locale);
+        Route::get('/shop/items/new', 'PageController@new_items')->name('new_' . $locale);
+
+        Route::get('/shop/items/search', 'PageController@search')->name('search_' . $locale);
+
+        Route::get('/cart', 'PageController@cart')->name('cart_' . $locale);
+        Route::post('/update_cart', 'PageController@update_cart')->name('update_cart_' . $locale);
+        Route::get('/checkout', 'PageController@checkout')->name('checkout_' . $locale);
+        Route::get('/order-success', 'PageController@get_order_success')->name('get_order_success_' . $locale);
+        Route::post('/order-success', 'PageController@order_success')->name('order_success_' . $locale);
+
+        Route::get('/profile', 'PageController@profile')->name('profile_' . $locale);
+        Route::post('/profile/address/edit', 'PageController@update_address')->name('update_address_' . $locale);
+        Route::post('/profile/address-delivery/edit', 'PageController@update_address_delivery')->name('update_address_delivery_' . $locale);
+        Route::get('/profile/addresses', 'PageController@addresses')->name('addresses_' . $locale);
+        Route::get('/profile/orders', 'PageController@orders')->name('my_orders_' . $locale);
+        Route::get('/profile/favorites', 'PageController@favorites')->name('my_favorites_' . $locale);
+        Route::get('/profile/subscribe', 'PageController@subscribe')->name('my_subscribe_' . $locale);
+        Route::get('/banned', 'PageController@banned')->name('banned_' . $locale);
+
+        Route::get('/technologies', 'PageController@technologies')->name('technologies_' . $locale);
+        Route::get('/technology/{slug}', 'PageController@technology')->name('technology_' . $locale);
+        Route::get('/technologies/cat/{slug}', 'PageController@technology_category')->name('technology_category_' . $locale);
+
+        Route::get('/static/{page}', 'PageController@static_page')->name('front_static_pages_' . $locale);
+
+        Route::get('/contacts', 'PageController@contacts')->name('contacts_' . $locale);
+        Route::post('/contacts/feedback', 'PageController@contacts_feedback')->name('contacts_feedback' . $locale);
+
+        Route::get('/about', 'PageController@about')->name('about_' . $locale);
+
+        Route::get('/blog', 'PageController@blog')->name('blog_' . $locale);
+        Route::get('/blog/{slug}', 'PageController@post')->name('post_' . $locale);
+        Route::get('/blog/cat/{slug}', 'PageController@blog_category')->name('blog_category_' . $locale);
+
+
+        Route::get('/login', function () {
+            if (\Illuminate\Support\Facades\Auth::check())
+            {
+                //dd(Auth0::getUser());
+            }
+
+            \App\Http\Controllers\PageController::prepare_page();
+
+            return view('auth/login');
+        })->name('login_' . $locale);
+
+        Route::get('/register', function () {
+            if (\Illuminate\Support\Facades\Auth::check())
+            {
+                //dd(123);
+            }
+
+            \App\Http\Controllers\PageController::prepare_page();
+
+            return view('auth/register');
+        })->name('register_' . $locale);
+
+        Route::get('/password/reset',function () {
+            if (\Illuminate\Support\Facades\Auth::check())
+            {
+                //dd(123);
+            }
+
+            \App\Http\Controllers\PageController::prepare_page();
+
+            return view('auth/passwords/email');
+        })->name('password.email_' . $locale);
+
+        Route::post('/logout', 'Auth\LoginController@logout')->name('logout_' . $locale);
+    });
+}
+
+
+/*
+Route::get('/login', function () {
+    if (\Illuminate\Support\Facades\Auth::check())
+    {
+        dd(Auth0::getUser());
+    }
+    dd(Auth0::getUser());
+    \App\Http\Controllers\PageController::prepare_page();
+
+    return view('auth/login');
+})->name('login');
+
+Route::get('/register', function () {
+
+    if (\Illuminate\Support\Facades\Auth::check())
+    {
+        //dd(123);
+    }
+
+    \App\Http\Controllers\PageController::prepare_page();
+
+    return view('auth/register');
+})->name('register');
+
+Route::get('/password/reset',function () {
+    if (\Illuminate\Support\Facades\Auth::check())
+    {
+        //dd(123);
+    }
+
+    \App\Http\Controllers\PageController::prepare_page();
+
+    return view('auth/passwords/email');
+})->name('password.email');
+*/
+/*
+Route::get('/locale', function (\Illuminate\Http\Request $request) {
+    if ($request->get('language') != 'ua')
+    {
+        return redirect('/' . $request->get('language'));
+    } else {
+        return redirect('/');
+    }
+})->name('locale');
+*/
+// not use
+//Route::get('/shop', 'PageController@shop')->name('shop');
+//Route::get('/shop/filter', 'PageController@filter')->name('filter');
+//Route::get('/shop/category/{slug}', 'PageController@items_category')->name('items_category');
+//Route::get('/shop/category/{slug}/filter', 'PageController@items_category_filter')->name('cat_filter');
+//Route::get('/shop/{slug}', 'PageController@item')->name('item');
+//Route::get('/shop/items/sale', 'PageController@sale')->name('sale');
+//Route::get('/shop/items/new', 'PageController@new_items')->name('new');
+//Route::get('/shop/items/search', 'PageController@search')->name('search');
+
+//Route::get('/static/{page}', 'PageController@static_page')->name('front_static_pages');
+
+//Route::get('/technologies', 'PageController@technologies')->name('technologies');
+//Route::get('/technology/{slug}', 'PageController@technology')->name('technology');
+//Route::get('/technologies/cat/{slug}', 'PageController@technology_category')->name('technology_category');
+
+//Route::post('/to_fav/{id}', 'PageController@to_fav')->name('to_fav');
+//Route::post('/un_fav/{id}', 'PageController@un_fav')->name('un_fav');
+//Route::get('/delete_cart_item/{id}', 'PageController@delete_cart_item')->name('delete_cart_item');
+//Route::post('/update_cart', 'PageController@update_cart')->name('update_cart');
+//Route::get('/checkout', 'PageController@checkout')->name('checkout');
+//Route::get('/order-success', 'PageController@get_order_success')->name('get_order_success');
+//Route::post('/order-success', 'PageController@order_success')->name('order_success');
+
+//Route::get('/profile', 'PageController@profile')->name('profile');
+//Route::get('/profile_edit', 'PageController@profile_edit')->name('profile_edit');
+//Route::get('/history', 'PageController@history')->name('history');
+//Route::post('/profile', 'PageController@update_profile')->name('update_profile');
+//Route::get('/profile/addresses', 'PageController@addresses')->name('addresses');
+//Route::post('/profile/address/edit', 'PageController@update_address')->name('update_address');
+//Route::post('/profile/address-delivery/edit', 'PageController@update_address_delivery')->name('update_address_delivery');
+//Route::get('/profile/favorites', 'PageController@favorites')->name('my_favorites');
+//Route::get('/profile/orders', 'PageController@orders')->name('my_orders');
+//Route::get('/profile/subscribe', 'PageController@subscribe')->name('my_subscribe');
+//Route::post('/profile/subscribe', 'PageController@update_subscribe')->name('update_my_subscribe');
+//Route::get('/banned', 'PageController@banned')->name('banned');
+
+//Route::post('/comment/new', 'PageController@store_comment')->name('store_comment');
+
+//Route::get('/blog', 'PageController@blog')->name('blog');
+//Route::get('/blog/{slug}', 'PageController@post')->name('post');
+//Route::get('/blog/cat/{slug}', 'PageController@blog_category')->name('blog_category');

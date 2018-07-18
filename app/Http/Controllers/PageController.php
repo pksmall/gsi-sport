@@ -81,7 +81,7 @@ class PageController extends Controller
         $this->prepare_page();
     }
 
-    public function prepare_page()
+    public static function prepare_page()
     {
         $parent_categories = ItemCategory::whereNull('parent_id')->orderBy('sort_order', 'asc')->get()->load('locales');
 
@@ -196,7 +196,7 @@ class PageController extends Controller
             echo "</pre>";
             dd($cart['cart']); */
             if($cart['cart']->items > 0) {
-                $cartTotal = count($cart['cart']->items);
+                $cartTotal = $cart['cart']->total_qty;
             }
         } else {
             $cartTotal = 0;
@@ -532,29 +532,13 @@ class PageController extends Controller
     public function item($slug)
     {
         $item = ItemTranslation::where('slug', $slug)->first();
-/*        if (!isset($item->item))
+        if (!isset($item->item))
         {
             return abort('404');
         }
         $item->item->increment('views');
-        $item->item->load('characteristics', 'characteristics.parent');
-        $recommended_items = $item->item->recommended_items()->where('is_active', true)->get();
-        $type_delivery = TypeDeliveriesTranslation::all();
-        $type_delivery->load('delivery');
-        $type_pay = TypePaysTranslation::all();
-        $type_pay->load('pay');
+        $item->item->load('characteristics', 'characteristics.parent', 'gallery');
 
-        $is_fav = false;*/
-
-/*        if(Auth::check())
-        {
-            $item_is_fav = FavoriteItem::where([['client_id', Auth::user()->id], ['item_id', $item->item->id]])->first();
-            if ($item_is_fav)
-            {
-                $is_fav = true;
-            }
-        }*/
-        //, 'recommended_items' => $recommended_items, 'type_delivery' => $type_delivery, 'type_pay' => $type_pay, 'is_fav' => $is_fav
         return view('front/pages/item')->with(['item' => $item, 'cartTotal' => $this->carttotal()]);
     }
 
@@ -791,7 +775,7 @@ class PageController extends Controller
 
         Session::flash('cart-update', true);
 
-        return redirect()->back();
+        return redirect()->route('products');
     }
 
     public function delete_cart_item($id)

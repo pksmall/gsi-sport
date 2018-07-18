@@ -21,10 +21,11 @@
                     <div class="col-8 {{ $index == 0 ? '' : 'custom-scroll' }}">
                         <?php $index++; ?>
                         <div class="row">
+
                         @foreach ($items as $item)
                             @if($item->categories[0]->parent_id == $p_category->id)
                             <div class="product-item col-12">
-                                <a class="product-image" href="/products/1" style="background-image: url({{ url($item->preview->path) }})"></a>
+                                <a class="product-image" href="/products/{{ $item->locales[0]->slug }}" style="background-image: url({{ url($item->preview->path) }})"></a>
                                 <div class="product-info text-block-wrap">
                                     <div class="text-block"><a class="product-title" href="/products/1">
                                             {{ $item->locales[0]->name }}
@@ -119,6 +120,10 @@
                     if (data.response == 'success') {
                         console.log("resp data: " + data.data);
                         $('#cartqty').html(data.data);
+                        $('.icon-cart').toggleClass('expand');
+                        setTimeout(function(){
+                            $('.icon-cart').toggleClass('expand');
+                        },2000);
                         return;
                     } else {
                         console.log("resp error");
