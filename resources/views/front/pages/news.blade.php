@@ -41,6 +41,9 @@
             var newhtml = $('#dateset'+$('.tab .active').data('content-id')).html();
             $('.page-info').html(newhtml);
             var oldidx = $(this).data('content-id');
+            if (oldidx == undefined) {
+                oldidx = 1;
+            }
 
             $('.tab li').on('click',function(){
                 var idx = $(this).data('content-id');
@@ -62,7 +65,7 @@
                     }).always(function(data, textStatus, jqXHR) {
                         if (data.response == 'success') {
                             console.log("resp data: " + data.data);
-                            counts = parseInt(data.data)+1;
+                            counts = data.data;
 
                             var datetime  = $('#dateTime'+idx).html();
                             newhtml = '<span style="float:left;">' + datetime + '</span><span style="float:right;"> Просмотров: ' + counts +"</span>";
@@ -71,7 +74,6 @@
                         } else {
                             console.log("resp error");
                             counts++;
-                            console.log("counts: " + counts);
 
                             var datetime  = $('#dateTime'+idx).html();
                             newhtml = '<span style="float:left;">' + datetime + '</span><span style="float:right;"> Просмотров: ' + counts +"</span>";
