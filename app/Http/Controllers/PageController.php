@@ -1361,6 +1361,8 @@ class PageController extends Controller
         foreach ($posts as $one_post) {
             $categories[] = $one_post->meta_title;
         }
+        //add first views
+        $posts->first()->increment('count_views');
         //dd($mCreatedAt);
         return view('front/pages/news')->with(['posts' => $posts, 'mcreated' => $mCreatedAt, 'categories' => $categories, 'cartTotal' => $this->carttotal()]);
     }

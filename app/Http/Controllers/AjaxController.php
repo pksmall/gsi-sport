@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BlogArticlesTranslation;
 use App\ClientActivity;
 use App\ClientCart;
 use App\GuestCart;
@@ -16,28 +17,29 @@ use Mail;
 
 class AjaxController extends Controller
 {
-    public function send(Request $request){
+    public function send(Request $request)
+    {
 
         //dd($request);
         $data = array(
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'messagetext'=>$request->message
+            'name' => $request->name,
+            'email' => $request->email,
+            'messagetext' => $request->message
         );
 
-        Mail::send('contacttext', $data, function ($message) use ($request){
+        Mail::send('contacttext', $data, function ($message) use ($request) {
 
             /* Config ********** */
             $to_email = Settings::first()->email;
-            $to_name  = Settings::first()->owner;
-            $subject  = Settings::first()->title_shop;
+            $to_name = Settings::first()->owner;
+            $subject = Settings::first()->title_shop;
 
-            $message->subject ($subject);
-            $message->from ($request->email, $request->name);
-            $message->to ($to_email, $to_name);
+            $message->subject($subject);
+            $message->from($request->email, $request->name);
+            $message->to($to_email, $to_name);
         });
 
-        if(count(Mail::failures()) > 0){
+        if (count(Mail::failures()) > 0) {
             $status = 'error';
         } else {
             $status = 'success';
@@ -50,8 +52,7 @@ class AjaxController extends Controller
     {
         $sumItems = 0;
         $item = Item::find($request['item_id']);
-        if (!isset($item))
-        {
+        if (!isset($item)) {
             $status = 'error';
         } else {
             $old_cart = $request->session()->has('cart') ? $request->session()->get('cart') : null;
@@ -99,8 +100,7 @@ class AjaxController extends Controller
     {
         $item = Item::find($request['item_id']);
         $jsonRet = '{ "qty": 0, "total": 0}';
-        if (!isset($item))
-        {
+        if (!isset($item)) {
             $status = 'error';
         } else {
             $old_cart = $request->session()->has('cart') ? $request->session()->get('cart') : null;
@@ -111,13 +111,13 @@ class AjaxController extends Controller
             if (Auth::check()) {
                 $client_cart_in = ClientCart::where('item_id', $item->id)->first();
                 $client_cart_in->update([
-                   'qty' => $client_cart_in->qty + $request->get('qty')
+                    'qty' => $client_cart_in->qty + $request->get('qty')
                 ]);
             }
             //Log::info(print_r($cart->items, true));
 
-            $jsonRet = '{ "qty": ' . $qty . ', "total": ' . $cart->total_price . ', "itemtotal": ' . $cart->total_qty. '}';
-            
+            $jsonRet = '{ "qty": ' . $qty . ', "total": ' . $cart->total_price . ', "itemtotal": ' . $cart->total_qty . '}';
+
             $request->session()->flash('cart-success', true);
             $status = 'success';
         }
@@ -128,8 +128,7 @@ class AjaxController extends Controller
     {
         $item = Item::find($request['item_id']);
         $jsonRet = '{ "qty": 0, "total": 0}';
-        if (!isset($item))
-        {
+        if (!isset($item)) {
             $status = 'error';
         } else {
             $old_cart = $request->session()->has('cart') ? $request->session()->get('cart') : null;
@@ -151,7 +150,7 @@ class AjaxController extends Controller
             }
             //Log::info(print_r($cart->items, true));
 
-            $jsonRet = '{ "qty": ' . $qty . ', "total": ' . $cart->total_price . ', "itemtotal": ' . $cart->total_qty. '}';
+            $jsonRet = '{ "qty": ' . $qty . ', "total": ' . $cart->total_price . ', "itemtotal": ' . $cart->total_qty . '}';
 
             $request->session()->flash('cart-success', true);
             $status = 'success';
@@ -163,8 +162,7 @@ class AjaxController extends Controller
     {
         $item = Item::find($request['item_id']);
         $jsonRet = '{ "total": 0, "itemtotal": 0 }';
-        if (!isset($item))
-        {
+        if (!isset($item)) {
             $status = 'error';
         } else {
             $old_cart = $request->session()->has('cart') ? $request->session()->get('cart') : null;
@@ -173,10 +171,8 @@ class AjaxController extends Controller
 
             $request->session()->put('cart', $cart);
             if (Auth::check()) {
-                if (isset($cart_item))
-                {
-                    if (Auth::user()->id == $cart_item->client_id)
-                    {
+                if (isset($cart_item)) {
+                    if (Auth::user()->id == $cart_item->client_id) {
                         $cart_item->delete();
                         Session::flash('cart-update', true);
                     }
@@ -184,7 +180,7 @@ class AjaxController extends Controller
             }
             //Log::info(print_r($cart->items, true));
 
-            $jsonRet = '{ "total": ' . $cart->total_price . ', "itemtotal": ' . $cart->total_qty. '}';
+            $jsonRet = '{ "total": ' . $cart->total_price . ', "itemtotal": ' . $cart->total_qty . '}';
 
             $request->session()->flash('cart-success', true);
             $status = 'success';
@@ -192,5 +188,22 @@ class AjaxController extends Controller
         return response()->json(['response' => $status, 'data' => $jsonRet]);
     }
 
+    public function update_views(Request $request)
+    {
+        $status = 'error';
+
+        $posts = BlogArticlesTranslation::find($request['post_id']);
+
+        if (!isset($posts)) {
+            return response()->json(['response' => $status]);
+        } else {
+            $status = 'success';
+
+            Log::info(print_r($posts, true));
+            $posts->increment('count_views');
+
+            return response()->json(['response' => $status, 'data' => $posts->count_views]);
+        }
+    }
 }
 

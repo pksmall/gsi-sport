@@ -52,6 +52,7 @@ Route::post('/cart_qty_up', 'AjaxController@cart_qty_up');
 Route::post('/cart_qty_down', 'AjaxController@cart_qty_down');
 Route::post('/item_delete', 'AjaxController@item_delete');
 Route::post('/contactformsend', 'AjaxController@send');
+Route::post('/post_update_views', 'AjaxController@update_views');
 
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
