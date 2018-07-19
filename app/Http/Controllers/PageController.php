@@ -53,6 +53,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpKernel\Client;
 
@@ -85,14 +86,7 @@ class PageController extends Controller
     {
         $parent_categories = ItemCategory::whereNull('parent_id')->orderBy('sort_order', 'asc')->get()->load('locales');
 
-        $r_segment = \request()->segment(1);
-        if (isset($r_segment) && in_array($r_segment, \config('app.locales'))){
-            if ($r_segment == 'ru' || $r_segment == 'en') {
-                $static_pages = StaticPagesTranslation::with('page')->where('locale', $r_segment)->get();
-            }
-        } else {
-            $static_pages = StaticPagesTranslation::with('page')->where('locale', 'ua')->get();
-        }
+        $static_pages = StaticPagesTranslation::with('page')->where('locale', 'ru')->get();
 
         $footer_menu = StaticPage::where('is_footer_menu', true)->get();
         $footer_menu->load('locales');
@@ -155,10 +149,43 @@ class PageController extends Controller
     }
 
 
+    private function get_filter()
+    {
+        return  request()->session()->has('filter') ? request()->session()->get('filter') : null;
+    }
+
     public function products()
     {
-        $items = Item::with('locales', 'preview')->where('is_active', true)->paginate(isset($this->config->item_limit) ? $this->config->item_limit : 10);
+        $this->setTitle(trans('base.shop'));
 
+        $items = Item::query();
+        $items = $items->where('is_active', true);
+        $items->with('preview', 'locales');
+
+        if (($filter = $this->get_filter()) != null) {
+            switch ($filter) {
+                case 'abc-asc':
+                    $items = $items->join('item_translations', 'item_translations.item_id', '=', 'items.id')
+                        ->orderBy('item_translations.name', 'asc')->select('items.*');
+                    break;
+                case 'abc-desc':
+                    $items = $items->join('item_translations', 'item_translations.item_id', '=', 'items.id')
+                        ->orderBy('item_translations.name', 'desc')->select('items.*');
+                    break;
+                case 'price-desc':
+                    $items->orderBy('price', 'desc');
+                    break;
+                case 'price-acs':
+                    $items->orderBy('price', 'asc');
+                    break;
+                default:
+                    $items->orderBy('price', 'asc');
+                    break;
+            }
+        }
+        $items = $items->paginate(isset($this->config->item_limit) ? $this->config->item_limit : 10);
+
+        //dd($items);
         $categories = array();
         foreach($items as $item) {
             if (isset($categories[$item->categories[0]->parent_id])) {
@@ -179,7 +206,7 @@ class PageController extends Controller
         $additional_menu = ItemCategory::where('is_additional_menu', true)->get();
         $additional_menu->load('locales', 'subcategories.locales', 'subcategories', 'subcategories.subcategories.locales', 'subcategories.preview');
 
-        return view('front/pages/shop')->with(['items' => $items, 'cartTotal' => $this->carttotal(), 'sumitems' => $categories, 'filters' => $this->filter_items(), 'additional_menu' => $additional_menu]);
+        return view('front/pages/shop')->with(['items' => $items, 'filter' => $filter, 'cartTotal' => $this->carttotal(), 'sumitems' => $categories, 'additional_menu' => $additional_menu]);
     }
 
 

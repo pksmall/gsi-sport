@@ -199,11 +199,23 @@ class AjaxController extends Controller
         } else {
             $status = 'success';
 
-            Log::info(print_r($posts, true));
+            //Log::info(print_r($posts, true));
             $posts->increment('count_views');
 
             return response()->json(['response' => $status, 'data' => $posts->count_views]);
         }
     }
+
+    public function change_filter(Request $request)
+    {
+        $status = 'success';
+
+        $newfilter = $request->get('filter');
+        $request->session()->put('filter', $newfilter);
+        $request->session()->flash('filter-success', true);
+
+        return response()->json(['response' => $status]);
+    }
+
 }
 

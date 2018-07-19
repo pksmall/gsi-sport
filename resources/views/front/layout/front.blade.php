@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="ru">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height">
@@ -43,6 +43,7 @@
 <script src="{{ asset('assets/js/main.js') }}" type="text/javascript"></script>
 <script src="{{ asset('js/jquery.validation.min.js') }}"></script>
 <script src="{{ asset('js/custom.js') }}"></script>
+@yield('header-js-script')
 @yield('page-js-script')
 </body>
 </html>

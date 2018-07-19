@@ -24,9 +24,11 @@
             @if (Route::is('products'))
             <div class="center">
                 <div class="page-info"><span class="sort"><span>Сортировать по: </span>
-                  <select class="js-select">
-                    <option>Цена</option>
-                    <option>Популярность</option>
+                  <select class="js-select" data-content-url="{{ url('/change_filter') }}" data-content-token="{{ csrf_token() }}">
+                    <option data-content="price-desc" {{ $filter == 'price-desc' ? 'selected' : ''}}>по цене от большего к меньшему</option>
+                    <option data-content="price-asc"  {{ $filter == 'price-asc' ? 'selected' : ''}}>по цене от меньшего к большему</option>
+                    <option data-content="abc-asc"  {{ $filter == 'abc-asc' ? 'selected' : ''}}>по алфавиту от а до я</option>
+                    <option data-content="abc-desc" {{ $filter == 'abc-desc' ? 'selected' : ''}}>по алфавиту от я до а</option>
                   </select></span></div>
             </div>
             @endif
@@ -46,3 +48,33 @@
         </div>
     </div>
 </header>
+@section('header-js-script')
+    <script type="text/javascript">
+        $(function() {
+            $('.js-select').on('change',function(){
+                var filter = $(this).find(':selected').data('content');
+                var dataurl = $(this).data('content-url');
+                var token = $(this).data('content-token');
+                console.log("filter: " + filter + " dataurl:" + dataurl + " token:" + token);
+
+                $.ajax({
+                    type: 'POST',
+                    url: dataurl,
+                    data: {
+                        filter: filter,
+                        _token:  token,
+                    }
+                }).always(function(data, textStatus, jqXHR) {
+                    if (data.response == 'success') {
+                        console.log("success");
+                        document.location.href = "/products";
+                        return;
+                    } else {
+                        console.log("resp error");
+                        return;
+                    }
+                });
+            });
+        });
+    </script>
+@endsection

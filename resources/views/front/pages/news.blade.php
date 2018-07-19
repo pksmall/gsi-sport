@@ -40,10 +40,7 @@
         $(function() {
             var newhtml = $('#dateset'+$('.tab .active').data('content-id')).html();
             $('.page-info').html(newhtml);
-            var oldidx = $(this).data('content-id');
-            if (oldidx == undefined) {
-                oldidx = 1;
-            }
+            var oldidx = 1;
 
             $('.tab li').on('click',function(){
                 var idx = $(this).data('content-id');
