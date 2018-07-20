@@ -48,6 +48,20 @@
         </div>
     </div>
 </header>
+<div class="search-popup-wrap">
+    <div class="search-popup">
+        <button type="submit" form="search-form" class="search-popup-button">
+          <span class="search-popup-icon">
+            <img src="/img/magnifying-glass.svg" alt="">
+          </span>
+        </button>
+        <form class="search-form" action="/shop/items/search" method="POST" name="search-form" id="search-form">
+            <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
+            <input type="text" placeholder="Введите название товара" name="search" class="search-popup-input">
+        </form>
+        <span class="search-popup-close"><img src="/img/cancel.svg" alt="close"></span>
+    </div>
+</div>
 <!--Creates the popup body-->
 <div class="popup-overlay">
     <!--Creates the popup content-->
@@ -55,16 +69,29 @@
         <h2 style="color: black;">Ваша корзина пуста.</h2>
         <p style="color: black;">Чтобы увидеть корзину добавьте товар пожалуйста. Спасибо.</p>
         <!--popup's close button-->
-        <button class="close btn blue">К товарам</button>
+        <span class="cart-popup-close"><img src="/img/cancel.svg" alt="close"></span>
+        <!-- <button class="close btn blue">К товарам</button> -->
     </div>
 </div>
 
 @section('header-js-script')
     <script type="text/javascript">
         $(function() {
-            $(".close").on("click", function(){
-                document.location.href = "/products";
+            $(".search-popup-close").on("click", function(){
+                $(".search-popup-wrap").removeClass("active");
+            });
+            $('.search-popup-icon').on('click', function() {
+                var action = $('.search-form').attr('action')
+                $.post(action, $( "#search-form" ).serialize() );
+            });
+            $('.icon-search').on('click', function() {
+                $(".search-popup-wrap").addClass("active");
+                $(".search-popup-input").focus();
+            });
+
+            $(".cart-popup-close").on("click", function(){
                 $(".popup-overlay, .popup-content").removeClass("active");
+                document.location.href = "/products";
             });
 
             $('.icon-cart').on('click', function() {

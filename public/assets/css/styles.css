@@ -3194,10 +3194,20 @@ label.error{
 }
 
 .popup-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0,0,0, 0.7);
+    z-index: 50;
     visibility:hidden;
 }
 .popup-content{
     margin: 0 auto;
+    background: white;
+    position: absolute;
+    top: 30%;
+    left: 35%;
+    padding: 20px;
     visibility:hidden;
 }
 .popup-content .close{
@@ -3206,14 +3216,96 @@ label.error{
     left:35%;
 }
 .popup-overlay.active{
-    position: absolute;
-    top: 10%;
-    left: 35%;
-    background: white;
-    padding: 20px;
-    z-index: 50;
+    display: block;
     visibility:visible;
 }
 .popup-content.active {
+    display: block;
     visibility:visible;
 }
+.cart-popup-close {
+    width: 30px;
+    display: block;
+    position: absolute;
+    top: -26px;
+    right: -27px;
+    color: #ffffff;
+    cursor: pointer;
+}
+.cart-popup-close img {
+    max-width: 100%;
+}
+.search-popup-wrap.active {
+    display: block;
+}
+.search-popup-wrap {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0,0,0, 0.7);
+    z-index: 50;
+    display: none;
+}
+.search-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 50%;
+    padding: 100px;
+}
+.search-popup-input {
+    background: none;
+    border: none;
+    border-bottom: 1px solid #b2b2b2;
+    width: 100%;
+    font-size: 25px;
+    color: #fff;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    padding-right: 32px;
+}
+.search-popup-button {
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: #fff;
+    position: absolute;
+    right: 55px;
+    bottom: 102px;
+    cursor: pointer;
+    text-decoration: none;
+    height: 28px;
+}
+.search-form {
+    width: 100%;
+}
+.search-popup-close {
+    width: 30px;
+    height: 30px;
+    display: block;
+    position: absolute;
+    top: -26px;
+    right: -23px;
+    cursor: pointer;
+}
+.search-popup-icon img {
+    max-height: 100%;
+
+}
+.search-popup-close img {
+    max-height: 100%;
+}
+
+.icon-search {
+    width: 20px;
+    height: 21px;
+    padding-left: 55px;
+}
+.icon-search::after {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    background: url("/img/search-white.svg") no-repeat; }
