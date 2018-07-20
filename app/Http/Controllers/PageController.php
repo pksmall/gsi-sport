@@ -651,9 +651,13 @@ class PageController extends Controller
 
     public function cart()
     {
-        /*if (Auth::check()) {
+        if ($this->carttotal() == 0) {
+            return redirect()->route('products');
+        }
+
+        if (Auth::check()) {
             $this->check_client_session_cart();
-        }*/
+        }
         $this->setTitle(trans('base.cart'));
         $cart = $this->get_cart();
         //dd($cart);

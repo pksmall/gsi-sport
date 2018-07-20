@@ -3192,3 +3192,28 @@ label.error{
     padding: 0;
     padding-top: 2px;
 }
+
+.popup-overlay {
+    visibility:hidden;
+}
+.popup-content{
+    margin: 0 auto;
+    visibility:hidden;
+}
+.popup-content .close{
+    position:relative;
+    top:50%;
+    left:35%;
+}
+.popup-overlay.active{
+    position: absolute;
+    top: 10%;
+    left: 35%;
+    background: white;
+    padding: 20px;
+    z-index: 50;
+    visibility:visible;
+}
+.popup-content.active {
+    visibility:visible;
+}

@@ -48,9 +48,35 @@
         </div>
     </div>
 </header>
+<!--Creates the popup body-->
+<div class="popup-overlay">
+    <!--Creates the popup content-->
+    <div class="popup-content">
+        <h2 style="color: black;">Ваша корзина пуста.</h2>
+        <p style="color: black;">Чтобы увидеть корзину добавьте товар пожалуйста. Спасибо.</p>
+        <!--popup's close button-->
+        <button class="close btn blue">К товарам</button>
+    </div>
+</div>
+
 @section('header-js-script')
     <script type="text/javascript">
         $(function() {
+            $(".close").on("click", function(){
+                document.location.href = "/products";
+                $(".popup-overlay, .popup-content").removeClass("active");
+            });
+
+            $('.icon-cart').on('click', function() {
+                var qty = $('#cartqty').text();
+                console.log("qty: " + qty);
+                if (qty > 0) {
+                    document.location.href = "/cart";
+                } else {
+                    $(".popup-overlay, .popup-content").addClass("active");
+                }
+            });
+
             $('.js-select').on('change',function(){
                 var filter = $(this).find(':selected').data('content');
                 var dataurl = $(this).data('content-url');
