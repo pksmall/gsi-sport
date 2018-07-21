@@ -23,7 +23,7 @@
                         <div class="row">
 
                         @foreach ($items as $item)
-                            @if($item->categories[0]->parent_id == $p_category->id)
+                            @if($item->categories[0]->parent_id == $p_category->id || $item->categories[0]->id == $p_category->id)
                             <div class="product-item col-12">
                                 <a class="product-image" href="/products/{{ $item->locales[0]->slug }}" style="background-image: url({{ url($item->preview->path) }})"></a>
                                 <div class="product-info text-block-wrap">

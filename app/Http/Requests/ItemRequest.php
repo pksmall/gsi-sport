@@ -26,15 +26,15 @@ class ItemRequest extends FormRequest
     {
         return [
             'item_locales.ru.name' => 'required',
-            'item_locales.ua.name' => 'required',
-            'item_locales.en.name' => 'required',
+/*            'item_locales.ua.name' => 'required',
+            'item_locales.en.name' => 'required', */
             'item.code' => 'required|unique:items,code,' . Request::get('item_id'),
             'item.price' => 'required|numeric',
             'item.whs_price' => 'sometimes|nullable|numeric',
             'item.old_price' => 'sometimes|nullable|numeric',
-            'item.qty' => 'required|numeric',
+            /*'item.qty' => 'required|numeric',
             'item.min_qty' => 'sometimes|nullable|numeric',
-            'item.max_qty' => 'sometimes|nullable|numeric',
+            'item.max_qty' => 'sometimes|nullable|numeric',*/
             'categories' => 'required',
             'item.duration_sale' => 'sometimes|nullable|date_format:"Y-m-d"',
             'item.duration_new' => 'sometimes|nullable|date_format:"Y-m-d"'

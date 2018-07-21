@@ -1,7 +1,7 @@
 @extends('admin/layout/admin')
 
 <?php
-    $locales = ['ru', 'ua', 'en'];
+    $locales = ['ru'];
 ?>
 
 @section('content')
