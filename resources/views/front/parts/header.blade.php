@@ -57,7 +57,8 @@
         </button>
         <form class="search-form" action="/shop/items/search" method="POST" name="search-form" id="search-form">
             <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
-            <input type="text" placeholder="Введите название товара" name="search" class="search-popup-input">
+            <input type="text" placeholder="Введите название товара" id="search" name="search" class="search-popup-input" data-msg-required="Введите что-нибудь, но не короче 3 символов." required>
+            <label id="search-error" class="search-error" for="search"></label>
         </form>
         <span class="search-popup-close"><img src="/img/cancel.svg" alt="close"></span>
     </div>
@@ -77,12 +78,16 @@
 @section('header-js-script')
     <script type="text/javascript">
         $(function() {
+            'use strict';
+
             $(".search-popup-close").on("click", function(){
                 $(".search-popup-wrap").removeClass("active");
             });
             $('.search-popup-icon').on('click', function() {
                 var action = $('.search-form').attr('action')
-                $.post(action, $( "#search-form" ).serialize() );
+                $( "#search-form" ).validate();
+                $.post(action, $("#search-form").serialize());
+
             });
             $('.icon-search').on('click', function() {
                 $(".search-popup-wrap").addClass("active");
