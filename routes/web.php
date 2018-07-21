@@ -24,6 +24,7 @@ Route::get('/', 'PageController@index')->name('index');
 
 Route::get('/products', 'PageController@products')->name('products');
 Route::get('/products/{slug}', 'PageController@item')->name('item');
+Route::post('/products/search', 'PageController@search')->name('search');
 
 Route::get('/profile', 'PageController@profile')->name('profile');
 Route::get('/profile_edit', 'PageController@profile_edit')->name('profile_edit');

@@ -25,7 +25,7 @@ class SearchRequest extends FormRequest
     {
         $this->sanitize();
         return [
-            'search' => 'required|min:2'
+            'search' => 'required|min:3'
         ];
     }
 

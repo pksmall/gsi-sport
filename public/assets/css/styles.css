@@ -237,6 +237,8 @@ html, body {
 
 .blue-text {
   color: #0984e3!important; }
+.red-text {
+    color: #d33924!important; }
 
 ul {
   margin: 0;
@@ -3298,7 +3300,6 @@ label.error{
 .search-popup-close img {
     max-height: 100%;
 }
-
 .icon-search {
     width: 20px;
     height: 21px;
@@ -3310,7 +3311,12 @@ label.error{
     cursor: pointer;
     background: url("/img/search-white.svg") no-repeat;
 }
-
+.search-param {
+    text-transform: uppercase;
+    font-size: 1.09375vw;
+    line-height: 1.30208vw;
+    letter-spacing: 0.26615vw;
+    color: #0f4f81;}
 /* Forms Validations */
 .search-form input.valid {
     color: #e1e1e1;

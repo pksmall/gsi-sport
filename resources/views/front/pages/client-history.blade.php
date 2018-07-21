@@ -22,8 +22,8 @@
                         <h2>история пустая</h2>
                     @else
                             <div class="product-block custom-scroll">
-                                <div class="product-item"><a class="product-image" href="product-card.html"
-                                                             style="background-image: url(assets/img/product-img@2x.png)"></a>
+                                <div class="product-item">
+                                    <a class="product-image" href="product-card.html" style="background-image: url(assets/img/product-img@2x.png)"></a>
                                     <div class="text-block-wrap">
                                         <div class="text-block">
                                             <div class="product-title">Ракетка всепогодная <strong class="blue-text">Donic

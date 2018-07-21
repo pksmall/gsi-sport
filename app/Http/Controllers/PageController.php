@@ -455,7 +455,7 @@ class PageController extends Controller
         {
             $items = Item::query();
             $items->whereHas('locales', function($q) use ($search_param) {
-               $q->where([['name', 'like', '%' . $search_param . '%'], ['locale', App::getLocale()]]);
+               $q->where([['name', 'like', '%' . $search_param . '%'], ['locale', 'ru']]);
             })->where('is_active', true);
 
             if ($items->count() < 1)
@@ -464,7 +464,40 @@ class PageController extends Controller
                 $items->where([['code', $search_param], ['is_active', true]]);
             }
 
-            return view('front/pages/shop')->with(['items' => $items->paginate(isset($this->config->item_limit) ? $this->config->item_limit : 10)]);
+            $categories = array();
+            foreach($items as $item) {
+                if (isset($categories[$item->categories[0]->parent_id])) {
+                    $categories[$item->categories[0]->parent_id] += 1;
+                } else {
+                    $categories[$item->categories[0]->parent_id] = 0;
+                    $categories[$item->categories[0]->parent_id] += 1;
+                }
+                if (isset($categories[$item->categories[0]->id])) {
+                    $categories[$item->categories[0]->id] += 1;
+                } else {
+                    $categories[$item->categories[0]->id] = 0;
+                    $categories[$item->categories[0]->id] += 1;
+                }
+            }
+            $categories = array();
+            foreach($items as $item) {
+                if (isset($categories[$item->categories[0]->parent_id])) {
+                    $categories[$item->categories[0]->parent_id] += 1;
+                } else {
+                    $categories[$item->categories[0]->parent_id] = 0;
+                    $categories[$item->categories[0]->parent_id] += 1;
+                }
+                if (isset($categories[$item->categories[0]->id])) {
+                    $categories[$item->categories[0]->id] += 1;
+                } else {
+                    $categories[$item->categories[0]->id] = 0;
+                    $categories[$item->categories[0]->id] += 1;
+                }
+            }
+            $additional_menu = ItemCategory::where('is_additional_menu', true)->get();
+            $additional_menu->load('locales', 'subcategories.locales', 'subcategories', 'subcategories.subcategories.locales', 'subcategories.preview');
+
+            return view('front/pages/search')->with(['items' => $items->paginate(isset($this->config->item_limit) ? $this->config->item_limit : 10), 'cartTotal' => $this->carttotal(), 'search_param' => $search_param]);
         } else {
             return redirect()->back();
         }
