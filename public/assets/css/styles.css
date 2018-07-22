@@ -1325,6 +1325,16 @@ padding: 18.51852vh 0 7vh 0;}
       height: 1px;
       background-color: #ffffff;
       opacity: .15; }
+    .login-page .login-content .title-last {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: end;
+        -ms-flex-align: end;
+        align-items: flex-end;
+        position: relative;
+        width: 100%;
+        margin-bottom: 1.54167vw; }
     .login-page .login-content .title h1 {
       margin-bottom: 0;
       margin-right: auto; }

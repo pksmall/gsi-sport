@@ -21,7 +21,7 @@
                     <div class="title">
                         <h2 style="margin-bottom: 0px; margin: 0;"><span class="blue-text">{{ $search_param }}</span></h2>
                     </div>
-                    <div class="title">
+                    <div class="title-last">
                         <h2 style="margin-bottom: 0px; margin: 0;">Результат поиска</h2>
                     </div>
                         @if ($items->count() == 0)
