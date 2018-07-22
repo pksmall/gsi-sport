@@ -63,9 +63,9 @@
                             <div class="row">
                                 @foreach ($items as $item)
                                     @if($item->categories[0]->id == $a_menu->id)
-                                    <div class="product-item col-12"><a class="product-image" href="/products/1" style="background-image: url({{ url($item->preview->path) }})"></a>
+                                    <div class="product-item col-12"><a class="product-image" href="/products/{{ $item->locales[0]->slug }}" style="background-image: url({{ url($item->preview->path) }})"></a>
                                         <div class="product-info text-block-wrap">
-                                            <div class="text-block"><a class="product-title" href="/products/1">
+                                            <div class="text-block"><a class="product-title" href="/products/{{ $item->locales[0]->slug }}">
                                                     {{ $item->locales[0]->name }}</a>
                                                 <div class="product-code">Код товара: {{ $item->code }}</div>
                                                 <div class="product-more">

@@ -239,6 +239,8 @@ html, body {
   color: #0984e3!important; }
 .red-text {
     color: #d33924!important; }
+.white-text {
+    color: #e1e1e1!important; }
 
 ul {
   margin: 0;
@@ -1266,6 +1268,7 @@ top:15px;
     text-transform: uppercase;
     letter-spacing: 5.11px;
     margin-left: 32px;
+      padding: 40px 0;
     margin-bottom: 0; }
   .history-page .product-item .product-info {
     display: -webkit-box;
@@ -2851,7 +2854,6 @@ i {
     line-height: 1.50781vw;
     letter-spacing: 0.32344vw;
     color: #ffffff;
-    margin-bottom: 20px;
     text-transform: uppercase; }
   .product-item .product-code {
     font-family: 'HelveticaNeueCyr-UltraLight';
@@ -3331,4 +3333,12 @@ label.error{
     letter-spacing: 1.25px;
     max-width: 96%;
     /*padding: -200px 0 -50px -185px; */
+}
+
+.delivery {
+    display: none;
+}
+.checkbox-wrap label p {
+    padding-left: 20px;
+    font-size: 12px;
 }

@@ -24,6 +24,7 @@ Route::get('/', 'PageController@index')->name('index');
 
 Route::get('/products', 'PageController@products')->name('products');
 Route::get('/products/{slug}', 'PageController@item')->name('item');
+Route::get('/checkout', 'PageController@productsCheckout')->name('checkout');
 Route::post('/products/search', 'PageController@search')->name('search');
 
 Route::get('/profile', 'PageController@profile')->name('profile');
@@ -35,7 +36,6 @@ Route::get('/contacts', 'PageController@contacts')->name('contacts');
 Route::post('/contacts/feedback', 'PageController@contacts_feedback')->name('contacts_feedback');
 
 Route::get('/about', 'PageController@about')->name('about');
-//register in auth:route Route::get('/sign_up', 'PageController@sign_up')->name('sign_up');
 Route::get('/forgot', 'PageController@forgot')->name('forgot');
 
 Route::get('/cart', 'PageController@cart')->name('cart');
@@ -46,6 +46,8 @@ Route::get('/news/{slug}', 'PageController@post')->name('post');
 Route::get('/news/cat/{slug}', 'PageController@blog_category')->name('blog_category');
 
 Route::get('/empty_cart', 'PageController@empty_cart');
+
+Route::get('/static-page/{slug}', 'PageController@static_page')->name('static_page');
 
 //ajax
 Route::post('/add_to_cart', 'AjaxController@add_to_cart');

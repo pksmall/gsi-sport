@@ -61,7 +61,7 @@
                     <div class="cart-actions">
                         <a class="btn blue opacity" href="/products">Назад</a>
                         <h3>ВСЕГО: <span id="total_price">{{ $cart['cart']->total_price }}</span> грн</h3>
-                        <a class="btn tblue blue continue" href="/products">Продолжить</a>
+                        <a class="btn tblue blue continue" href="/checkout">Продолжить</a>
                         <a class="btn red clear" href="{{ url('/empty_cart') }}">Очистить корзину</a>
                     </div>
                 @endif

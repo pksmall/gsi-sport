@@ -5,23 +5,34 @@
                 <div class="logo"><a href="/">Gsi sport</a></div>
                 @if (!Route::is('index'))
                     <ul class="breadcrumbs">
-                        <li><a href="#">
-                                {{  Route::is('news') ? 'новости' : '' }}
-                                {{  Route::is('products') ? 'товары' : '' }}
-                                {{  Route::is('item') ? 'товары' : '' }}
-                                {{  Route::is('about') ? 'о нас' : '' }}
-                                {{  Route::is('contacts') ? 'контакты' : '' }}
-                                {{  Route::is('login') ? 'вход' : '' }}
-                                {{  Route::is('sign_up') ? 'регистрация' : '' }}
-                                {{  Route::is('profile') ? 'личный кабинет' : '' }}
-                                {{  Route::is('forgot') ? 'забыли пароль?' : '' }}
-                                {{  Route::is('cart') ? 'корзина' : '' }}
-                                {{  Route::is('search') ? 'поиск' : '' }}
+                        @switch(Route::getCurrentRoute()->uri)
+                            @case('cart')
+                                <li> <a href="/products">товары</a></li>
+                                <li> <a href="/cart">корзина</a></li>
+                                @break
+                            @case('checkout')
+                                <li> <a href="/products">товары</a></li>
+                                <li> <a href="/cart">корзина</a></li>
+                                <li> <a href="#">оформление покупки</a></li
+                                @break
+                            @default
+                                <li><a href="#">
+                                    {{  Route::is('news') ? 'новости' : '' }}
+                                    {{  Route::is('products') ? 'товары' : '' }}
+                                    {{  Route::is('item') ? 'товары' : '' }}
+                                    {{  Route::is('about') ? 'о нас' : '' }}
+                                    {{  Route::is('contacts') ? 'контакты' : '' }}
+                                    {{  Route::is('login') ? 'вход' : '' }}
+                                    {{  Route::is('register') ? 'регистрация' : '' }}
+                                    {{  Route::is('profile') ? 'личный кабинет' : '' }}
+                                    {{  Route::is('forgot') ? 'забыли пароль?' : '' }}
+                                    {{  Route::is('search') ? 'поиск' : '' }}
 
-                            </a></li>
+                                </a></li>
+                                @break
+                        @endswitch
                     </ul>
                 @endif
-            </div>
             @if (Route::is('products'))
             <div class="center">
                 <div class="page-info"><span class="sort"><span>Сортировать по: </span>
