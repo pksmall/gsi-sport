@@ -12,21 +12,11 @@
         <div class="content">
             <div class="container">
                 <div class="row">
-                    <div class="left col-6"><h2 class="title">{{ $static_page->name }}</h2>
+                    <div class="left col-6">
+                        <h2 class="title">{{ $static_page->name }}</h2>
                         <div class="text-block-wrap">
                             <div class="text-block">
                             {!! $static_page->description !!}
-                                <!-- <div class="text-block-title">Местоположение: Одесса</div>
-                                <p class="m-0">По любым интересующим вопросам вы можете связаться с нами по телефонам:</p>
-                                <ul>
-                                    <li><a href="tel:0975156767">(097) 515-67-67</a></li>
-                                    <li><a href="tel:0502911443">(050) 291-14-43</a></li>
-                                    <li><a href="tel:0487029845">(048) 702-98-45</a></li>
-                                    <li><a href="tel:0487431889">(048) 743-18-89 </a></li>
-                                </ul>
-                                <br>
-                                <p class="m-0">Также вы можете отправить письмо на наш E-mail адрес:</p>
-                                <p class="email">e-mail: <a href="mailto:gsi-sport@ukr.net">gsi-sport@ukr.net</a></p> -->
                             </div>
                         </div>
                     </div>
