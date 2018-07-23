@@ -1484,7 +1484,7 @@ padding: 18.51852vh 0 7vh 0;}
     display: none; }
 	
 @media (min-width:461px){
-.login-page input::-webkit-input-placeholder    {
+/* .login-page input::-webkit-input-placeholder    {
 font-size:0px;
 }
 .login-page input:-ms-input-placeholder {
@@ -1496,7 +1496,7 @@ font-size:0px;
 .login-page input:-moz-placeholder{
 font-size:0px;
 }
-}
+} */
 @media (max-width:460px) {
 
 .main-page .container {
@@ -2715,16 +2715,17 @@ form {
   form textarea {
     resize: none;
     height: 80px; }
-    form .radio-wrap-horizontal {
+    form .radio-wrap-vertical {
         display: -webkit-box;
         display: -ms-flexbox;
         display: block;
+        position: relative;
+        cursor: pointer;
         -webkit-box-align: center;
         -ms-flex-align: center;
         align-items: center;
-        clear: none;
-        margin-bottom: 32px; }
-    form .radio-wrap-horizontal label {
+        margin-bottom: 2px; }
+    form .radio-wrap-vertical label {
         position: relative;
         display: block;
         width: 16px;
@@ -2732,26 +2733,30 @@ form {
         border: 1px solid #0984e3;
         cursor: pointer;
         margin-bottom: 10px;}
-    form .radio-wrap-horizontal input {
-        display: none; }
-    form .radio-wrap-horizontal input:checked + label {
+    form .radio-wrap-vertical input {
+        display: none;
+        position: absolute;}
+    form .radio-wrap-vertical:hover input +label {
+        background-color: #ccc;}
+    form .radio-wrap-vertical input:checked +label {
         background-color: #0984e3; }
-    form .radio-wrap-horizontal input:checked + label::after {
-        display: block;}
-    form .radio-wrap-horizontal label::after {
+    form .radio-wrap-vertical label:after {
         content: '';
         display: none;
+        position: absolute;}
+    form .radio-wrap-vertical input:checked + label:after {
+        display: block;}
+    form .radio-wrap-vertical label:after {
         width: 6px;
         height: 6px;
         border-radius: 50%;
         background-color: #ffffff;
-        position: absolute;
         top: 50%;
         left: 50%;
         -webkit-transform: translate(-50%, -50%);
         -ms-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%); }
-    form .radio-wrap-horizontal span {
+    form .radio-wrap-vertical span {
         text-transform: uppercase;
         font-size: 14px;
         line-height: 16px;
@@ -3444,4 +3449,30 @@ label.error{
 .checkbox-wrap label p {
     padding-left: 20px;
     font-size: 12px;
+}
+.form-disabled {
+    display: none  ;
+}
+
+.table-block {
+    display: table;
+    margin-bottom: 115px;
+    width: 28vw;
+}
+.table-block input {
+    width: 15.32vw;
+}
+.table-row {
+    display: table-row;
+}
+.table-cell {
+    display: table-cell;
+    padding: 3px 10px;
+}
+.table-cell .radio-wrap-vertical {
+    width: 8.32vw;
+}
+.table-text {
+    width: 100%;
+    margin-left: 50px;
 }

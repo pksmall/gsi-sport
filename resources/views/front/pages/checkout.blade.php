@@ -1,14 +1,13 @@
 @extends('front/layout/front')
 @section('content')
-
     <div class="page-wrap login-page sign">
-        <!-- header -->
+    <!-- header -->
     @include('front/parts/header')
     <!-- sidebar -->
     @include('front/parts/sidebar')
 
     <!-- right-nav & footer -->
-        @include('front/parts/rightnav')
+    @include('front/parts/rightnav')
 
         <div class="content login-content">
             <div class="container">
@@ -74,36 +73,59 @@
 
                     <!-- delivery -->
                     <div class="right col-6"  id="statusdelivery">
-                        <form id="deliverytype" action="{{ url('/contactformsend') }}" method="post">
+                        <form id="deliverytype"  action="{{ url('/contactformsend') }}" method="post">
                             <h2 class="blue-text">Способ доставки.</h2>
                             @csrf
-                            <div class="radio-wrap-horizontal">
-                                <input id="myself" name="deliverychoose" type="radio" checked>
-                                <label for="meself"><span>Самовывоз</span></label>
-
-                                <input id="fedex" name="deliverychoose" type="radio">
-                                <label for="fedex"><span>Курьер</span></label>
-
-                                <input id="novapochta" name="deliverychoose" type="radio">
-                                <label for="novapochta"><span>Новая Почта</span></label>
-                            </div>
-                            <div class="form-group">
-                                <label for="city">Город:</label>
-                                <input name="city" type="text" list="cityname" placeholder="Город">
-                                <datalist id="cityname">
-                                    <option value="Киев">
-                                    <option value="Днепр">
-                                    <option value="Львов">
-                                    <option value="Винница">
-                                    <option value="Херсон">
-                                    <option value="Николаев">
-                                </datalist>
+                            <div class="table-block">
+                                <div class="table-row">
+                                    <div class="table-cell">
+                                        <div class="radio-wrap-vertical">
+                                            <input id="selfdelivery" name="deliverychoose" type="radio" checked>
+                                            <label for="selfdelivery"><span>Самовывоз</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="table-cell">
+                                        <div class="radio-wrap-vertical">
+                                            <input id="fedex" name="deliverychoose" type="radio">
+                                            <label for="fedex"><span>Курьер</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="table-cell">
+                                        <div class="table-text">
+                                            <input class="form-control" name="steet" type="text" placeholder="Адрес доставки">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="table-cell">
+                                        <div class="radio-wrap-vertical">
+                                            <input id="novapochta" name="deliverychoose" type="radio">
+                                            <label for="novapochta"><span>Новая Почта</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="table-cell">
+                                        <div class="table-text">
+                                            <input class="form-control" name="city" type="text" list="cityname" placeholder="Город">
+                                            <datalist id="cityname">
+                                                <option value="Киев">
+                                                <option value="Днепр">
+                                                <option value="Львов">
+                                                <option value="Винница">
+                                                <option value="Херсон">
+                                                <option value="Николаев">
+                                            </datalist>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <h2 class="blue-text">Не зарегистрированы?</h2>
                             <div class="checkbox-wrap">
                                 <input id="weareregister" type="checkbox">
                                 <label for="weareregister"><span>зарегистрируйте меня</span></label>
                             </div>
+                        </form>
                     </div>
                 </div>
                 <hr style="opacity: .15"/>
@@ -118,9 +140,14 @@
                         </div>
                         <button class="btn blue" type="submit">Продолжить</button>
                     </div>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+@section('page-js-script')
+    <script type="text/javascript">
+        $(function() {
+        });
+    </script>
 @endsection
