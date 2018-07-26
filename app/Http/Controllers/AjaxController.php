@@ -531,7 +531,7 @@ class AjaxController extends Controller
             $subject = "Новый заказ Gsi-Sport";
 
             $message->subject($subject);
-            $message->from("webmaster@gsi-sport.ua", "Gsi-Sport WebMaster");
+            $message->from(Settings::first()->email, "Gsi-Sport WebMaster");
             $message->to($to_email, $to_name);
         });
 
@@ -548,7 +548,7 @@ class AjaxController extends Controller
             $subject = $subject;
 
             $message->subject($subject);
-            $message->from("webmaster@gsi-sport.ua", "Gsi-Sport WebMaster");
+            $message->from(Settings::first()->email, "Gsi-Sport WebMaster");
             $message->to($to_email, $to_name);
         });
 
@@ -598,7 +598,6 @@ class AjaxController extends Controller
                 $message = "Генерация пароля на GSI-Sport.\nВот сгенерированный пароль для вашей учетной записи: " . $user_pass;
                 $subject = "Новый пароль на сайт Gsi-Sport";
                 $this->mail_send_to_client($user->email, $user->name, $subject, $message);
-                return response()->json(['response' => $status]);
             }
         }
 
