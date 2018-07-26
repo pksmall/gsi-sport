@@ -12,14 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        'login_accept',
-        'contacts/send',
-        '/cart/ajax/order',
-        '/cart/order',
-        '/search',
-        '/onlinepay',
-        '/mobile/search',
-        '/mobile/cart/ajax/order',
-        '/cart/ajax/order_success_liqpay',
+        '/liqpay_status',
+        '/order_success'
     ];
 }
