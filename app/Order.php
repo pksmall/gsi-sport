@@ -11,6 +11,8 @@ class Order extends Model
 
     protected $orderStatuses = [
         'В обработке',
+        'Ожидаем оплаты',
+        'Оплачено',
         'Возврат',
         'Возмещенный',
         'Доставлено',

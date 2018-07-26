@@ -12,7 +12,7 @@
 				$errorMessage = $('#mailErrorMessage'),
 				submitButtonText = $submitButton.val();
 
-			$submitButton.val( $submitButton.data('loading-text') ? $submitButton.data('loading-text') : 'Загрузка...' ).attr('disabled', true);
+			$submitButton.val( $submitButton.data('loading-text') ? $submitButton.data('loading-text') : 'Загрузка...' ).prop('disabled', true);
 
 			$.ajax({
 				type: 'POST',
@@ -49,7 +49,7 @@
 
 				$form.find('.has-success').removeClass('has-success');
 					
-				$submitButton.val( submitButtonText ).attr('disabled', false);
+				$submitButton.val( submitButtonText ).prop('disabled', false);
 
 			});
 		}

@@ -1617,8 +1617,23 @@ class AdminController extends Controller
         if (!isset($order)) {
             return abort('404');
         }
+        $ids = "";
+        $qty = array();
+        foreach($order->order_items as $item) {
+            if ($ids == "") {
+                $ids = $item->item_id;
+            } else {
+                $ids = $ids . ", " . $item->item_id;
+            }
+            $qty[$item->item_id] = $item->qty;
+        }
+        $items = Item::query();
+        $items->with('preview', 'locales');
+        $items->whereRaw('id in  (' . $ids . ')');
+        $items = $items->paginate();
+        //dd($items);
         $this->setTitle('Просмотр заказа');
-        return view('admin/pages/orders/show')->with(['order' => $order]);
+        return view('admin/pages/orders/show')->with(['order' => $order, 'items' => $items, 'qty' => $qty]);
     }
 
     public function edit_order($id)

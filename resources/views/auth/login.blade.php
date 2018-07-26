@@ -27,8 +27,8 @@
                             <input name="password" id="password" type="password" placeholder="Пароль" required>
                         </div>
                         <div class="checkbox-wrap">
-                            <input id="save-password" type="checkbox">
-                            <label for="save-password"><span>Запомнить пароль</span></label>
+                            <input id="remember" type="checkbox" name="remember" value="1">
+                            <label for="remember"><span>Запомнить пароль</span></label>
                         </div>
                         <button class="btn blue" type="submit">Войти</button>
                         <div class="login-mob">

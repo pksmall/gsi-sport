@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\ClientCart;
+use App\Config;
 use App\GuestCart;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PageController;
@@ -10,6 +11,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
@@ -25,7 +27,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    //use AuthenticatesUsers;
 
     /**
      * Where to redirect users after login.
@@ -45,58 +47,41 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    public function login(Request $req)
+    {
+        $lifetime = config('session.lifetime');
+        $remember = $req->get('remember');
+        config(['session.lifetime' =>   43800]);
+        if(Auth::attempt(['email' => $req->email, 'password' => $req->password], $remember))
+        {
+            //Log::info("ST: '" .config('session.lifetime') . "'");
+            if ($req->user()->hasRole(1)) {
+                return redirect('/admin');
+            }
+            return redirect('/profile');
+        }
+        config(['session.lifetime' =>   $lifetime]);
+        //Log::info("ST: '" .config('session.lifetime') . "'");
+        return back()->withInput()->with('message', 'Login Failed');
+    }
+
     public function authenticated(Request $request)
     {
-        //dd($request);
-
-        $redirect = $request->get('redirect');
-        if (isset($redirect) && $redirect == 'cart') {
-            if (App::getLocale() == 'ru') {
-                return redirect()->route('cart_ru');
-            } elseif (App::getLocale() == 'ua') {
-                return redirect()->route('cart');
-            } elseif (App::getLocale() == 'en') {
-                return redirect()->route('cart_en');
-            }
-        }
-        $locale_redirect = $request->get('locale_redirect');
-
-        if ($request->user()->status_id == 3)
-        {
-            if (isset($locale_redirect)) {
-                Auth::logout();
-                if ($locale_redirect == 'ru') {
-                    return redirect()->route('banned_ru')->with('banned', true);
-                } elseif ($locale_redirect == 'ua') {
-                    return redirect()->route('banned')->with('banned', true);
-                } elseif ($locale_redirect == 'en') {
-                    return redirect()->route('banned_en')->with('banned', true);
-                }
-            }
-        }
-
-        if (isset($locale_redirect)) {
-            if ($locale_redirect == 'ru') {
-                return redirect()->route('profile_ru');
-            } elseif ($locale_redirect == 'ua') {
-                return redirect()->route('profile');
-            } elseif ($locale_redirect == 'en') {
-                return redirect()->route('profile_en');
-            }
-        }
-
         if ($request->user()->hasRole(1)) {
             return redirect('/admin');
         }
         return redirect('/profile');
     }
 
-    public function logout(Request $request)
+
+    public function logout()
     {
         if (Auth::check())
         {
             Auth::logout();
+            Session::flush();
         }
+
         $route_locale = 'index';
         return redirect()->route($route_locale);
     }

@@ -1,7 +1,7 @@
 <header>
     <div class="container">
         <div class="row">
-            <div class="left"><i class="icon-close"></i>
+            <div class="left"><a class="icon-prev" href="/"> <</a>
                 <div class="logo"><a href="/">Gsi sport</a></div>
                 @if (!Route::is('index'))
                     <ul class="breadcrumbs">
@@ -27,6 +27,7 @@
                                     {{  Route::is('profile') ? 'личный кабинет' : '' }}
                                     {{  Route::is('forgot') ? 'забыли пароль?' : '' }}
                                     {{  Route::is('search') ? 'поиск' : '' }}
+                                    {{  Route::is('order_search') ? 'оформление заказа' : '' }}
 
                                 </a></li>
                                 @break

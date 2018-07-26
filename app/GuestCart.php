@@ -7,6 +7,7 @@ class GuestCart
     public $items = null;
     public $total_qty = 0;
     public $total_price = 0;
+    public $total_price_delivery = 0;
 
     public function __construct($old_cart)
     {
@@ -44,7 +45,7 @@ class GuestCart
 
         $this->total_qty += $qty;
         $this->total_price += $item['price'] * $qty;
-
+        $this->total_price_delivery = $this->total_price;
     }
 
     public function qty_up($item, $id, $qty, $size)
@@ -76,6 +77,7 @@ class GuestCart
 
         $this->total_qty += $qty;
         $this->total_price += $item['price'] * $qty;
+        $this->total_price_delivery = $this->total_price;
         return $retQty;
     }
 
@@ -116,6 +118,7 @@ class GuestCart
         if ($notnull) {
             $this->total_qty -= $qty;
             $this->total_price -= $item['price'] * $qty;
+            $this->total_price_delivery = $this->total_price;
         }
         return $retQty;
     }
@@ -146,5 +149,6 @@ class GuestCart
 
         $this->total_qty -= $qty;
         $this->total_price -= $item['price'] * $qty;
+        $this->total_price_delivery = $this->total_price;
     }
 }

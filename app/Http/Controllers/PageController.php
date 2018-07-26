@@ -54,6 +54,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpKernel\Client;
 
@@ -120,13 +121,6 @@ class PageController extends Controller
             $this->setKeywords(strip_tags($meta_keywords));
         }
     }
-
-
-
-
-
-
-
 
 
     public function index()
@@ -292,9 +286,6 @@ class PageController extends Controller
             return redirect()->route('products');
         }
 
-        if (Auth::check()) {
-            $this->check_client_session_cart();
-        }
         $this->setTitle(trans('base.cart'));
         $cart = $this->get_cart();
         //dd($cart);
@@ -362,23 +353,23 @@ class PageController extends Controller
         {
             return redirect()->route('index');
         }
+
         $this->setTitle(trans('item.profile_title'));
         return view('front/pages/profile_edit')->with(['user' => Auth::user(), 'cartTotal' => $this->carttotal()]);
     }
 
     public function history()
     {
-        /*if (Auth::check()) {
-            $this->check_client_session_cart();
-        }*/
+        if (!Auth::check()) {
+            return redirect()->route('index');
+        }
+
         $this->setTitle(trans('base.cart'));
-        $cart = $this->get_cart();
-        //dd($cart);
-        //return view('front/pages/guest-cart')->with(['cart' => $cart]);
-        return view('front/pages/client-history')->with(['cart' => $cart, 'cartTotal' => $this->carttotal()]);
+        $orders = Auth::user()->orders()->paginate(10);
+        return view('front/pages/client-history')->with(['orders' => $orders, 'cartTotal' => $this->carttotal()]);
     }
 
-    public function update_profile(UpdateProfileRequest $request)
+    public function update_profile(Request $request)
     {
         if (!Auth::check())
         {
@@ -386,19 +377,17 @@ class PageController extends Controller
         }
         $user = Auth::user();
         $user_data = $request->all();
-        if (!$user_data['password'] || !$user_data['password_confirmation']) {
+        Log::info(print_r($user_data, true));
+
+        if (($user_data['password'] != $user_data['password_confirmation'])
+            && (!$user_data['password'] || !$user_data['password_confirmation'])) {
             unset($user_data['password']);
             unset($user_data['password_confirmation']);
         } else {
             $user_data['password'] = bcrypt($user_data['password']);
-        }
-        if (isset($user_data['is_subscribe'])) {
-            $user_data['is_subscribe'] = true;
-        } else {
-            $user_data['is_subscribe'] = false;
+            $user->update($user_data);
         }
 
-        $user->update($user_data);
         Session::flash('profile-update', true);
         return redirect()->back();
     }
@@ -460,6 +449,14 @@ class PageController extends Controller
         return view('front/pages/blog')->with(['posts' => $posts, 'posts_categories' => $posts_categories, 'cartTotal' => $this->carttotal()]);
     }
 
+    public function success_order()
+    {
+        $this->setTitle(trans('base.blog'));
+        $posts = BlogArticlesTranslation::where('locale', App::getLocale())->paginate(10);
+        $posts_categories = BlogCategoriesTranslation::where('locale', App::getLocale())->get();
+        return view('front/pages/success-order')->with(['cartTotal' => $this->carttotal()]);
+    }
+
     private function get_cart()
     {
         $cart = null;
@@ -480,22 +477,31 @@ class PageController extends Controller
      */
     public function productsCheckout()
     {
-        $cart = $this->get_cart()['cart'];
-        //dd($cart);
-        if (!isset($cart) || $cart == null || sizeof($cart->items) < 1)
-        {
-            return redirect()->back();
+        if ($this->carttotal() == 0) {
+            return redirect()->route('products');
         }
+
+        $this->setTitle(trans('base.cart'));
+        $cart = $this->get_cart();
 
         $this->setTitle(trans('item.checkout_title'));
         $type_delivery = TypeDeliveriesTranslation::all();
         $type_delivery->load('delivery');
         $type_pay = TypePaysTranslation::all();
         $type_pay->load('pay');
-        return view('front/pages/checkout')->with(['type_delivery' => $type_delivery, 'type_pay' => $type_pay, 'cart' => $cart, 'cartTotal' => $this->carttotal() ]);
+        return view('front/pages/checkout')->with(['cart' => $cart, 'cartTotal' => $this->carttotal(),'user' => Auth::user() ]);
     }
 
 
+    public function liqpay_pay()
+    {
+        //$data = $request->all();
+        $data = request()->session()->has('liqpay') ? request()->session()->get('liqpay') : null;
+        app('debugbar')->disable();
+        //dd($data);
+
+        return view('front/pages/liqpay')->with(['data' => $data]);
+    }
     /*    public function shop()
         {
             $items = Item::with('locales', 'preview')->where('is_active', true)->paginate(isset($this->config->item_limit) ? $this->config->item_limit : 10);

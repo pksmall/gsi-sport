@@ -24,13 +24,13 @@ Route::get('/', 'PageController@index')->name('index');
 
 Route::get('/products', 'PageController@products')->name('products');
 Route::get('/products/{slug}', 'PageController@item')->name('item');
-Route::post('/products/search', 'PageController@search')->name('search');
 Route::get('/checkout', 'PageController@productsCheckout')->name('productsCheckout');
+Route::post('/products/search', 'PageController@search')->name('search');
 
 Route::get('/profile', 'PageController@profile')->name('profile');
 Route::get('/profile_edit', 'PageController@profile_edit')->name('profile_edit');
 Route::get('/history', 'PageController@history')->name('history');
-Route::post('/profile', 'PageController@update_profile')->name('update_profile');
+Route::post('/profile_edit', 'PageController@update_profile')->name('update_profile');
 
 Route::get('/contacts', 'PageController@contacts')->name('contacts');
 Route::post('/contacts/feedback', 'PageController@contacts_feedback')->name('contacts_feedback');
@@ -49,6 +49,11 @@ Route::get('/empty_cart', 'PageController@empty_cart');
 
 Route::get('/static-page/{slug}', 'PageController@static_page')->name('static_page');
 
+Route::get('/order_success', 'PageController@success_order')->name('success_order');
+Route::post('/order_success', 'PageController@success_order')->name('success_order');
+
+Route::get('/liqpay_redirect', 'PageController@liqpay_pay');
+
 //ajax
 Route::post('/add_to_cart', 'AjaxController@add_to_cart');
 Route::post('/cart_qty_up', 'AjaxController@cart_qty_up');
@@ -57,6 +62,11 @@ Route::post('/item_delete', 'AjaxController@item_delete');
 Route::post('/contactformsend', 'AjaxController@send');
 Route::post('/post_update_views', 'AjaxController@update_views');
 Route::post('/change_filter', 'AjaxController@change_filter');
+Route::post('/get_np_cities', 'AjaxController@getNpCities');
+Route::post('/get_np_posts', 'AjaxController@getNpPosts');
+Route::post('/save_order', 'AjaxController@saveOrder');
+Route::get('/liqpay_status', 'AjaxController@liqpayStatus');
+Route::post('/liqpay_status', 'AjaxController@liqpayStatus');
 
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
@@ -361,7 +371,6 @@ Route::get('/locale', function (\Illuminate\Http\Request $request) {
 //Route::get('/profile', 'PageController@profile')->name('profile');
 //Route::get('/profile_edit', 'PageController@profile_edit')->name('profile_edit');
 //Route::get('/history', 'PageController@history')->name('history');
-//Route::post('/profile', 'PageController@update_profile')->name('update_profile');
 //Route::get('/profile/addresses', 'PageController@addresses')->name('addresses');
 //Route::post('/profile/address/edit', 'PageController@update_address')->name('update_address');
 //Route::post('/profile/address-delivery/edit', 'PageController@update_address_delivery')->name('update_address_delivery');

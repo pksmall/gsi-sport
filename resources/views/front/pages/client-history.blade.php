@@ -1,6 +1,6 @@
 @extends('front/layout/front')
 @section('content')
-<div class="page-wrap login-page login">
+<div class="page-wrap history-page history">
     <!-- header -->
     @include('front/parts/header')
     <!-- sidebar -->
@@ -10,7 +10,7 @@
     @include('front/parts/rightnav')
 
     <!-- profile history -->
-    <div class="content login-content">
+    <div class="content">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -18,82 +18,35 @@
                         <h1>История  заказов</h1><a class="blue-a" href="/profile">Личный кабинет</a>
                     </div>
                     <div class="title">
-                    @if (empty($cart['cart']))
+                    @if (empty($orders))
                         <h2>история пустая</h2>
                     @else
-                            <div class="product-block custom-scroll">
-                                <div class="product-item">
-                                    <a class="product-image" href="product-card.html" style="background-image: url(assets/img/product-img@2x.png)"></a>
-                                    <div class="text-block-wrap">
-                                        <div class="text-block">
-                                            <div class="product-title">Ракетка всепогодная <strong class="blue-text">Donic
-                                                    Alltec</strong></div>
-                                            <div class="product-info">
-                                                <div class="label">количество:</div>
-                                                <input type="text" value="1">
-                                                <div class="date">16.02.16</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product-item"><a class="product-image" href="product-card.html"
-                                                             style="background-image: url(assets/img/product-img@2x.png)"></a>
-                                    <div class="text-block-wrap">
-                                        <div class="text-block">
-                                            <div class="product-title">Ракетка всепогодная <strong class="blue-text">Donic
-                                                    Alltec</strong></div>
-                                            <div class="product-info">
-                                                <div class="label">количество:</div>
-                                                <input type="text" value="1">
-                                                <div class="date">16.02.16</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product-item"><a class="product-image" href="product-card.html"
-                                                             style="background-image: url(assets/img/product-img@2x.png)"></a>
-                                    <div class="text-block-wrap">
-                                        <div class="text-block">
-                                            <div class="product-title">Ракетка всепогодная <strong class="blue-text">Donic
-                                                    Alltec</strong></div>
-                                            <div class="product-info">
-                                                <div class="label">количество:</div>
-                                                <input type="text" value="1">
-                                                <div class="date">16.02.16</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product-item"><a class="product-image" href="product-card.html"
-                                                             style="background-image: url(assets/img/product-img@2x.png)"></a>
-                                    <div class="text-block-wrap">
-                                        <div class="text-block">
-                                            <div class="product-title">Ракетка всепогодная <strong class="blue-text">Donic
-                                                    Alltec</strong></div>
-                                            <div class="product-info">
-                                                <div class="label">количество:</div>
-                                                <input type="text" value="1">
-                                                <div class="date">16.02.16</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product-item"><a class="product-image" href="product-card.html"
-                                                             style="background-image: url(assets/img/product-img@2x.png)"></a>
-                                    <div class="text-block-wrap">
-                                        <div class="text-block">
-                                            <div class="product-title">Ракетка всепогодная <strong class="blue-text">Donic
-                                                    Alltec</strong></div>
-                                            <div class="product-info">
-                                                <div class="label">количество:</div>
-                                                <input type="text" value="1">
-                                                <div class="date">16.02.16</div>
-                                            </div>
+                        <div class="product-block custom-scroll">
+                            <div class="product-item">
+                                <div class="text-block-wrap">
+                                    <div class="text-block">
+                                        <div class="product-title">Статус</div>
+                                        <div class="product-info">
+                                            <div class="date">Дата</div>
+                                            <div class="price">Цена</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <a class="btn blue tblue opacity" href="cart.html">Назад</a></div>
+                            @foreach($orders as $order)
+                               <div class="product-item">
+                                    <div class="text-block-wrap">
+                                        <div class="text-block">
+                                            <div class="product-title">{{ $order->getOrderStatus($order->status_id) }}</div>
+                                            <div class="product-info">
+                                                <div class="date">{{ $order->created_at->format('d-m-Y') }}</div>
+                                                <div class="price">{{ $order->total }} грн.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                     @endif
                     </div>
                 </div>

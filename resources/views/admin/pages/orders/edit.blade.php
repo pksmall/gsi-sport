@@ -48,7 +48,7 @@ $locales = ['ru'];
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="name" class="col-sm-2 col-form-label">Город<sup class="required">*</sup></label>
+                                <label for="name" class="col-sm-2 col-form-label">Email<sup class="required">*</sup></label>
                                 <div class="col-sm-10">
                                     <input type="email" class="form-control" id="name" name="item[guest_email]" value="{{ $item->guest_email }}">
                                 </div>

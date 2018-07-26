@@ -1483,20 +1483,21 @@ padding: 18.51852vh 0 7vh 0;}
   .main-page .right-nav::after {
     display: none; }
 	
-@media (min-width:461px){
-/* .login-page input::-webkit-input-placeholder    {
-font-size:0px;
+@media (min-width:461px) {
+    /* .login-page input::-webkit-input-placeholder    {
+    font-size:0px;
+    }
+    .login-page input:-ms-input-placeholder {
+    font-size:0px;
+    }
+    .login-page input::-moz-placeholder{
+    font-size:0px;
+    }
+    .login-page input:-moz-placeholder{
+    font-size:0px;
+    }
+    } */
 }
-.login-page input:-ms-input-placeholder {
-font-size:0px;
-}
-.login-page input::-moz-placeholder{
-font-size:0px;
-}
-.login-page input:-moz-placeholder{
-font-size:0px;
-}
-} */
 @media (max-width:460px) {
 
 .main-page .container {
@@ -1757,6 +1758,12 @@ width:100%!important;
 	color: #989898;
     text-transform: none;
     font-size: 12px;
+}
+.login-page .login-content form .form-group span {
+    display: block;
+    text-transform: uppercase;
+    font-size: 10px;
+
 }
 .login-page  form .form-group {
 margin-bottom:15px;
@@ -3217,10 +3224,12 @@ margin-right:15px;
           height: 50px; } }
 
 /* Forms Validations */
-input.valid {
-    color: green;
-    text-transform: uppercase;
-    font-size: 10px;
+input.invalid, textarea.invalid{
+    border-bottom: 1px solid red;
+}
+
+input.valid, textarea.valid{
+    border-bottom: 1px solid green;
 }
 
 label.error{
@@ -3453,10 +3462,9 @@ label.error{
 .form-disabled {
     display: none  ;
 }
-
 .table-block {
     display: table;
-    margin-bottom: 115px;
+    margin-bottom: 78px;
     width: 28vw;
 }
 .table-block input {
@@ -3476,3 +3484,43 @@ label.error{
     width: 100%;
     margin-left: 50px;
 }
+.custom-select .form-control {
+    width: 16.343vw;
+}
+
+.error{
+    display: none;
+    margin-left: 10px;
+}
+
+.table-cell  span.error {
+    position: absolute;
+    color: red;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 1.25px;
+    line-height: 16px;
+    width: 290px;
+    bottom: -35px;
+    right: 0; }
+.table-cell span.error_show {
+    position: absolute;
+    color: red;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 1.25px;
+    line-height: 16px;
+    width: 290px;
+    bottom: -15px;
+    right: 0; }
+
+form .form-group span.error_show {
+    position: absolute;
+    color: red;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 1.25px;
+    line-height: 16px;
+    width: 290px;
+    bottom: -15px;
+    right: 0; }
