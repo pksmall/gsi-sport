@@ -453,11 +453,11 @@ class PageController extends Controller
     {
         $this->setTitle(trans('base.blog'));
 
-        $data = request()->session()->has('liqpay') ? request()->session()->get('liqpay') : null;
-        Log::info("========== OS Start ========== ");
-        Log::info($data);
-        Log::info($request);
-        Log::info("========== OS End ========== ");
+//        $data = request()->session()->has('liqpay') ? request()->session()->get('liqpay') : null;
+//        Log::info("========== OS Start ========== ");
+//        Log::info($data);
+//        Log::info($request);
+//        Log::info("========== OS End ========== ");
 
         return view('front/pages/success-order')->with(['cartTotal' => $this->carttotal()]);
     }

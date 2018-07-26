@@ -569,9 +569,28 @@ class AjaxController extends Controller
 
     public function liqpayStatus(Request $request)
     {
-        Log::info("========== Liqpay Start ========== ");
-        Log::info($request);
-        Log::info("========== Liqpay End ========== ");
+        app('debugbar')->disable();
+        //Log::info("========== Liqpay Start ========== ");
+        //Log::info($request);
+        //Log::info("========== Liqpay End ========== ");
+
+
+        $ligpay_sign = $request['signature'];
+        $data = json_decode(base64_decode($request['data']));
+        //print_r($data);
+        //echo "==========";
+
+        $order = Order::find($data->order_id);
+
+        $sign = base64_encode( sha1(env('LIQPAY_PRIVATE_KEY') . $request['data'] . env('LIQPAY_PRIVATE_KEY'), 1 ));
+
+        //echo $sign."\n";
+        //echo $ligpay_sign."\n";
+
+        if ($order && ($sign == $ligpay_sign)) {
+            $order->status_id = 3;  //оплачено см. App\Order -> $orderStatuses
+            $order->update();
+        }
     }
 
     public function forgot(Request $request)
