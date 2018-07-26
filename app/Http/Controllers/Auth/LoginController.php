@@ -107,26 +107,8 @@ class LoginController extends Controller
         return ['cart' => $cart, 'client' => $client];
     }
 
-    private function check_client_session_cart()
-    {
-        $cart = Session::get('cart');
-        if (isset($cart->items) && count($cart->items) > 0) {
-            foreach ($cart->items as $item)
-            {
-                ClientCart::create([
-                    'client_id' => Auth::user()->id,
-                    'item_id' => $item['item']->id,
-                    'qty' => $item['qty']
-                ]);
-            }
-            Session::forget('cart');
-        }
-    }
     private  function carttotal()
     {
-        if (Auth::check()) {
-            $this->check_client_session_cart();
-        }
         $cart = $this->get_cart();
         if (!empty($cart['cart'])) {
             $cartTotal = $cart['cart']->total_qty;

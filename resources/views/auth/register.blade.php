@@ -19,48 +19,42 @@
                             <h1>регистрация</h1><a href="/login">Войти с помощью</a>
                         </div>
                         <h2 class="blue-text">заполните все поля для регистрации</h2>
-                        <form method="POST" action="{{ route('register') }}">
+                        <form method="POST" action="{{ route('register') }}" id="regform">
                             @csrf
                             <div class="form-group">
-                                <label for="name" required>ФИО:</label>
+                                <label for="name">ФИО:</label>
                                 <input id="name" name="name" type="text" autofocus>
-                                @if ($errors->has('name'))
-                                    <span class="error">{{ $errors->first('name') }}</span>
-                                @endif
+                                <span class="error" for="name">Ваше Имя?</span>
                             </div>
                             <div class="form-group">
-                                <label for="telephone" required>Телефон:</label>
-                                <input id="telephone" name="telephone" type="text">
-                                @if ($errors->has('telephone'))
-                                    <span class="error">{{ $errors->first('telephone') }}</span>
-                                @endif
+                                <label for="telephone">Телефон:</label>
+                                <input id="telephone" name="telephone" type="number" min="6" data-content="Телефон должен быть больше 6 цифр.">
+                                <span class="error" for="telephone">Ваш телефон?</span>
                             </div>
                             <div class="form-group">
-                                <label for="email" required>e-mail:</label>
+                                <label for="email">e-mail:</label>
                                 <input id="email" name="email" type="email">
-                                @if ($errors->has('email'))
-                                    <span class="error">{{ $errors->first('email') }}</span>
-                                @endif
+                                <span class="error" for="email">Ваш Емайл?</span>
                             </div>
                             <div class="form-group">
-                                <label for="password" required>Пароль:</label>
-                                <input name="password" type="password">
-                                @if ($errors->has('password'))
-                                    <span  class="error">{{ $errors->first('password') }}</span>
-                                @endif
+                                <label for="password">Пароль:</label>
+                                <input id="password" name="password" type="password">
+                                <span  class="error" for="password">Пароль?</span>
                             </div>
                             <div class="form-group">
-                                <label for="date">ПОВТОРИТЕ ПАРОЛЬ:</label>
-                                <input name="password_confirmation" type="text">
-                                @if ($errors->has('password_confirmation'))
-                                    <span class="error">{{ $errors->first('password_confirmation') }} </span>
-                                @endif
+                                <label for="password_confirmation">ПОВТОРИТЕ ПАРОЛЬ:</label>
+                                <input id="password_confirmation" name="password_confirmation" type="password" data-content="Пароль не совпадает.">
+                                <span class="error" id="error-password_confirmation" for="password_confirmation" data-content="Повторите пароль.">Повторите пароль.</span>
                             </div>
                             <div class="checkbox-wrap">
-                                <input id="save-password" type="checkbox">
-                                <label for="save-password"><span>принять пользовательское соглашение</span></label>
+                                <input id="save-password" name="save-password" type="checkbox">
+                                <label for="save-password" ><span>принять пользовательское соглашение</span></label>
                             </div>
-                            <button class="btn blue" type="submit">Войти    </button>
+                            <div class="form-group">
+                                <span class="error" id="err-save-password" for="save-password">Принять?</span>
+                            </div>
+
+                            <input id="checkreg" class="btn blue" type="button" data-content="Зарегистрироваться" value="Зарегистрироваться">
                         </form>
                     </div>
                 </div>
@@ -68,4 +62,163 @@
         </div>
 
     </div>
+@endsection
+@section('page-js-script')
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    $(function() {
+        <!--Name can't be blank-->
+        $('#name').on('input', function() {
+            var input=$(this);
+            var is_name=input.val();
+            var error_element=$("span", input.parent());
+            if(is_name){
+                input.removeClass("invalid").addClass("valid");
+                error_element.removeClass("error_show").addClass("error");
+            } else{
+                input.removeClass("valid").addClass("invalid");
+                error_element.removeClass("error").addClass("error_show");
+            }
+        });
+
+        <!-- Numbers -->
+        $('#telephone').on('input', function() {
+            var input=$(this);
+            var re = /[0-9]+/;
+            var minlen = input.attr('min');
+            var len = input.val().length;
+            var minlenflag = false;
+            var is_num=re.test(input.val());
+            var error_element=$("span", input.parent());
+            if (len < minlen) {
+                minlenflag = true;
+            }
+            if(is_num && !minlenflag) {
+                input.removeClass("invalid").addClass("valid");
+                error_element.removeClass("error_show").addClass("error");
+            } else {
+                if (minlenflag) {
+                    error_element.html(input.data('content'));
+                }
+                input.removeClass("valid").addClass("invalid");
+                error_element.removeClass("error").addClass("error_show");
+            }
+        });
+
+        <!--Email must be an email -->
+        $('#email').on('input', function() {
+            var input=$(this);
+            var re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            var is_email=re.test(input.val());
+            var error_element=$("span", input.parent());
+            if(is_email) {
+                input.removeClass("invalid").addClass("valid");
+                error_element.removeClass("error_show").addClass("error");
+            } else {
+                input.removeClass("valid").addClass("invalid");
+                error_element.removeClass("error").addClass("error_show");
+            }
+        });
+
+        $('#password_confirmation').on('input', function() {
+            var input=$(this);
+            var is_name=input.val();
+            var error_element=$("span", input.parent());
+            if(is_name) {
+                input.removeClass("invalid").addClass("valid");
+                error_element.removeClass("error_show").addClass("error");
+            } else {
+                input.removeClass("valid").addClass("invalid");
+                error_element.removeClass("error").addClass("error_show");
+            }
+        });
+
+        $('#password').on('input', function() {
+            var input=$(this);
+            var is_name=input.val();
+            var error_element=$("span", input.parent());
+            if(is_name){
+                input.removeClass("invalid").addClass("valid");
+                error_element.removeClass("error_show").addClass("error");
+            } else{
+                input.removeClass("valid").addClass("invalid");
+                error_element.removeClass("error").addClass("error_show");
+            }
+        });
+
+        $('#save-password').on('change',function() {
+            var input=$(this);
+            if ($(this).is(':checked')) {
+                input.removeClass("invalid").addClass("valid");
+                var error_element=$('#err-save-password');
+                error_element.removeClass("error_show").addClass("error");
+            }
+        });
+
+        $('#checkreg').on('click', function() {
+            //$(this).html( $(this).data('loading-text') ? $(this).data('loading-text') : 'Загрузка...' );
+            //$(this).prop('disabled', true);
+            console.log("dataurl: " + $("#regform").attr('action'));
+
+            var form_data = $("#regform").serializeArray();
+            var error_free = true;
+            for (var input in form_data) {
+                if (form_data[input]['name'] == '_token' ) { continue; }
+
+                var element=$("#"+form_data[input]['name']);
+                var valid=element.hasClass("valid");
+                var error_element=$("span", element.parent());
+
+                if (!valid){error_element.removeClass("error").addClass("error_show"); error_free=false;}
+                else{error_element.removeClass("error_show").addClass("error");}
+
+                if ($('#save-password').is(':checked')) {
+                    var error_element=$('#err-save-password');
+                    error_element.removeClass("error_show").addClass("error");
+                } else {
+                    var error_element=$('#err-save-password');
+                    error_element.removeClass("error").addClass("error_show");
+                    error_free=false;
+                }
+                console.log("name:" + form_data[input]['name'] + ' errel: ' + valid + ' err:' + error_free);
+            }
+
+            if (error_free && $('#password').val() != $('#password_confirmation').val()) {
+                $("#error-password_confirmation").html($('#password_confirmation').data('content'));
+                $("#error-password_confirmation").removeClass("error").addClass("error_show");
+                error_free=false;
+            }
+
+            if (!error_free){
+                event.preventDefault();
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: $("#regform").attr('action'),
+                    data: $("#regform").serialize(),
+                    async: true,
+                    dataType: 'json',
+                }).always(function (data, textStatus, jqXHR) {
+                    //console.log("rest success. ws:" + JSON.stringify(data));
+                    if (data.response == 'success') {
+                        console.log("rest success. d:" + data.data);
+                        document.location.href = data.data;
+                        return;
+                    } else {
+                        console.log("rest error.");
+                        return;
+                    }
+                });
+            }
+        });
+
+    });
+</script>
 @endsection

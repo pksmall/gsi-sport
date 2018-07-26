@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="title">
-                        <h1>забыли пароль?</h1><a class="blue-a" href="/register">регистрация</a>
+                        <h1>забыли пароль?</h1><a class="blue-a" href="/register">регистрация</a><a href="/login">Войти с помощью</a>
                     </div>
                     <h2 class="blue-text">введите ваш почтовый ящик</h2>
                     <div class="alert alert-success hide-box mt-4" id="contactSuccess">
@@ -27,8 +27,7 @@
                             <input id="email" name="email" type="text" placeholder="Ваш почтовый ящик">
                             <span class="error"  for="email">Ваш email?</span>
                         </div>
-                        <input id="checkemail" class="btn blue" type="button" data-content-value="Получить" value="Получить">
-                        <!-- <button id="checkemail" class="btn blue">Получить</button> -->
+                            <input id="checkemail" class="btn blue" type="button" data-content-value="Получить" value="Получить">
                     </form>
                 </div>
             </div>
@@ -63,7 +62,7 @@
             });
 
             $('#checkemail').on('click',function(){
-                console.log("dataurl: " + $("#forgotform").data('content-action') + " email:" + $('#email').val());
+                //console.log("dataurl: " + $("#forgotform").data('content-action') + " email:" + $('#email').val());
                 var re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
                 var email = re.test($('#email').val());
 
@@ -86,7 +85,7 @@
                             $('#checkemail').val( $('#checkemail').data('content-value'));
                             return;
                         } else {
-                            console.log("resp error");
+                            //console.log("resp error");
                             var error_element = $("span", $('#email').parent());
                             $('#email').removeClass("valid").addClass("invalid");
                             error_element.removeClass("error").addClass("error_show");

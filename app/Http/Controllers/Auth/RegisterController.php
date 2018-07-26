@@ -3,15 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App;
-use App\ClientCart;
-use App\Role;
-use App\Settings;
-use App\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Session\Session;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use App\Role;
+use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -34,6 +33,31 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = '/profile';
+
+    public function register(Request $request)
+    {
+        $status = "error";
+
+        Log::info($request);
+        $data = array();
+        foreach ($request->request as $key => $value) {
+            $data[$key] = $value;
+        }
+
+        Log::info($data);
+        $redirect = "";
+        if ($this->validator($data)) {
+            $user = $this->create($data);
+            if ($user) {
+                Auth::attempt(['email' => $user->email, 'password' => $data['password']]);
+                $status  = "success";
+                $redirect = url('/profile');
+            }
+        }
+
+        return response()->json(['response' => $status, 'data' => $redirect]);
+    }
+
 
     /**
      *
@@ -146,26 +170,8 @@ class RegisterController extends Controller
         return ['cart' => $cart, 'client' => $client];
     }
 
-    private function check_client_session_cart()
-    {
-        $cart = $request->get('cart');
-        if (isset($cart->items) && count($cart->items) > 0) {
-            foreach ($cart->items as $item)
-            {
-                ClientCart::create([
-                    'client_id' => Auth::user()->id,
-                    'item_id' => $item['item']->id,
-                    'qty' => $item['qty']
-                ]);
-            }
-            $request->forget('cart');
-        }
-    }
     private  function carttotal()
     {
-        if (Auth::check()) {
-            $this->check_client_session_cart();
-        }
         $cart = $this->get_cart();
         if (!empty($cart['cart'])) {
             $cartTotal = $cart['cart']->total_qty;
