@@ -570,14 +570,12 @@ class AjaxController extends Controller
     public function liqpayStatus(Request $request)
     {
         app('debugbar')->disable();
-        //Log::info("========== Liqpay Start ========== ");
-        //Log::info($request);
-        //Log::info("========== Liqpay End ========== ");
-
+        Log::info("========== Liqpay Start ========== ");
+        Log::info($request);
 
         $ligpay_sign = $request['signature'];
         $data = json_decode(base64_decode($request['data']));
-        //print_r($data);
+        Log::info(print_r($data));
         //echo "==========";
 
         $order = Order::find($data->order_id);
@@ -591,6 +589,7 @@ class AjaxController extends Controller
             $order->status_id = 3;  //оплачено см. App\Order -> $orderStatuses
             $order->update();
         }
+        Log::info("========== Liqpay End ========== ");
     }
 
     public function forgot(Request $request)
