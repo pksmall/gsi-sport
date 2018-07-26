@@ -570,7 +570,7 @@ class AjaxController extends Controller
     public function liqpayStatus(Request $request)
     {
         $data = request()->session()->has('liqpay') ? request()->session()->get('liqpay') : null;
-        
+
         Log::info("========== Liqpay Start ========== ");
         Log::info(print_r($data, true));
         Log::info(print_r($request, true));
