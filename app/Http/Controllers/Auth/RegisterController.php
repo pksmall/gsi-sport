@@ -107,7 +107,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'company' => null,
             'telephone' => $data['telephone'],
-            'ip' => \Request::ip(),
+            'ip' => $this->getIp(),
             'password' => bcrypt($data['password']),
             'status_id' => 1,
             'is_subscribe' => false
@@ -146,6 +146,19 @@ class RegisterController extends Controller
         }*/
 
         return $user;
+    }
+
+    private function getIp(){
+        foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key){
+            if (array_key_exists($key, $_SERVER) === true){
+                foreach (explode(',', $_SERVER[$key]) as $ip){
+                    $ip = trim($ip); // just to be safe
+                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false){
+                        if(strlen($ip) > 0) {return $ip;} else { \request()->ip(); }
+                    }
+                }
+            }
+        }
     }
 
     public function showRegistrationForm()
