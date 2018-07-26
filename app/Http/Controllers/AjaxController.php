@@ -573,7 +573,7 @@ class AjaxController extends Controller
 
         Log::info("========== Liqpay Start ========== ");
         Log::info(print_r($data, true));
-        Log::info(print_r($request, true));
+        Log::info($request);
         Log::info("========== Liqpay Eend ========== ");
     }
 
