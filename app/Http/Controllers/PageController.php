@@ -449,11 +449,16 @@ class PageController extends Controller
         return view('front/pages/blog')->with(['posts' => $posts, 'posts_categories' => $posts_categories, 'cartTotal' => $this->carttotal()]);
     }
 
-    public function success_order()
+    public function success_order(Request $request)
     {
         $this->setTitle(trans('base.blog'));
-        $posts = BlogArticlesTranslation::where('locale', App::getLocale())->paginate(10);
-        $posts_categories = BlogCategoriesTranslation::where('locale', App::getLocale())->get();
+
+        $data = request()->session()->has('liqpay') ? request()->session()->get('liqpay') : null;
+        Log::info("========== OS Start ========== ");
+        Log::info($data);
+        Log::info($request);
+        Log::info("========== OS End ========== ");
+
         return view('front/pages/success-order')->with(['cartTotal' => $this->carttotal()]);
     }
 

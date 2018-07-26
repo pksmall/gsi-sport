@@ -3,7 +3,7 @@
     <form id="liqpayform" name=="liqpayform" method="POST" action="{{$data['action']}}" accept-charset="utf-8">
         <input type="hidden" name="data" value="{{$data['data']}}">
         <input type="hidden" name="signature" value="{{$data['signature']}}">
-        <input type="image" src="//static.liqpay.ua/buttons/p1ru.radius.png" name="btn_text" />
+<!--        <input type="image" src="//static.liqpay.ua/buttons/p1ru.radius.png" name="btn_text" /> -->
     </form>
 
 @endsection
