@@ -67,6 +67,7 @@ Route::post('/get_np_posts', 'AjaxController@getNpPosts');
 Route::post('/save_order', 'AjaxController@saveOrder');
 Route::get('/liqpay_status', 'AjaxController@liqpayStatus');
 Route::post('/liqpay_status', 'AjaxController@liqpayStatus');
+Route::post('/forgotpass', 'AjaxController@forgot');
 
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 

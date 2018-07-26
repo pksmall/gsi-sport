@@ -576,5 +576,33 @@ class AjaxController extends Controller
         Log::info(print_r($request, true));
         Log::info("========== Liqpay Eend ========== ");
     }
+
+    public function forgot(Request $request)
+    {
+        $status = "error";
+
+        Log::info($request['email']);
+        if (!Auth::check()) {
+            $user = null;
+            $user_pass = str_random('8');
+
+            $user = User::where('email', $request['email'])->first();
+
+            Log::info(print_r($user, true));
+            if ($user) {
+                $status = "success";
+
+                $user_data['password'] = bcrypt($user_pass);
+                $user->update($user_data);
+
+                $message = "Генерация пароля на GSI-Sport.\nВот сгенерированный пароль для вашей учетной записи: " . $user_pass;
+                $subject = "Новый пароль на сайт Gsi-Sport";
+                $this->mail_send_to_client($user->email, $user->name, $subject, $message);
+                return response()->json(['response' => $status]);
+            }
+        }
+
+        return response()->json(['response' => $status]);
+    }
 }
 
