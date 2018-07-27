@@ -15,22 +15,22 @@
                         <h6 class="dropdown-header">Товары</h6>
                         <a class="dropdown-item" href="{{ route('admin_items') }}">Все товары</a>
                         <a class="dropdown-item" href="{{ route('admin_items_categories') }}">Категории</a>
-                        <a class="dropdown-item" href="{{ route('admin_items_attributes') }}">Атрибуты</a>
-                        <a class="dropdown-item" href="{{ route('admin_items_characteristics') }}">Характеристики</a>
-                        <div class="dropdown-divider"></div>
-                        <h6 class="dropdown-header">Технологии</h6>
-                        <a class="dropdown-item" href="{{ route('admin_technologies') }}">Все технологии</a>
-                        <a class="dropdown-item" href="{{ route('admin_technologies_categories') }}">Категории</a>
+                        {{--<a class="dropdown-item" href="{{ route('admin_items_attributes') }}">Атрибуты</a>--}}
+                        {{--<a class="dropdown-item" href="{{ route('admin_items_characteristics') }}">Характеристики</a>--}}
+                        {{--<div class="dropdown-divider"></div>--}}
+                        {{--<h6 class="dropdown-header">Технологии</h6>--}}
+                        {{--<a class="dropdown-item" href="{{ route('admin_technologies') }}">Все технологии</a>--}}
+                        {{--<a class="dropdown-item" href="{{ route('admin_technologies_categories') }}">Категории</a>--}}
                         <div class="dropdown-divider"></div>
                         <h6 class="dropdown-header">Новости и статьи</h6>
                         <a class="dropdown-item" href="{{ route('blog_articles') }}">Все материалы</a>
-                        <a class="dropdown-item" href="{{ route('blog_categories') }}">Категории</a>
+                        {{--<a class="dropdown-item" href="{{ route('blog_categories') }}">Категории</a>--}}
                         <div class="dropdown-divider"></div>
                         <h6 class="dropdown-header">Прочее</h6>
-                        <a class="dropdown-item" href="{{ route('reviews') }}">Отзывы</a>
+                        {{--<a class="dropdown-item" href="{{ route('reviews') }}">Отзывы</a>--}}
                         <a class="dropdown-item" href="{{ route('static_pages') }}">Статические страницы</a>
                         <a class="dropdown-item" href="{{ route('slider') }}">Слайдер</a>
-                        <a class="dropdown-item" href="{{ route('table_sizes') }}">Таблицы размеров</a>
+                        {{--<a class="dropdown-item" href="{{ route('table_sizes') }}">Таблицы размеров</a>--}}
                     </div>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('orders') }}">Заказы</a></li>
