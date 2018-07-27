@@ -367,42 +367,42 @@ class AjaxController extends Controller
         if (isset($reqdata['weareregister'])) {
             $is_reg = 1;
         }
-        if (isset($is_reg) && !Auth::check()) {
-            $user = null;
-            $user_pass = str_random('8');
+        if (isset($is_reg)) {
+            if (!Auth::check()) {
+                $user = null;
+                $user_pass = str_random('8');
 
-            $message = "Генерация пароля на GSI-Sport.\nВот сгенерированный пароль для вашей учетной записи: " . $user_pass;
-            $subject = "Новый пароль на сайт Gsi-Sport";
-            $this->mail_send_to_client($reqdata['reg-email'], $reqdata['reg-name'], $subject, $message);
+                $message = "Генерация пароля на GSI-Sport.\nВот сгенерированный пароль для вашей учетной записи: " . $user_pass;
+                $subject = "Новый пароль на сайт Gsi-Sport";
+                $this->mail_send_to_client($reqdata['reg-email'], $reqdata['reg-name'], $subject, $message);
 
-//            mail($request->get('guest_email'), "Генерация пароля на GSI-Sport",
-//                'Вот сгенерированный пароль для вашей учетной записи: ' . $user_pass . '.',
-//                implode("\r\n",$headers));
+                $user = User::where('email', $reqdata['reg-email'])->first();
+                //Log::info(print_r($user, true));
+                if (!$user) {
+                    $user = User::create([
+                        'name' => $reqdata['reg-name'],
+                        'email' => $reqdata['reg-email'],
+                        'telephone' => $reqdata['reg-telephone'],
+                        'ip' => $this->getIp(),
+                        'password' => bcrypt($user_pass),
+                        'status_id' => 1,
+                        'is_subscribe' => false
+                    ]);
+                    $user->roles()->attach(Role::where('name', 'Клиент')->first());
+                } else {
+                    $user_data['password'] = bcrypt($user_pass);
+                    $user->update($user_data);
+                }
 
-            $user = User::where('email', $reqdata['reg-email'])->first();
-            //Log::info(print_r($user, true));
-            if (!$user) {
-                $user = User::create([
-                    'name' => $reqdata['reg-name'],
-                    'email' => $reqdata['reg-email'],
-                    'telephone' => $reqdata['reg-telephone'],
-                    'ip' => $this->getIp(),
-                    'password' => bcrypt($user_pass),
-                    'status_id' => 1,
-                    'is_subscribe' => false
-                ]);
-                $user->roles()->attach(Role::where('name', 'Клиент')->first());
-            } else {
-                $user_data['password'] = bcrypt($user_pass);
-                $user->update($user_data);
+                Auth::attempt(['email' => $user->email, 'password' => $user_pass]);
             }
-
-            Auth::attempt(['email' => $user->email, 'password' => $user_pass]);
         } else {
-            $user = Auth::user();
-            $reqdata['reg-name'] = $user->name;
-            $reqdata['reg-email'] = $user->email;
-            $reqdata['reg-telephone'] = $user->telephone;
+            if (Auth::check()) {
+                $user = Auth::user();
+                $reqdata['reg-name'] = $user->name;
+                $reqdata['reg-email'] = $user->email;
+                $reqdata['reg-telephone'] = $user->telephone;
+            }
         }
         $cart = $this->get_cart();
 

@@ -1572,7 +1572,7 @@ padding-top:15px!important;
 }
 
 form .form-group span.error {
-position:initial!important;
+    position:initial!important;
 }
 .login-page.edit .login-content {
 padding:18.51852vh 0 7vh 0;
@@ -3494,6 +3494,7 @@ label.error{
 }
 
 .table-cell  span.error {
+    display: none;
     position: absolute;
     color: red;
     text-transform: uppercase;
