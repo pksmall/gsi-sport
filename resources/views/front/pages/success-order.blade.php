@@ -18,6 +18,7 @@
                     <div class="col-12">
                         <h2 class="blue-text">Вы успешно оформили заказ!</h2>
                         <p>на вашу почту отправлено письмо с подверждением вашего заказа.</p>
+                        <p><?php //print_r(request()->session()->all()); ?></p>
                     </div>
                 </div>
         </div>

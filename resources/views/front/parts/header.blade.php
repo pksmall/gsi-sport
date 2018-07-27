@@ -69,9 +69,9 @@
           </span>
         </button>
         <form class="search-form" action="/products/search" method="POST" name="search-form" id="search-form">
+            <label id="search-error" class="error" for="search"></label>
             <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
             <input type="text" minlength="3" maxlength="80" placeholder="Введите название товара" id="search" name="search" class="search-popup-input" data-msg-minlength="Вводите 3 или более символов" data-msg-required="Введите что-нибудь, но не короче 3 символов." required>
-            <label id="search-error" class="search-error" for="search"></label>
         </form>
         <span class="search-popup-close"><img src="/img/cancel.svg" alt="close"></span>
     </div>
@@ -98,8 +98,9 @@
             });
             $('.search-popup-icon').on('click', function() {
                 var action = $('.search-form').attr('action')
-                $( "#search-form" ).validate();
-                $.post(action, $("#search-form").serialize());
+                if ($( "#search-form" ).validate()) {
+                    $.post(action, $("#search-form").serialize());
+                }
 
             });
             $('.icon-search').on('click', function() {

@@ -52,6 +52,7 @@ class LoginController extends Controller
         $lifetime = config('session.lifetime');
         $remember = $req->get('remember');
         config(['session.lifetime' =>   43800]);
+        Session::flush();
         if(Auth::attempt(['email' => $req->email, 'password' => $req->password], $remember))
         {
             //Log::info("ST: '" .config('session.lifetime') . "'");
@@ -61,6 +62,7 @@ class LoginController extends Controller
             return redirect('/profile');
         }
         config(['session.lifetime' =>   $lifetime]);
+        Session::flush();
         //Log::info("ST: '" .config('session.lifetime') . "'");
         return back()->withInput()->with('message', 'Login Failed');
     }

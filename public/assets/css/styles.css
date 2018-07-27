@@ -3488,7 +3488,7 @@ label.error{
     width: 16.343vw;
 }
 
-.error{
+.form-group .error{
     display: none;
     margin-left: 10px;
 }
