@@ -52,6 +52,7 @@ class LoginController extends Controller
         $lifetime = config('session.lifetime');
         $remember = $req->get('remember');
         config(['session.lifetime' =>   43800]);
+        //
         Session::flush();
         if(Auth::attempt(['email' => $req->email, 'password' => $req->password], $remember))
         {

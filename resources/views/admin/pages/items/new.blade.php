@@ -34,30 +34,30 @@
                 {{--<li class="nav-item">--}}
                     {{--<a class="nav-link" id="stickers-tab" data-toggle="tab" href="#stickers" role="tab" aria-controls="stickers" aria-selected="false">Стикеры</a>--}}
                 {{--</li>--}}
-                <li class="nav-item">
-                    <a class="nav-link" id="relations-tab" data-toggle="tab" href="#relations" role="tab" aria-controls="relations" aria-selected="false">Категории</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="relations2-tab" data-toggle="tab" href="#relations2" role="tab" aria-controls="relations2" aria-selected="false">Фильтры</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="relations3-tab" data-toggle="tab" href="#relations3" role="tab" aria-controls="relations3" aria-selected="false">Технологии</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="relations5-tab" data-toggle="tab" href="#relations5" role="tab" aria-controls="relations5" aria-selected="false">Рекомендуемые</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="relations4-tab" data-toggle="tab" href="#relations4" role="tab" aria-controls="relations4" aria-selected="false">Размеры</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="characteristics-tab" data-toggle="tab" href="#characteristics" role="tab" aria-controls="characteristics" aria-selected="false">Характеристики</a>
-                </li>
+                {{--<li class="nav-item">--}}
+                    {{--<a class="nav-link" id="relations-tab" data-toggle="tab" href="#relations" role="tab" aria-controls="relations" aria-selected="false">Категории</a>--}}
+                {{--</li>--}}
+                {{--<li class="nav-item">--}}
+                    {{--<a class="nav-link" id="relations2-tab" data-toggle="tab" href="#relations2" role="tab" aria-controls="relations2" aria-selected="false">Фильтры</a>--}}
+                {{--</li>--}}
+                {{--<li class="nav-item">--}}
+                    {{--<a class="nav-link" id="relations3-tab" data-toggle="tab" href="#relations3" role="tab" aria-controls="relations3" aria-selected="false">Технологии</a>--}}
+                {{--</li>--}}
+                {{--<li class="nav-item">--}}
+                    {{--<a class="nav-link" id="relations5-tab" data-toggle="tab" href="#relations5" role="tab" aria-controls="relations5" aria-selected="false">Рекомендуемые</a>--}}
+                {{--</li>--}}
+                {{--<li class="nav-item">--}}
+                    {{--<a class="nav-link" id="relations4-tab" data-toggle="tab" href="#relations4" role="tab" aria-controls="relations4" aria-selected="false">Размеры</a>--}}
+                {{--</li>--}}
+                {{--<li class="nav-item">--}}
+                    {{--<a class="nav-link" id="characteristics-tab" data-toggle="tab" href="#characteristics" role="tab" aria-controls="characteristics" aria-selected="false">Характеристики</a>--}}
+                {{--</li>--}}
                 <li class="nav-item">
                     <a class="nav-link" id="media-tab" data-toggle="tab" href="#media" role="tab" aria-controls="media" aria-selected="false">Медиа</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="other-tab" data-toggle="tab" href="#other" role="tab" aria-controls="other" aria-selected="false">Остальное</a>
-                </li>
+                {{--<li class="nav-item">--}}
+                    {{--<a class="nav-link" id="other-tab" data-toggle="tab" href="#other" role="tab" aria-controls="other" aria-selected="false">Остальное</a>--}}
+                {{--</li>--}}
             </ul>
         </div>
         <div class="card-body">
@@ -130,78 +130,98 @@
                             <input type="text" class="form-control" id="price" name="item[price]" @if(isset($item)) value="{{ $item->price }}" @endif>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="whs_price" class="col-sm-2 col-form-label">Оптовая цена</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="whs_price" name="item[whs_price]" @if(isset($item)) value="{{ $item->whs_price }}" @endif>
+                    {{--<div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">--}}
+                        <div class="form-group row">
+                            <label for="sticker" class="col-sm-2 col-form-label">Активация</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="store_subtract" name="item[is_active]">
+                                    <option value="1" @if(isset($item->is_active) && $item->is_active) selected @endif>Да</option>
+                                    <option value="0" @if(isset($item->is_active) && !$item->is_active) selected @endif >Нет</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="old_price" class="col-sm-2 col-form-label">Старая цена</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="old_price" name="item[old_price]" @if(isset($item)) value="{{ $item->old_price }}" @endif>
+                        <div class="form-group row">
+                            <label for="sticker" class="col-sm-2 col-form-label">Показывать в каталоге</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="store_subtract" name="item[is_catalog]">
+                                    <option value="1" @if(isset($item->is_catalog) && $item->is_catalog) selected @endif>Да</option>
+                                    <option value="0" @if(isset($item->is_catalog) && !$item->is_catalog) selected @endif >Нет</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="qty" class="col-sm-2 col-form-label">Количество</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="qty" name="item[qty]" @if(isset($item)) value="{{ $item->qty }}" @endif>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="min_qty" class="col-sm-2 col-form-label">Минимальное количество</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="min_qty" name="item[min_qty]" @if(isset($item)) value="{{ $item->min_qty }}" @endif>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="max_qty" class="col-sm-2 col-form-label">Максимальное количество</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="max_qty" name="item[max_qty]" @if(isset($item)) value="{{ $item->max_qty }}" @endif>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="terms" class="col-sm-2 col-form-label">Включить акцию</label>
-                        <div class="col-sm-10">
-                            <select class="form-control" id="store_subtract" name="item[is_sale]">
-                                <option value="0">Нет</option>
-                                <option value="1" @if(isset($item) && $item->is_sale) selected @endif>Да</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="qty" class="col-sm-2 col-form-label">Период акции</label>
-                        <div class="col-sm-10">
-                            <input type="text" data-toggle="datepicker" class="form-control" id="qty" name="item[duration_sale]" @if(isset($item)) value="{{ $item->duration_sale }}" @endif>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="duration_new" class="col-sm-2 col-form-label">Период новинки</label>
-                        <div class="col-sm-10">
-                            <input type="text" data-toggle="datepicker" class="form-control" id="duration_new" name="item[duration_new]" @if(isset($item)) value="{{ $item->duration_new }}" @endif>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="store_subtract" class="col-sm-2 col-form-label">Вычитать со склада</label>
-                        <div class="col-sm-10">
-                            <select class="form-control" id="store_subtract" name="item[store_subtract]">
-                                <option value="0">Нет</option>
-                                <option value="1" @if(isset($item) && $item->store_subtract) selected @endif>Да</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="status_store_id" class="col-sm-2 col-form-label">Состояние склада</label>
-                        <div class="col-sm-10">
-                            <select class="form-control" id="status_store_id" name="item[status_store_id]">
-                                <option value="1" selected>В наличии</option>
-                                <option value="3">Нет в наличии</option>
-                                <option value="2">Ожидается</option>
-                                <option value="4">Ожидание 2-3 дня</option>
-                                <option value="5">Под заказ</option>
-                            </select>
-                        </div>
-                    </div>
+                    {{--</div>--}}
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="whs_price" class="col-sm-2 col-form-label">Оптовая цена</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--<input type="text" class="form-control" id="whs_price" name="item[whs_price]" @if(isset($item)) value="{{ $item->whs_price }}" @endif>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="old_price" class="col-sm-2 col-form-label">Старая цена</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--<input type="text" class="form-control" id="old_price" name="item[old_price]" @if(isset($item)) value="{{ $item->old_price }}" @endif>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="qty" class="col-sm-2 col-form-label">Количество</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--<input type="text" class="form-control" id="qty" name="item[qty]" @if(isset($item)) value="{{ $item->qty }}" @endif>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="min_qty" class="col-sm-2 col-form-label">Минимальное количество</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--<input type="text" class="form-control" id="min_qty" name="item[min_qty]" @if(isset($item)) value="{{ $item->min_qty }}" @endif>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="max_qty" class="col-sm-2 col-form-label">Максимальное количество</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--<input type="text" class="form-control" id="max_qty" name="item[max_qty]" @if(isset($item)) value="{{ $item->max_qty }}" @endif>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="terms" class="col-sm-2 col-form-label">Включить акцию</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--<select class="form-control" id="store_subtract" name="item[is_sale]">--}}
+                                {{--<option value="0">Нет</option>--}}
+                                {{--<option value="1" @if(isset($item) && $item->is_sale) selected @endif>Да</option>--}}
+                            {{--</select>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="qty" class="col-sm-2 col-form-label">Период акции</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--<input type="text" data-toggle="datepicker" class="form-control" id="qty" name="item[duration_sale]" @if(isset($item)) value="{{ $item->duration_sale }}" @endif>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="duration_new" class="col-sm-2 col-form-label">Период новинки</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--<input type="text" data-toggle="datepicker" class="form-control" id="duration_new" name="item[duration_new]" @if(isset($item)) value="{{ $item->duration_new }}" @endif>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="store_subtract" class="col-sm-2 col-form-label">Вычитать со склада</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--<select class="form-control" id="store_subtract" name="item[store_subtract]">--}}
+                                {{--<option value="0">Нет</option>--}}
+                                {{--<option value="1" @if(isset($item) && $item->store_subtract) selected @endif>Да</option>--}}
+                            {{--</select>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="status_store_id" class="col-sm-2 col-form-label">Состояние склада</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--<select class="form-control" id="status_store_id" name="item[status_store_id]">--}}
+                                {{--<option value="1" selected>В наличии</option>--}}
+                                {{--<option value="3">Нет в наличии</option>--}}
+                                {{--<option value="2">Ожидается</option>--}}
+                                {{--<option value="4">Ожидание 2-3 дня</option>--}}
+                                {{--<option value="5">Под заказ</option>--}}
+                            {{--</select>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
                 </div>
                 {{--<div class="tab-pane fade" id="stickers" role="tabpanel" aria-labelledby="stickers-tab">--}}
                     {{--<div class="form-group row">--}}
@@ -257,98 +277,100 @@
                         </div>
                     </div>
                     </div>
-                <div class="tab-pane fade" id="relations3" role="tabpanel" aria-labelledby="relations3-tab">
+                {{--<div class="tab-pane fade" id="relations3" role="tabpanel" aria-labelledby="relations3-tab">--}}
 
-                    <div class="form-group row">
-                        <label for="terms" class="col-sm-2 col-form-label">Технологии</label>
-                        <div class="col-sm-10">
-
-                            {{--@if(isset($item->technologies) && count($item->technologies) && in_array($technology->id, $item->technologies)) selected @endif--}}
-
-                            @if(isset($technologies))
-                                <select class="form-control" id="table_size" name="technologies[]" multiple>
-                                    <option value="">-- Не выбрано --</option>
-                                    @foreach($technologies as $technology)
-                                        <option value="{{ $technology->id }}" @if(isset($technologies_exist) && count($technologies_exist) && in_array($technology->id, $technologies_exist)) selected @endif>{{ $technology->locales[0]->name }}</option>
-                                    @endforeach
-                                </select>
-                            @endif
-                        </div>
-                    </div>
-                    </div>
-                <div class="tab-pane fade" id="relations4" role="tabpanel" aria-labelledby="relations4-tab">
-
-                    <div class="form-group row">
-                        <label for="terms" class="col-sm-2 col-form-label">Таблица размеров</label>
-                        <div class="col-sm-10">
-                            @if(isset($table_size))
-                                <select class="form-control" id="table_size" name="table_size">
-                                    <option value="">-- Не выбрано --</option>
-                                    @foreach($table_size as $table)
-                                        <option value="{{ $table->id }}" @if(isset($item->table_size) && count($item->table_size) && $item->table_size[0]->id == $table->id) selected @endif>{{ $table->locales[0]->name }}</option>
-                                    @endforeach
-                                </select>
-                            @endif
-                        </div>
-                    </div>
-
-                </div>
-                <div class="tab-pane fade" id="relations5" role="tabpanel" aria-labelledby="relations5-tab">
-
-                    <div class="form-group row">
-                        <label for="terms" class="col-sm-2 col-form-label">Товары</label>
-                        <div class="col-sm-10">
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="terms" class="col-sm-2 col-form-label">Технологии</label>--}}
+                        {{--<div class="col-sm-10">--}}
 
                             {{--@if(isset($item->technologies) && count($item->technologies) && in_array($technology->id, $item->technologies)) selected @endif--}}
 
-                            @if(isset($items_related))
-                                <select class="form-control" id="table_size" name="items_related[]" multiple>
-                                    <option value="">-- Не выбрано --</option>
-                                    @foreach($items_related as $item_rel)
-                                        <option value="{{ $item_rel->id }}" @if(isset($item) && isset($item->recommended_items) && $item->recommended_items != null && $item->recommended_items->contains($item_rel->id)) selected @endif>{{ $item_rel->locales[0]->name }}</option>
-                                    @endforeach
-                                </select>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="characteristics" role="tabpanel" aria-labelledby="characteristics-tab">
-                    @if(isset($characteristics))
-                        @foreach($characteristics as $characteristic)
+                            {{--@if(isset($technologies))--}}
+                                {{--<select class="form-control" id="table_size" name="technologies[]" multiple>--}}
+                                    {{--<option value="">-- Не выбрано --</option>--}}
+                                    {{--@foreach($technologies as $technology)--}}
+                                        {{--<option value="{{ $technology->id }}" @if(isset($technologies_exist) && count($technologies_exist) && in_array($technology->id, $technologies_exist)) selected @endif>{{ $technology->locales[0]->name }}</option>--}}
+                                    {{--@endforeach--}}
+                                {{--</select>--}}
+                            {{--@endif--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--</div>--}}
+                {{--<div class="tab-pane fade" id="relations4" role="tabpanel" aria-labelledby="relations4-tab">--}}
 
-                            @if(isset($characteristic->locales))
-                                @foreach($characteristic->locales as $locale)
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="terms" class="col-sm-2 col-form-label">Таблица размеров</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--@if(isset($table_size))--}}
+                                {{--<select class="form-control" id="table_size" name="table_size">--}}
+                                    {{--<option value="">-- Не выбрано --</option>--}}
+                                    {{--@foreach($table_size as $table)--}}
+                                        {{--<option value="{{ $table->id }}" @if(isset($item->table_size) && count($item->table_size) && $item->table_size[0]->id == $table->id) selected @endif>{{ $table->locales[0]->name }}</option>--}}
+                                    {{--@endforeach--}}
+                                {{--</select>--}}
+                            {{--@endif--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+
+                {{--</div>--}}
+                {{--<div class="tab-pane fade" id="relations5" role="tabpanel" aria-labelledby="relations5-tab">--}}
+
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="terms" class="col-sm-2 col-form-label">Товары</label>--}}
+                        {{--<div class="col-sm-10">--}}
+
+                            {{--@if(isset($item->technologies) && count($item->technologies) && in_array($technology->id, $item->technologies)) selected @endif--}}
+
+                            {{--@if(isset($items_related))--}}
+                                {{--<select class="form-control" id="table_size" name="items_related[]" multiple>--}}
+                                    {{--<option value="">-- Не выбрано --</option>--}}
+                                    {{--@foreach($items_related as $item_rel)--}}
+                                        {{--<option value="{{ $item_rel->id }}" @if(isset($item) && isset($item->recommended_items) && $item->recommended_items != null && $item->recommended_items->contains($item_rel->id)) selected @endif>{{ $item_rel->locales[0]->name }}</option>--}}
+                                    {{--@endforeach--}}
+                                {{--</select>--}}
+                            {{--@endif--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+
+                {{--<div class="tab-pane fade" id="characteristics" role="tabpanel" aria-labelledby="characteristics-tab">--}}
+                    {{--@if(isset($characteristics))--}}
+                        {{--@foreach($characteristics as $characteristic)--}}
+
+                            {{--@if(isset($characteristic->locales))--}}
+                                {{--@foreach($characteristic->locales as $locale)--}}
 
                                     <?php $l = []; ?>
-                                    @if(isset($item->characteristics_without_locale) && count($item->characteristics_without_locale))
-                                        @foreach($item->characteristics_without_locale as $item_ch)
-                                            @if($locale->ch_id == $item_ch->ch_id && $locale->locale == $item_ch->locale)
-                                                <?php array_push($l, $locale->locale); ?>
-                                                <div class="form-group row">
-                                                    <label for="preview" class="col-sm-2 col-form-label">{{ $locale->name }}</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="text" class="form-control" name="item_ch[{{ $item_ch->id }}]" value="{{ unserialize($item_ch->value) }}">
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                        @if(!in_array($locale->locale, $l))
-                                            <div class="form-group row">
-                                                <label for="preview" class="col-sm-2 col-form-label">{{ $locale->name }}</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control" name="characteristics[{{ $locale->ch_id }}][{{$locale->locale}}]">
-                                                </div>
-                                            </div>
-                                        @endif
+                                    {{--@if(isset($item->characteristics_without_locale) && count($item->characteristics_without_locale))--}}
+                                        {{--@foreach($item->characteristics_without_locale as $item_ch)--}}
+                                            {{--@if($locale->ch_id == $item_ch->ch_id && $locale->locale == $item_ch->locale)--}}
+                                                <?php //array_push($l, $locale->locale); ?>
+                                                {{--<div class="form-group row">--}}
+                                                    {{--<label for="preview" class="col-sm-2 col-form-label">{{ $locale->name }}</label>--}}
+                                                    {{--<div class="col-sm-10">--}}
+                                                        {{--<input type="text" class="form-control" name="item_ch[{{ $item_ch->id }}]" value="{{ unserialize($item_ch->value) }}">--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+                                            {{--@endif--}}
+                                        {{--@endforeach--}}
+                                    {{--@endif--}}
+                                        {{--@if(!in_array($locale->locale, $l))--}}
+                                            {{--<div class="form-group row">--}}
+                                                {{--<label for="preview" class="col-sm-2 col-form-label">{{ $locale->name }}</label>--}}
+                                                {{--<div class="col-sm-10">--}}
+                                                    {{--<input type="text" class="form-control" name="characteristics[{{ $locale->ch_id }}][{{$locale->locale}}]">--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                        {{--@endif--}}
 
-                                @endforeach
-                                    <hr/>
-                            @endif
+                                {{--@endforeach--}}
+                                    {{--<hr/>--}}
+                            {{--@endif--}}
 
-                        @endforeach
-                    @endif
-                </div>
+                        {{--@endforeach--}}
+                    {{--@endif--}}
+                {{--</div>--}}
+
                 <div class="tab-pane fade" id="media" role="tabpanel" aria-labelledby="media-tab">
                     <div class="form-group row">
                         <label for="preview" class="col-sm-2 col-form-label">Превью товара</label>
@@ -405,133 +427,114 @@
                             <input type="file" class="form-control" id="photo" name="photo_5">
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="photo" class="col-sm-2 col-form-label">Фото товара №6</label>
-                        <div class="col-sm-10">
-                            @if(isset($item->gallery_photo6))<img class="fade_gallery" src="{{ asset($item->gallery_photo6->path) }}" style="width: 250px;">
-                            <br class="fade_gallery"/><br class="fade_gallery"/><button class="btn btn-danger delete_gallery" data-gallery-id="{{ $item->gallery_photo6->id }}" data-item-id="{{ $item->id }}">Удалить фото</button><br class="fade_gallery"/><br class="fade_gallery"/>
-                            @endif
-                            <input type="file" class="form-control" id="photo" name="photo_6">
-                        </div>
-                    </div>
 
-                    <div class="form-group row">
-                        <label for="photo" class="col-sm-2 col-form-label">Фото товара №7</label>
-                        <div class="col-sm-10">
-                            @if(isset($item->gallery_photo7))<img class="fade_gallery" src="{{ asset($item->gallery_photo7->path) }}" style="width: 250px;">
-                            <br class="fade_gallery"/><br class="fade_gallery"/><button class="btn btn-danger delete_gallery" data-gallery-id="{{ $item->gallery_photo7->id }}" data-item-id="{{ $item->id }}">Удалить фото</button><br class="fade_gallery"/><br class="fade_gallery"/>
-                            @endif
-                            <input type="file" class="form-control" id="photo" name="photo_7">
-                        </div>
-                    </div>
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="photo" class="col-sm-2 col-form-label">Фото товара №6</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--@if(isset($item->gallery_photo6))<img class="fade_gallery" src="{{ asset($item->gallery_photo6->path) }}" style="width: 250px;">--}}
+                            {{--<br class="fade_gallery"/><br class="fade_gallery"/><button class="btn btn-danger delete_gallery" data-gallery-id="{{ $item->gallery_photo6->id }}" data-item-id="{{ $item->id }}">Удалить фото</button><br class="fade_gallery"/><br class="fade_gallery"/>--}}
+                            {{--@endif--}}
+                            {{--<input type="file" class="form-control" id="photo" name="photo_6">--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
-                    <div class="form-group row">
-                        <label for="photo" class="col-sm-2 col-form-label">Фото товара №8</label>
-                        <div class="col-sm-10">
-                            @if(isset($item->gallery_photo8))<img class="fade_gallery" src="{{ asset($item->gallery_photo8->path) }}" style="width: 250px;">
-                            <br class="fade_gallery"/><br class="fade_gallery"/><button class="btn btn-danger delete_gallery" data-gallery-id="{{ $item->gallery_photo8->id }}" data-item-id="{{ $item->id }}">Удалить фото</button><br class="fade_gallery"/><br class="fade_gallery"/>
-                            @endif
-                            <input type="file" class="form-control" id="photo" name="photo_8">
-                        </div>
-                    </div>
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="photo" class="col-sm-2 col-form-label">Фото товара №7</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--@if(isset($item->gallery_photo7))<img class="fade_gallery" src="{{ asset($item->gallery_photo7->path) }}" style="width: 250px;">--}}
+                            {{--<br class="fade_gallery"/><br class="fade_gallery"/><button class="btn btn-danger delete_gallery" data-gallery-id="{{ $item->gallery_photo7->id }}" data-item-id="{{ $item->id }}">Удалить фото</button><br class="fade_gallery"/><br class="fade_gallery"/>--}}
+                            {{--@endif--}}
+                            {{--<input type="file" class="form-control" id="photo" name="photo_7">--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
-                    <div class="form-group row">
-                        <label for="photo" class="col-sm-2 col-form-label">Фото товара №9</label>
-                        <div class="col-sm-10">
-                            @if(isset($item->gallery_photo9))<img class="fade_gallery" src="{{ asset($item->gallery_photo9->path) }}" style="width: 250px;">
-                            <br class="fade_gallery"/><br class="fade_gallery"/><button class="btn btn-danger delete_gallery" data-gallery-id="{{ $item->gallery_photo9->id }}" data-item-id="{{ $item->id }}">Удалить фото</button><br class="fade_gallery"/><br class="fade_gallery"/>
-                            @endif
-                            <input type="file" class="form-control" id="photo" name="photo_9">
-                        </div>
-                    </div>
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="photo" class="col-sm-2 col-form-label">Фото товара №8</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--@if(isset($item->gallery_photo8))<img class="fade_gallery" src="{{ asset($item->gallery_photo8->path) }}" style="width: 250px;">--}}
+                            {{--<br class="fade_gallery"/><br class="fade_gallery"/><button class="btn btn-danger delete_gallery" data-gallery-id="{{ $item->gallery_photo8->id }}" data-item-id="{{ $item->id }}">Удалить фото</button><br class="fade_gallery"/><br class="fade_gallery"/>--}}
+                            {{--@endif--}}
+                            {{--<input type="file" class="form-control" id="photo" name="photo_8">--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
-                    <div class="form-group row">
-                        <label for="photo" class="col-sm-2 col-form-label">Фото товара №10</label>
-                        <div class="col-sm-10">
-                            @if(isset($item->gallery_photo10))<img class="fade_gallery" src="{{ asset($item->gallery_photo10->path) }}" style="width: 250px;">
-                            <br class="fade_gallery"/><br class="fade_gallery"/><button class="btn btn-danger delete_gallery" data-gallery-id="{{ $item->gallery_photo10->id }}" data-item-id="{{ $item->id }}">Удалить фото</button><br class="fade_gallery"/><br class="fade_gallery"/>
-                            @endif
-                            <input type="file" class="form-control" id="photo" name="photo_10">
-                        </div>
-                    </div>
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="photo" class="col-sm-2 col-form-label">Фото товара №9</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--@if(isset($item->gallery_photo9))<img class="fade_gallery" src="{{ asset($item->gallery_photo9->path) }}" style="width: 250px;">--}}
+                            {{--<br class="fade_gallery"/><br class="fade_gallery"/><button class="btn btn-danger delete_gallery" data-gallery-id="{{ $item->gallery_photo9->id }}" data-item-id="{{ $item->id }}">Удалить фото</button><br class="fade_gallery"/><br class="fade_gallery"/>--}}
+                            {{--@endif--}}
+                            {{--<input type="file" class="form-control" id="photo" name="photo_9">--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
-                    <div class="form-group row">
-                        <label for="photo" class="col-sm-2 col-form-label">Фото товара №11</label>
-                        <div class="col-sm-10">
-                            @if(isset($item->gallery_photo11))<img class="fade_gallery" src="{{ asset($item->gallery_photo11->path) }}" style="width: 250px;">
-                            <br class="fade_gallery"/><br class="fade_gallery"/><button class="btn btn-danger delete_gallery" data-gallery-id="{{ $item->gallery_photo11->id }}" data-item-id="{{ $item->id }}">Удалить фото</button><br class="fade_gallery"/><br class="fade_gallery"/>
-                            @endif
-                            <input type="file" class="form-control" id="photo" name="photo_11">
-                        </div>
-                    </div>
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="photo" class="col-sm-2 col-form-label">Фото товара №10</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--@if(isset($item->gallery_photo10))<img class="fade_gallery" src="{{ asset($item->gallery_photo10->path) }}" style="width: 250px;">--}}
+                            {{--<br class="fade_gallery"/><br class="fade_gallery"/><button class="btn btn-danger delete_gallery" data-gallery-id="{{ $item->gallery_photo10->id }}" data-item-id="{{ $item->id }}">Удалить фото</button><br class="fade_gallery"/><br class="fade_gallery"/>--}}
+                            {{--@endif--}}
+                            {{--<input type="file" class="form-control" id="photo" name="photo_10">--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
-                    <div class="form-group row">
-                        <label for="photo" class="col-sm-2 col-form-label">Фото товара №12</label>
-                        <div class="col-sm-10">
-                            @if(isset($item->gallery_photo12))<img class="fade_gallery" src="{{ asset($item->gallery_photo12->path) }}" style="width: 250px;">
-                            <br class="fade_gallery"/><br class="fade_gallery"/><button class="btn btn-danger delete_gallery" data-gallery-id="{{ $item->gallery_photo12->id }}" data-item-id="{{ $item->id }}">Удалить фото</button><br class="fade_gallery"/><br class="fade_gallery"/>
-                            @endif
-                            <input type="file" class="form-control" id="photo" name="photo_12">
-                        </div>
-                    </div>
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="photo" class="col-sm-2 col-form-label">Фото товара №11</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--@if(isset($item->gallery_photo11))<img class="fade_gallery" src="{{ asset($item->gallery_photo11->path) }}" style="width: 250px;">--}}
+                            {{--<br class="fade_gallery"/><br class="fade_gallery"/><button class="btn btn-danger delete_gallery" data-gallery-id="{{ $item->gallery_photo11->id }}" data-item-id="{{ $item->id }}">Удалить фото</button><br class="fade_gallery"/><br class="fade_gallery"/>--}}
+                            {{--@endif--}}
+                            {{--<input type="file" class="form-control" id="photo" name="photo_11">--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
-                    <div class="form-group row">
-                        <label for="photo" class="col-sm-2 col-form-label">Фото товара №13</label>
-                        <div class="col-sm-10">
-                            @if(isset($item->gallery_photo13))<img class="fade_gallery" src="{{ asset($item->gallery_photo13->path) }}" style="width: 250px;">
-                            <br class="fade_gallery"/><br class="fade_gallery"/><button class="btn btn-danger delete_gallery" data-gallery-id="{{ $item->gallery_photo13->id }}" data-item-id="{{ $item->id }}">Удалить фото</button><br class="fade_gallery"/><br class="fade_gallery"/>
-                            @endif
-                            <input type="file" class="form-control" id="photo" name="photo_13">
-                        </div>
-                    </div>
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="photo" class="col-sm-2 col-form-label">Фото товара №12</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--@if(isset($item->gallery_photo12))<img class="fade_gallery" src="{{ asset($item->gallery_photo12->path) }}" style="width: 250px;">--}}
+                            {{--<br class="fade_gallery"/><br class="fade_gallery"/><button class="btn btn-danger delete_gallery" data-gallery-id="{{ $item->gallery_photo12->id }}" data-item-id="{{ $item->id }}">Удалить фото</button><br class="fade_gallery"/><br class="fade_gallery"/>--}}
+                            {{--@endif--}}
+                            {{--<input type="file" class="form-control" id="photo" name="photo_12">--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
-                    <div class="form-group row">
-                        <label for="photo" class="col-sm-2 col-form-label">Фото товара №14</label>
-                        <div class="col-sm-10">
-                            @if(isset($item->gallery_photo14))<img class="fade_gallery" src="{{ asset($item->gallery_photo14->path) }}" style="width: 250px;">
-                            <br class="fade_gallery"/><br class="fade_gallery"/><button class="btn btn-danger delete_gallery" data-gallery-id="{{ $item->gallery_photo14->id }}" data-item-id="{{ $item->id }}">Удалить фото</button><br class="fade_gallery"/><br class="fade_gallery"/>
-                            @endif
-                            <input type="file" class="form-control" id="photo" name="photo_14">
-                        </div>
-                    </div>
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="photo" class="col-sm-2 col-form-label">Фото товара №13</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--@if(isset($item->gallery_photo13))<img class="fade_gallery" src="{{ asset($item->gallery_photo13->path) }}" style="width: 250px;">--}}
+                            {{--<br class="fade_gallery"/><br class="fade_gallery"/><button class="btn btn-danger delete_gallery" data-gallery-id="{{ $item->gallery_photo13->id }}" data-item-id="{{ $item->id }}">Удалить фото</button><br class="fade_gallery"/><br class="fade_gallery"/>--}}
+                            {{--@endif--}}
+                            {{--<input type="file" class="form-control" id="photo" name="photo_13">--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
-                    <div class="form-group row">
-                        <label for="photo" class="col-sm-2 col-form-label">Фото товара №15</label>
-                        <div class="col-sm-10">
-                            @if(isset($item->gallery_photo15))<img class="fade_gallery" src="{{ asset($item->gallery_photo15->path) }}" style="width: 250px;">
-                            <br class="fade_gallery"/><br class="fade_gallery"/><button class="btn btn-danger delete_gallery" data-gallery-id="{{ $item->gallery_photo15->id }}" data-item-id="{{ $item->id }}">Удалить фото</button><br class="fade_gallery"/><br class="fade_gallery"/>
-                            @endif
-                            <input type="file" class="form-control" id="photo" name="photo_15">
-                        </div>
-                    </div>
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="photo" class="col-sm-2 col-form-label">Фото товара №14</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--@if(isset($item->gallery_photo14))<img class="fade_gallery" src="{{ asset($item->gallery_photo14->path) }}" style="width: 250px;">--}}
+                            {{--<br class="fade_gallery"/><br class="fade_gallery"/><button class="btn btn-danger delete_gallery" data-gallery-id="{{ $item->gallery_photo14->id }}" data-item-id="{{ $item->id }}">Удалить фото</button><br class="fade_gallery"/><br class="fade_gallery"/>--}}
+                            {{--@endif--}}
+                            {{--<input type="file" class="form-control" id="photo" name="photo_14">--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
-                    <div class="form-group row">
-                        <label for="meta_keywords" class="col-sm-2 col-form-label">Youtube видео</label>
-                        <div class="col-sm-10">
-                            <textarea class="form-control" id="meta_keywords" rows="3" name="item[youtube]">@if(isset($item)) {{ $item->youtube }} @endif</textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
-                    <div class="form-group row">
-                        <label for="sticker" class="col-sm-2 col-form-label">Активация</label>
-                        <div class="col-sm-10">
-                            <select class="form-control" id="store_subtract" name="item[is_active]">
-                                <option value="1" @if(isset($item->is_active) && $item->is_active) selected @endif>Да</option>
-                                <option value="0" @if(isset($item->is_active) && !$item->is_active) selected @endif >Нет</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="sticker" class="col-sm-2 col-form-label">Показывать в каталоге</label>
-                        <div class="col-sm-10">
-                            <select class="form-control" id="store_subtract" name="item[is_catalog]">
-                                <option value="1" @if(isset($item->is_catalog) && $item->is_catalog) selected @endif>Да</option>
-                                <option value="0" @if(isset($item->is_catalog) && !$item->is_catalog) selected @endif >Нет</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="photo" class="col-sm-2 col-form-label">Фото товара №15</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--@if(isset($item->gallery_photo15))<img class="fade_gallery" src="{{ asset($item->gallery_photo15->path) }}" style="width: 250px;">--}}
+                            {{--<br class="fade_gallery"/><br class="fade_gallery"/><button class="btn btn-danger delete_gallery" data-gallery-id="{{ $item->gallery_photo15->id }}" data-item-id="{{ $item->id }}">Удалить фото</button><br class="fade_gallery"/><br class="fade_gallery"/>--}}
+                            {{--@endif--}}
+                            {{--<input type="file" class="form-control" id="photo" name="photo_15">--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="meta_keywords" class="col-sm-2 col-form-label">Youtube видео</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--<textarea class="form-control" id="meta_keywords" rows="3" name="item[youtube]">@if(isset($item)) {{ $item->youtube }} @endif</textarea>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
             </div>
         </div>
         <div class="card-footer clearfix">
