@@ -73,7 +73,7 @@
                         <!-- end orders -->
                     </div>
                     @endif
-                    <a class="btn blue tblue opacity" href="cart.html">Назад</a></div>
+                    <a class="btn blue tblue opacity" href="/profile">Назад</a></div>
             </div>
         </div>
     </div>
