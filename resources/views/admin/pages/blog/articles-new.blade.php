@@ -42,13 +42,13 @@ $locales = ['ru'];
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="base" role="tabpanel" aria-labelledby="base-tab">
                         <div class="row">
-                            <div class="col-1">
-                                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                    @foreach($locales as $key => $locale)
-                                        <a class="nav-link @if($key == 0) active @endif text-center" id="v-pills-locale-{{ $locale }}-tab" data-toggle="pill" href="#v-pills-locale-{{ $locale }}" role="tab" aria-controls="v-pills-locale-{{ $locale }}" aria-selected="true">{{ $locale }}</a>
-                                    @endforeach
-                                </div>
-                            </div>
+                            {{--<div class="col-1">--}}
+                                {{--<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">--}}
+                                    {{--@foreach($locales as $key => $locale)--}}
+                                        {{--<a class="nav-link @if($key == 0) active @endif text-center" id="v-pills-locale-{{ $locale }}-tab" data-toggle="pill" href="#v-pills-locale-{{ $locale }}" role="tab" aria-controls="v-pills-locale-{{ $locale }}" aria-selected="true">{{ $locale }}</a>--}}
+                                    {{--@endforeach--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
                             <div class="col-11">
                                 <div class="tab-content" id="v-pills-tabContent">
                                     @foreach($locales as $key => $locale)

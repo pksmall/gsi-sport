@@ -25,8 +25,6 @@ class StoreArticleCategoryRequest extends FormRequest
     {
         return [
             'item_locales.ru.name' => 'required',
-            'item_locales.ua.name' => 'required',
-            'item_locales.en.name' => 'required'
         ];
     }
 }
