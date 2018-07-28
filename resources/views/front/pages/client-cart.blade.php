@@ -28,7 +28,7 @@
                             <a class="product-image" href="/products/{{ $item['item']->locales[0]->slug }}" style="background-image: url({{ $item['item']->preview->path }})"></a>
                             <div class="text-block-wrap">
                                 <div class="text-block">
-                                    <div class="product-title">{{ $item['item']->locales[0]->name }}</div>
+                                    <div class="product-title" style="padding: 40px 0;">{{ $item['item']->locales[0]->name }}</div>
                                     <div class="product-info">
                                         <div class="label">количество:</div>
                                         <div class="product-qty-block">

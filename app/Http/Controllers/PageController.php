@@ -365,9 +365,32 @@ class PageController extends Controller
         }
 
         $this->setTitle(trans('base.cart'));
-        $orders = Auth::user()->orders()->paginate(10);
-        return view('front/pages/client-history')->with(['orders' => $orders, 'cartTotal' => $this->carttotal()]);
-    }
+        $orders = Auth::user()->orders()->orderBy('id', 'desc')->paginate(10);
+        $arrItems = array();
+        $arrQty = array();
+        foreach($orders as $order) {
+            $ids = "";
+            $qty = array();
+            foreach ($order->order_items as $item) {
+                if ($ids == "") {
+                    $ids = $item->item_id;
+                } else {
+                    $ids = $ids . ", " . $item->item_id;
+                }
+                $qty[$item->item_id] = $item->qty;
+            }
+            $items = Item::query();
+            $items->with('preview', 'locales');
+            $items->whereRaw('id in  (' . $ids . ')');
+            $items = $items->paginate();
+            $arrItems[$order->id] = $items;
+            $arrQty[$order->id] = $qty;
+        }
+        //dd($arrQty);
+        //dd($arrItems[69]);
+
+        return view('front/pages/client-history')->with(['orders' => $orders, 'arrQty' => $arrQty, 'arrItems' => $arrItems, 'cartTotal' => $this->carttotal()]);
+        }
 
     public function update_profile(Request $request)
     {

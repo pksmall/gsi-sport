@@ -17,6 +17,7 @@
     <link href="{{ asset('assets/libs/bootstrap/bootstrap-grid.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/libs/custom-scrollbar/custom-scrollbar.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/styles.css') }}" rel="stylesheet">
+    @if (Route::is('history'))<link href="{{ asset('assets/css/styles-history.css') }}" rel="stylesheet"> @endif
 
     <!-- title -->
     <title>{{ config('app.name', 'Laravel') }}</title>

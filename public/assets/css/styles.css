@@ -1262,13 +1262,12 @@ top:15px;
     height: 98px;
     min-width: 58px; }
   .history-page .product-item .product-title {
-      width: 620px;
+    /*width: 480px; */
     font-size: 21px;
     line-height: 25px;
     text-transform: uppercase;
     letter-spacing: 5.11px;
     margin-left: 32px;
-      padding: 40px 0;
     margin-bottom: 0; }
   .history-page .product-item .product-info {
     display: -webkit-box;
