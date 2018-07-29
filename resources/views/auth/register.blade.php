@@ -27,8 +27,8 @@
                                 <span class="error" for="name">Ваше Имя?</span>
                             </div>
                             <div class="form-group">
-                                <label for="telephone">Телефон:</label>
-                                <input id="telephone" name="telephone" type="number" min="6" data-content="Телефон должен быть больше 6 цифр.">
+                                <label for="telephone">Телефон: </label>
+                                <input id="telephone" name="telephone" type="text" min=12 data-content="Телефон должен быть из 12 цифр.">
                                 <span class="error" for="telephone">Ваш телефон?</span>
                             </div>
                             <div class="form-group">
@@ -90,17 +90,17 @@
 
         <!-- Numbers -->
         $('#telephone').on('input', function() {
+            $(this).mask('000 (00) 000-00-00', {placeholder: "___ (__) ___-__-__"});
             var input=$(this);
-            var re = /[0-9]+/;
+            var clearval = input.val();
             var minlen = input.attr('min');
-            var len = input.val().length;
+            var len = input.val().length - 6;
             var minlenflag = false;
-            var is_num=re.test(input.val());
             var error_element=$("span", input.parent());
             if (len < minlen) {
                 minlenflag = true;
             }
-            if(is_num && !minlenflag) {
+            if(!minlenflag) {
                 input.removeClass("invalid").addClass("valid");
                 error_element.removeClass("error_show").addClass("error");
             } else {
@@ -110,6 +110,7 @@
                 input.removeClass("valid").addClass("invalid");
                 error_element.removeClass("error").addClass("error_show");
             }
+            console.log("Phlen: " + len + " FL: " + minlenflag + " V:" + clearval );
         });
 
         <!--Email must be an email -->

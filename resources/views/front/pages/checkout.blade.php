@@ -32,7 +32,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="reg-telephone" required>Телефон:</label>
-                                <input class="form-control" id="reg-telephone" name="reg-telephone" type="number"  placeholder="Телефон"  required>
+                                <input class="form-control" id="reg-telephone" name="reg-telephone" type="text"  min="12" placeholder="Телефон">
                                 <span class="error"  for="reg-telephone">Ваш телефон?</span>
                             </div>
                             <div class="form-group">
@@ -174,17 +174,27 @@
 
             <!-- Numbers -->
             $('#reg-telephone').on('input', function() {
+                $(this).mask('000 (00) 000-00-00', {placeholder: "___ (__) ___-__-__"});
                 var input=$(this);
-                var re = /[0-9]+/;
-                var is_num=re.test(input.val());
+                var clearval = input.val();
+                var minlen = input.attr('min');
+                var len = input.val().length - 6;
+                var minlenflag = false;
                 var error_element=$("span", input.parent());
-                if(is_num) {
+                if (len < minlen) {
+                    minlenflag = true;
+                }
+                if(!minlenflag) {
                     input.removeClass("invalid").addClass("valid");
                     error_element.removeClass("error_show").addClass("error");
                 } else {
+                    if (minlenflag) {
+                        error_element.html(input.data('content'));
+                    }
                     input.removeClass("valid").addClass("invalid");
                     error_element.removeClass("error").addClass("error_show");
                 }
+                //console.log("Phlen: " + len + " FL: " + minlenflag + " V:" + clearval );
             });
 
             <!--Email must be an email -->
