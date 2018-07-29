@@ -362,7 +362,7 @@ class AjaxController extends Controller
             }
         }
 
-        //Log::info(print_r($reqdata, true));
+        Log::info(print_r($reqdata, true));
         $is_reg = null;
         if (isset($reqdata['weareregister'])) {
             $is_reg = 1;
@@ -372,12 +372,17 @@ class AjaxController extends Controller
                 $user = null;
                 $user_pass = str_random('8');
 
-                $message = "Генерация пароля на GSI-Sport.\nВот сгенерированный пароль для вашей учетной записи: " . $user_pass;
-                $subject = "Новый пароль на сайт Gsi-Sport";
+                $message = "Спасибо за регистрация на сайте GSI-Sport
+Ваши данные для входа в личный кабинет:
+Логин: " . $reqdata['reg-email'] ."
+Пароль: " . $user_pass ."
+
+Удачных вам покупок!";
+                $subject = "Регистрация на сайте GSI-Sport";
                 $this->mail_send_to_client($reqdata['reg-email'], $reqdata['reg-name'], $subject, $message);
 
                 $user = User::where('email', $reqdata['reg-email'])->first();
-                //Log::info(print_r($user, true));
+                Log::info(print_r($user, true));
                 if (!$user) {
                     $user = User::create([
                         'name' => $reqdata['reg-name'],
@@ -395,6 +400,8 @@ class AjaxController extends Controller
                 }
 
                 Auth::attempt(['email' => $user->email, 'password' => $user_pass]);
+            } else {
+                Log::info("is regster but not auth");
             }
         } else {
             if (Auth::check()) {
@@ -407,19 +414,23 @@ class AjaxController extends Controller
         $cart = $this->get_cart();
 
         if (isset($reqdata['deliverychoose'])) {
-            if ($reqdata['deliverychoose'] != 2) {
-                $reqcity = "Одеса";
-                if (isset($reqdata['fxaddr'])) {
+            switch ($reqdata['deliverychoose']) {
+                case 2:
+                    $reqcity = $reqdata['city'];
+                    $reqmore = $reqdata['npposts'];
+                    break;
+                case 3:
+                    $reqcity = "Одеса";
                     $reqmore = $reqdata['fxaddr'];
-                }
-            } else {
-                $reqcity = $reqdata['city'];
-                $reqmore = $reqdata['npposts'];
+                    break;
+                default:
+                    $reqdata['deliverychoose'] = 1;
+                    $reqcity = "Одеса";
+                    $reqmore = "Самовывоз";
+
+                    break;
+
             }
-        } else {
-            $reqdata['deliverychoose'] = 1;
-            $reqcity = "Одеса";
-            $reqmore = "Самовывоз";
         }
         $returl = url('/order_success');
         $order = Order::create([

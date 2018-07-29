@@ -258,7 +258,7 @@
                 var error_free=true;
                 var second_form_check = false;
                 var form_data= $('#deliverytype').serializeArray();
-                if (!$('#fxaddr').is(":disabled")) {
+                if (!$('#fxaddr').is(":disabled") || $('#selfdelivery').is(":checked")) {
                     //alert('fidex active');
                     for (var input in form_data) {
                         if (form_data[input]['name'] == '_token') { continue; }
