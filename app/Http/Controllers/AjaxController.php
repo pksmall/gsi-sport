@@ -37,7 +37,7 @@ class AjaxController extends Controller
             /* Config ********** */
             $to_email = Settings::first()->email;
             $to_name = Settings::first()->owner;
-            $subject = Settings::first()->title_shop;
+            $subject = "Вопрос с сайта GSI-Sport";
 
             $message->subject($subject);
             $message->from($request->email, $request->name);
@@ -438,16 +438,12 @@ class AjaxController extends Controller
 
         if (isset(Settings::first()->email) && Settings::first()->email != null) {
             $this->mail_send_to_admin("Новый заказ на GSI-Sport Делатали заказа: " .  route('show_order', $order->id));
-//            mail(Settings::first()->email, "Новый заказ на GSI-Sport", 'Делатали заказа: ' .
-//                route('show_order', $order->id) . '.', implode("\r\n",$headers));
         }
 
         if ($order ){
             $message = "Спасибо за заказ на GSI-Sport Подробно про ваш заказ можно узнать в вашем аккаунте: " . url('/profile');
             $subject = "Новый заказ на Gsi-Sport";
             $this->mail_send_to_client($order->guest_email, $order->guest_name, $subject, $message);
-//            mail($order->guest_email, "Спасибо за заказ на GSI-Sport",
-//                'Подробно про ваш заказ можно узнать в вашем аккаунте.', implode("\r\n",$headers));
         }
 
         foreach($cart['cart']->items as $z) {
@@ -611,7 +607,7 @@ class AjaxController extends Controller
                 $user->update($user_data);
 
                 $message = "Генерация пароля на GSI-Sport.\nВот сгенерированный пароль для вашей учетной записи: " . $user_pass;
-                $subject = "Новый пароль на сайт Gsi-Sport";
+                $subject = "Восстановлние пароля сайте Gsi-Sport";
                 $this->mail_send_to_client($user->email, $user->name, $subject, $message);
             }
         }

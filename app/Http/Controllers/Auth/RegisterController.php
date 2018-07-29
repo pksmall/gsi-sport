@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Auth;
 use App;
 use App\Http\Controllers\Controller;
 use App\Role;
+use App\Settings;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -114,36 +116,28 @@ class RegisterController extends Controller
         ]);
 
         $user->roles()->attach(Role::where('name', 'Клиент')->first());
-
         /*
-        if (isset(Settings::first()->email) && Settings::first()->email != null)
-        {
-            mail(Settings::first()->email, "Нова реєстрація клієнта на Camo-tec", 'Ось профіль клієнта: ' . route('show_client', $user->id) . '.',
-                "From: webmaster@camo-tec.com\r\n"
-                ."X-Mailer: PHP/" . phpversion());
+         * Спасибо за регистрация на сайте GSI-Sport
+Ваши данные для входа в личный кабинет:
+Логин:
+Пароль:
+
+Удачных вам покупок!
+         */
+        $message = "Спасибо за регистрация на сайте GSI-Sport
+Ваши данные для входа в личный кабинет:
+Логин: " . $data['email'] ."
+Пароль: " . $data['password'] ."
+
+Удачных вам покупок!";
+        $subject = "Регистрация на сайте GSI-Sport";
+        $this->mail_send_to_client($user->email, $user->name, $subject, $message);
+
+        if (isset(Settings::first()->email) && Settings::first()->email != null) {
+            $message = "На вашем сайте зарегестрировался новый пользователь - по имени " . $data['name'] .", его почта " . $data['email'];
+            $subject = "Новая регистрация на сайте gsi-sport.com";
+            $this->mail_send_to_admin($message, $subject);
         }
-
-        if ($user)
-        {
-
-            if (App::getLocale() == 'ua') {
-                mail($user->email, "Дякуємо за реєстрацію на сайті нашого магазину Camo-tec!", 'Текст листа',
-                    "From: webmaster@camo-tec.com\r\n"
-                    ."X-Mailer: PHP/" . phpversion());
-            }
-
-            if (App::getLocale() == 'ru') {
-                mail($user->email, "Спасибо за регистрацию на сайте нашего магазина Camo-tec!", 'Текст письма',
-                    "From: webmaster@camo-tec.com\r\n"
-                    ."X-Mailer: PHP/" . phpversion());
-            }
-
-            if (App::getLocale() == 'en') {
-                mail($user->email, "Thanks for registering on our Camo-tec website!", 'Text',
-                    "From: webmaster@camo-tec.com\r\n"
-                    ."X-Mailer: PHP/" . phpversion());
-            }
-        }*/
 
         return $user;
     }
@@ -193,6 +187,39 @@ class RegisterController extends Controller
         }
 
         return $cartTotal;
+    }
+    private function mail_send_to_client($email, $owner, $subject, $message) {
+        $data = array(
+            'messagetext' => $message
+        );
+
+        Mail::send(['text'=>'emailmessage'], $data, function ($message) use ($email, $owner, $subject) {
+            $to_email = $email;
+            $to_name = $owner;
+            $subj = $subject;
+
+            $message->subject($subj);
+            $message->from(Settings::first()->email, "Gsi-Sport WebMaster");
+            $message->to($to_email, $to_name);
+        });
+
+    }
+
+    private function mail_send_to_admin($message, $sub) {
+        $data = array(
+            'messagetext' => $message
+        );
+
+        Mail::send(['text'=>'emailmessage'], $data, function ($message) use ($sub) {
+            $to_email = Settings::first()->email;
+            $to_name = Settings::first()->owner;
+            $subject = $sub;
+
+            $message->subject($subject);
+            $message->from(Settings::first()->email, "Gsi-Sport WebMaster");
+            $message->to($to_email, $to_name);
+        });
+
     }
 
 }
