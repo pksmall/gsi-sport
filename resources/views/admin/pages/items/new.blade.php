@@ -34,9 +34,9 @@
                 {{--<li class="nav-item">--}}
                     {{--<a class="nav-link" id="stickers-tab" data-toggle="tab" href="#stickers" role="tab" aria-controls="stickers" aria-selected="false">Стикеры</a>--}}
                 {{--</li>--}}
-                {{--<li class="nav-item">--}}
-                    {{--<a class="nav-link" id="relations-tab" data-toggle="tab" href="#relations" role="tab" aria-controls="relations" aria-selected="false">Категории</a>--}}
-                {{--</li>--}}
+                <li class="nav-item">
+                    <a class="nav-link" id="relations-tab" data-toggle="tab" href="#relations" role="tab" aria-controls="relations" aria-selected="false">Категории</a>
+                </li>
                 {{--<li class="nav-item">--}}
                     {{--<a class="nav-link" id="relations2-tab" data-toggle="tab" href="#relations2" role="tab" aria-controls="relations2" aria-selected="false">Фильтры</a>--}}
                 {{--</li>--}}
@@ -125,7 +125,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="price" class="col-sm-2 col-form-label">Цена</label>
+                        <label for="price" class="col-sm-2 col-form-label">Цена<sup class="required">*</sup></label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="price" name="item[price]" @if(isset($item)) value="{{ $item->price }}" @endif>
                         </div>
@@ -260,23 +260,23 @@
                         </div>
                     </div>
                     </div>
-                <div class="tab-pane fade" id="relations2" role="tabpanel" aria-labelledby="relations2-tab">
-                    <div class="form-group row">
-                        <label for="terms" class="col-sm-2 col-form-label">Фильтры</label>
-                        <div class="col-sm-10">
-                            @if(isset($attributes))
-                                <select class="form-control" id="store_subtract" name="terms[]" multiple>
-                                    <option value="">-- Не выбрано --</option>
-                                @foreach($attributes as $attribute)
-                                    @foreach($attribute->terms_list as $term)
-                                            <option value="{{ $term->id }}" @if(isset($item) && $item->terms->contains($term)) selected @endif>{{ $attribute->locales[0]->name }} > {{ $term->locales[0]->name }}</option>
-                                        @endforeach
-                                @endforeach
-                                </select>
-                            @endif
-                        </div>
-                    </div>
-                    </div>
+                {{--<div class="tab-pane fade" id="relations2" role="tabpanel" aria-labelledby="relations2-tab">--}}
+                    {{--<div class="form-group row">--}}
+                        {{--<label for="terms" class="col-sm-2 col-form-label">Фильтры</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--@if(isset($attributes))--}}
+                                {{--<select class="form-control" id="store_subtract" name="terms[]" multiple>--}}
+                                    {{--<option value="">-- Не выбрано --</option>--}}
+                                {{--@foreach($attributes as $attribute)--}}
+                                    {{--@foreach($attribute->terms_list as $term)--}}
+                                            {{--<option value="{{ $term->id }}" @if(isset($item) && $item->terms->contains($term)) selected @endif>{{ $attribute->locales[0]->name }} > {{ $term->locales[0]->name }}</option>--}}
+                                        {{--@endforeach--}}
+                                {{--@endforeach--}}
+                                {{--</select>--}}
+                            {{--@endif--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--</div>--}}
                 {{--<div class="tab-pane fade" id="relations3" role="tabpanel" aria-labelledby="relations3-tab">--}}
 
                     {{--<div class="form-group row">--}}

@@ -257,7 +257,7 @@ class PageController extends Controller
         foreach ($metaPosts as $mpost) {
             $mCreatedAt[$mpost->id] = $mpost->created_at;
         }
-        $posts = BlogArticlesTranslation::where('locale', 'ru')->orderBy('id', 'DESC')->paginate(10);
+        $posts = BlogArticlesTranslation::where('locale', 'ru')->orderBy('id', 'DESC')->paginate(5);
         foreach ($posts as $one_post) {
             $categories[] = $one_post->meta_title;
         }
@@ -464,14 +464,6 @@ class PageController extends Controller
         return view('front/pages/about')->with(['static_page' => $static_page, 'categories' => $categories, 'cartTotal' => $this->carttotal()]);
     }
 
-    public function blog()
-    {
-        $this->setTitle(trans('base.blog'));
-        $posts = BlogArticlesTranslation::where('locale', App::getLocale())->paginate(10);
-        $posts_categories = BlogCategoriesTranslation::where('locale', App::getLocale())->get();
-        return view('front/pages/blog')->with(['posts' => $posts, 'posts_categories' => $posts_categories, 'cartTotal' => $this->carttotal()]);
-    }
-
     public function success_order(Request $request)
     {
         $this->setTitle(trans('base.blog'));
@@ -530,7 +522,16 @@ class PageController extends Controller
 
         return view('front/pages/liqpay')->with(['data' => $data]);
     }
-    /*    public function shop()
+
+    /*
+     * //    public function blog()
+//    {
+//        $this->setTitle(trans('base.blog'));
+//        $posts = BlogArticlesTranslation::where('locale', 'ru')->paginate(5);
+//        $posts_categories = BlogCategoriesTranslation::where('locale', 'ru')->get();
+//        return view('front/pages/blog')->with(['posts' => $posts, 'posts_categories' => $posts_categories, 'cartTotal' => $this->carttotal()]);
+//    }
+    public function shop()
         {
             $items = Item::with('locales', 'preview')->where('is_active', true)->paginate(isset($this->config->item_limit) ? $this->config->item_limit : 10);
 

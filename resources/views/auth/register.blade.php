@@ -48,7 +48,7 @@
                             </div>
                             <div class="checkbox-wrap">
                                 <input id="save-password" name="save-password" type="checkbox">
-                                <label for="save-password" ><span>принять пользовательское соглашение</span></label>
+                                <label for="save-password" ><span><a style="color: #f5f8fa;" href="{{ url('policy.pdf') }}">принять пользовательское соглашение</a></span></label>
                             </div>
                             <div class="form-group">
                                 <span class="error" id="err-save-password" for="save-password">Принять?</span>

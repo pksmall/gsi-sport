@@ -66,19 +66,19 @@ $locales = ['ru'];
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="description" class="col-sm-2 col-form-label">Краткое писание</label>
+                                                <label for="description" class="col-sm-2 col-form-label">Краткое писание<sup class="required">*</sup></label>
                                                 <div class="col-sm-10">
                                                     <textarea class="form-control summernote" id="short_description" name="item_locales[{{ $locale }}][short_description]" rows="3">{{ isset($article) ? $article->locales[$key]->short_description : old('item_locales['.$locale.'][short_description]') }}</textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="description" class="col-sm-2 col-form-label">Полное описание</label>
+                                                <label for="description" class="col-sm-2 col-form-label">Полное описание<sup class="required">*</sup></label>
                                                 <div class="col-sm-10">
                                                     <textarea class="form-control summernote" id="description" name="item_locales[{{ $locale }}][description]" rows="3">{{ isset($article) ? $article->locales[$key]->description : old('item_locales['.$locale.'][description]') }}</textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="meta_title" class="col-sm-2 col-form-label">Мета-тег Title</label>
+                                                <label for="meta_title" class="col-sm-2 col-form-label">Название в меню<sup class="required">*</sup></label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control" id="meta_title" name="item_locales[{{ $locale }}][meta_title]" value="{{ isset($article) ? $article->locales[$key]->meta_title : old('item_locales['.$locale.'][meta_title]') }}">
                                                 </div>
@@ -101,34 +101,35 @@ $locales = ['ru'];
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="relations" role="tabpanel" aria-labelledby="relations-tab">
-                        <div class="form-group row">
-                            <label for="sticker" class="col-sm-2 col-form-label">Категории</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" id="store_subtract" name="categories[]" multiple>
-                                    @if(isset($categories) && count($categories) > 0)
-                                        @foreach($categories as $category)
-                                            @if(!isset($category->parent_id))
-                                                @if($category->subcategories)
-                                                    <option value="{{ $category->id }}" @if(isset($article) && $article->categories->contains($category)) selected @endif>{{ $category->locales[0]->name }}</option>
-                                                    @foreach($category->subcategories as $subcategory)
-                                                        <option value="{{ $subcategory->id }}" @if(isset($article) && $article->categories->contains($subcategory)) selected @endif>{{ $category->locales[0]->name }} > {{ $subcategory->locales[0]->name }}</option>
-                                                        @if($subcategory->subcategories)
-                                                            @foreach($subcategory->subcategories as $sub)
-                                                                <option value="{{ $sub->id }}" @if(isset($article) && $article->categories->contains($sub)) selected @endif>{{ $category->locales[0]->name }} > {{ $subcategory->locales[0]->name }} > {{ $sub->locales[0]->name }}</option>
-                                                            @endforeach
-                                                        @endif
-                                                    @endforeach
-                                                @else
-                                                    <option value="{{ $category->id }}" @if(isset($article) && $article->categories->contains($category)) selected @endif>{{ $category->locales[0]->name }}</option>
-                                                @endif
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                    <input value="1" type="hidden" name="categories[]" id="store_subtract"  multiple></input>
+                    {{--<div class="tab-pane fade" id="relations" role="tabpanel" aria-labelledby="relations-tab">--}}
+                        {{--<div class="form-group row">--}}
+                            {{--<label for="sticker" class="col-sm-2 col-form-label">Категории</label>--}}
+                            {{--<div class="col-sm-10">--}}
+                                {{--<select class="form-control" id="store_subtract" name="categories[]" multiple>--}}
+                                    {{--@if(isset($categories) && count($categories) > 0)--}}
+                                        {{--@foreach($categories as $category)--}}
+                                            {{--@if(!isset($category->parent_id))--}}
+                                                {{--@if($category->subcategories)--}}
+                                                    {{--<option value="{{ $category->id }}" @if(isset($article) && $article->categories->contains($category)) selected @endif>{{ $category->locales[0]->name }}</option>--}}
+                                                    {{--@foreach($category->subcategories as $subcategory)--}}
+                                                        {{--<option value="{{ $subcategory->id }}" @if(isset($article) && $article->categories->contains($subcategory)) selected @endif>{{ $category->locales[0]->name }} > {{ $subcategory->locales[0]->name }}</option>--}}
+                                                        {{--@if($subcategory->subcategories)--}}
+                                                            {{--@foreach($subcategory->subcategories as $sub)--}}
+                                                                {{--<option value="{{ $sub->id }}" @if(isset($article) && $article->categories->contains($sub)) selected @endif>{{ $category->locales[0]->name }} > {{ $subcategory->locales[0]->name }} > {{ $sub->locales[0]->name }}</option>--}}
+                                                            {{--@endforeach--}}
+                                                        {{--@endif--}}
+                                                    {{--@endforeach--}}
+                                                {{--@else--}}
+                                                    {{--<option value="{{ $category->id }}" @if(isset($article) && $article->categories->contains($category)) selected @endif>{{ $category->locales[0]->name }}</option>--}}
+                                                {{--@endif--}}
+                                            {{--@endif--}}
+                                        {{--@endforeach--}}
+                                    {{--@endif--}}
+                                {{--</select>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
                     <div class="tab-pane fade" id="media" role="tabpanel" aria-labelledby="media-tab">
                         <div class="form-group row">
                             <label for="preview" class="col-sm-2 col-form-label">Превью материала</label>
