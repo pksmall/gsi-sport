@@ -443,7 +443,7 @@ class AjaxController extends Controller
         }
 
         if ($order ){
-            $message = "Спасибо за заказ на GSI-Sport Подробно про ваш заказ можно узнать в вашем аккаунте" . url('/profile');
+            $message = "Спасибо за заказ на GSI-Sport Подробно про ваш заказ можно узнать в вашем аккаунте: " . url('/profile');
             $subject = "Новый заказ на Gsi-Sport";
             $this->mail_send_to_client($order->guest_email, $order->guest_name, $subject, $message);
 //            mail($order->guest_email, "Спасибо за заказ на GSI-Sport",
