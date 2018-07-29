@@ -1470,87 +1470,6 @@ class AdminController extends Controller
 
 
 
-    public function table_sizes()
-    {
-        $this->setTitle('Список размерных таблиц');
-        $tables = TableSize::paginate(10);
-        return view('admin/pages/table-sizes/index')->with(['tables' => $tables]);
-    }
-
-    public function table_sizes_new()
-    {
-        $this->setTitle('Создание размерной таблицы');
-        return view('admin/pages/table-sizes/new');
-    }
-
-    public function table_sizes_store(StoreTableSizeRequest $request)
-    {
-        $table = TableSize::create($request->get('item'));
-        if ($request->get('item_locales')) {
-            foreach($request->get('item_locales') as $key => $item)
-            {
-                if (isset($item['name']))
-                {
-                    if (!isset($item['slug']))
-                    {
-                        $item['slug'] = str_slug('a-' . $table->id . '-' . $key . '-' . $item['name'], '-', 'en');
-                    }
-                    $item['table_id'] = $table->id;
-                    $item['locale'] = $key;
-                    TableSizeTranslation::create($item);
-                }
-            }
-        }
-        Session::flash('success', 'Таблица размеров успешно создана!');
-        return redirect()->back();
-    }
-
-    public function table_sizes_edit($id)
-    {
-        $table = TableSize::find($id);
-        if (!isset($table)) {
-            return abort('404');
-        }
-        $this->setTitle('Просмотр таблицы размеров');
-        return view('admin/pages/table-sizes/new')->with(['table' => $table]);
-    }
-
-    public function table_sizes_update($id, Request $request)
-    {
-        //dd($request->all());
-        $table = TableSize::find($id);
-        if (!isset($table)) {
-            return abort('404');
-        }
-
-        $table->update($request->get('item'));
-        $table_locales = TableSizeTranslation::where('table_id', $id)->get();
-        if (isset($table_locales) && count($table_locales) > 0)
-        {
-            if ($request->get('item_locales'))
-            {
-                //dd($table_locales);
-                $table_locales[0]->update($request->get('item_locales')['en']);
-                $table_locales[1]->update($request->get('item_locales')['ru']);
-                $table_locales[2]->update($request->get('item_locales')['ua']);
-            }
-        }
-        Session::flash('success', 'Таблица размеров успешно изменена!');
-        return redirect()->back();
-    }
-
-    public function table_sizes_destroy($id)
-    {
-        $table = TableSize::find($id);
-        if (!isset($table))
-        {
-            return abort('404');
-        }
-        $table->delete();
-        Session::flash('success', 'Таблица размеров успешно удалена!');
-        return redirect()->route('table_sizes');
-    }
-
 
 
 
@@ -2499,4 +2418,88 @@ class AdminController extends Controller
         Session::flash('success', 'Настройки успешно обновлены!');
         return redirect()->route('settings');
     }
+
+    //    public function table_sizes()
+//    {
+//        $this->setTitle('Список размерных таблиц');
+//        $tables = TableSize::paginate(10);
+//        return view('admin/pages/table-sizes/index')->with(['tables' => $tables]);
+//    }
+//
+//    public function table_sizes_new()
+//    {
+//        $this->setTitle('Создание размерной таблицы');
+//        return view('admin/pages/table-sizes/new');
+//    }
+//
+//    public function table_sizes_store(StoreTableSizeRequest $request)
+//    {
+//        $table = TableSize::create($request->get('item'));
+//        if ($request->get('item_locales')) {
+//            foreach($request->get('item_locales') as $key => $item)
+//            {
+//                if (isset($item['name']))
+//                {
+//                    if (!isset($item['slug']))
+//                    {
+//                        $item['slug'] = str_slug('a-' . $table->id . '-' . $key . '-' . $item['name'], '-', 'en');
+//                    }
+//                    $item['table_id'] = $table->id;
+//                    $item['locale'] = $key;
+//                    TableSizeTranslation::create($item);
+//                }
+//            }
+//        }
+//        Session::flash('success', 'Таблица размеров успешно создана!');
+//        return redirect()->back();
+//    }
+//
+//    public function table_sizes_edit($id)
+//    {
+//        $table = TableSize::find($id);
+//        if (!isset($table)) {
+//            return abort('404');
+//        }
+//        $this->setTitle('Просмотр таблицы размеров');
+//        return view('admin/pages/table-sizes/new')->with(['table' => $table]);
+//    }
+//
+//    public function table_sizes_update($id, Request $request)
+//    {
+//        //dd($request->all());
+//        $table = TableSize::find($id);
+//        if (!isset($table)) {
+//            return abort('404');
+//        }
+//
+//        $table->update($request->get('item'));
+//        $table_locales = TableSizeTranslation::where('table_id', $id)->get();
+//        if (isset($table_locales) && count($table_locales) > 0)
+//        {
+//            if ($request->get('item_locales'))
+//            {
+//                //dd($table_locales);
+//                $table_locales[0]->update($request->get('item_locales')['en']);
+//                $table_locales[1]->update($request->get('item_locales')['ru']);
+//                $table_locales[2]->update($request->get('item_locales')['ua']);
+//            }
+//        }
+//        Session::flash('success', 'Таблица размеров успешно изменена!');
+//        return redirect()->back();
+//    }
+//
+//    public function table_sizes_destroy($id)
+//    {
+//        $table = TableSize::find($id);
+//        if (!isset($table))
+//        {
+//            return abort('404');
+//        }
+//        $table->delete();
+//        Session::flash('success', 'Таблица размеров успешно удалена!');
+//        return redirect()->route('table_sizes');
+//    }
+//
+
 }
+

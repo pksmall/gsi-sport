@@ -137,6 +137,8 @@ return [
         'mail_number' => trans('item.address_number'),
         'telephone' => trans('item.profile_telephone'),
         'password_confirmation' => trans('item.profile_r_password'),
+        'item.preview' => trans('item.preview'),
+	'item_locales.ru.name' => trans('item.locales_name'),
 
         'country' => trans('item.address_country'),
         'city' => trans('item.address_city'),

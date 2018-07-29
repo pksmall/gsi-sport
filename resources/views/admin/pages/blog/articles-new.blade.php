@@ -12,14 +12,16 @@ $locales = ['ru'];
         </div>
     @endif
     @if($errors)
+        <div id="alert">
         @foreach ($errors->all() as $error)
             <div class="alert alert-danger" role="alert">
                 {{ $error }}
             </div>
         @endforeach
+        </div>
     @endif
     <div class="card">
-        <form action="@if(Route::is('edit_blog_article')) {{ route('blog_article_update', $article->id) }} @else {{ route('blog_articles_store') }} @endif" method="post" enctype="multipart/form-data">
+        <form id="newForm" action="@if(Route::is('edit_blog_article')) {{ route('blog_article_update', $article->id) }} @else {{ route('blog_articles_store') }} @endif" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             @if(Route::is('edit_blog_article')) <input type="hidden" name="_method" value="put"> @endif
             <div class="card-header">
@@ -65,12 +67,12 @@ $locales = ['ru'];
                                                     <input type="text" class="form-control" id="slug" name="item_locales[{{ $locale }}][slug]" value="{{ isset($article) ? $article->locales[$key]->slug : old('item_locales['.$locale.'][slug]') }}">
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
-                                                <label for="description" class="col-sm-2 col-form-label">Краткое писание<sup class="required">*</sup></label>
-                                                <div class="col-sm-10">
-                                                    <textarea class="form-control summernote" id="short_description" name="item_locales[{{ $locale }}][short_description]" rows="3">{{ isset($article) ? $article->locales[$key]->short_description : old('item_locales['.$locale.'][short_description]') }}</textarea>
-                                                </div>
-                                            </div>
+                                            {{--<div class="form-group row">--}}
+                                                {{--<label for="description" class="col-sm-2 col-form-label">Краткое писание<sup class="required">*</sup></label>--}}
+                                                {{--<div class="col-sm-10">--}}
+                                                    {{--<textarea class="form-control summernote" id="short_description" name="item_locales[{{ $locale }}][short_description]" rows="3">{{ isset($article) ? $article->locales[$key]->short_description : old('item_locales['.$locale.'][short_description]') }}</textarea>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
                                             <div class="form-group row">
                                                 <label for="description" class="col-sm-2 col-form-label">Полное описание<sup class="required">*</sup></label>
                                                 <div class="col-sm-10">
@@ -206,13 +208,74 @@ $locales = ['ru'];
             </div>
             <div class="card-footer clearfix">
                 <a href="{{ route('blog_articles') }}" class="btn btn-secondary pull-left cancel">Отменить</a>
-                <button type="submit" class="btn btn-success pull-right">Создать</button>
+                @if(Route::is('edit_blog_article'))
+                <button type="submit" class="btn btn-success pull-right">Изменить</button>
+                @else
+                    <input type="button" class="btn btn-success pull-right" value="Создать">
+                @endif
+
             </div>
         </form>
     </div>
 @endsection
 
 @section('footer-scripts')
+    @if(!Route::is('edit_slide'))
+        <script>
+            $('.btn').on('click', function() {
+                var alert = "";
+                $('#name').each(function() {
+                    var $this = $(this);
+                    if ($this.val().length == 0) {
+                        console.log($this.val() + '- name not set');
+                        alert = alert + "<div class=\"alert alert-danger\" role=\"alert\">Нет названия.</div>";
+                        return false;
+                    } else {
+                        alert = alert + "";
+                        console.log($this.val() + ' name is set ' + $this.val().length);
+                        $this.removeClass('Error');
+                        return true;
+                    }
+                });
+
+                $('#description').each(function() {
+                    var $this = $(this);
+                    if ($this.val().length == 0) {
+                        console.log($this.val() + '- name not set');
+                        alert = alert + "<div class=\"alert alert-danger\" role=\"alert\">Нет описания.</div>";
+                        return false;
+                    } else {
+                        alert = alert + "";
+                        console.log($this.val() + ' name is set ' + $this.val().length);
+                        $this.removeClass('Error');
+                        return true;
+                    }
+                });
+
+                $('#meta_title').each(function() {
+                    var $this = $(this);
+                    if ($this.val().length == 0) {
+                        console.log($this.val() + '- name not set');
+                        alert = alert + "<div class=\"alert alert-danger\" role=\"alert\">Нет Названия в меню.</div>";
+                        return false;
+                    } else {
+                        alert = alert + "";
+                        console.log($this.val() + ' name is set ' + $this.val().length);
+                        $this.removeClass('Error');
+                        return true;
+                    }
+                });
+                if (alert.length > 0) {
+                    $('#alert').html(alert);
+                } else {
+                    $('#alert').html(alert);
+                    console.log("go go go..." + alert.length);
+                    $("#newForm").submit();
+                }
+            });
+        </script>
+    @endif
+
     <script>
       $(document).ready(function () {
         $('.cancel').on("click", function () {

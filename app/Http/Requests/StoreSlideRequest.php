@@ -24,6 +24,7 @@ class StoreSlideRequest extends FormRequest
     public function rules()
     {
         return [
+            'item_locales.ru.name' => 'required',
             'item.preview' => 'required'
         ];
     }

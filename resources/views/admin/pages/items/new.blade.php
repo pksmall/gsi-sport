@@ -12,14 +12,16 @@
         </div>
     @endif
     @if($errors)
+        <div id="alert">
         @foreach ($errors->all() as $error)
             <div class="alert alert-danger" role="alert">
                 {{ $error }}
             </div>
         @endforeach
+        </div>
     @endif
     <div class="card">
-        <form @if(Route::is('edit_item')) action="{{ route('update_item', $item->id) }}" @else action="{{ route('admin_items_store') }}" @endif method="post" enctype="multipart/form-data">
+        <form id="newForm" @if(Route::is('edit_item')) action="{{ route('update_item', $item->id) }}" @else action="{{ route('admin_items_store') }}" @endif method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
             @if(Route::is('edit_item')) <input type="hidden" name="_method" value="put"> @endif
             @if(Route::is('edit_item')) <input type="hidden" name="item_id" value="{{ $item->id }}"> @endif
@@ -90,7 +92,7 @@
                                     <div class="form-group row">
                                         <label for="description" class="col-sm-2 col-form-label">Описание</label>
                                         <div class="col-sm-10">
-                                            <textarea class="form-control summernote" id="description" name="item_locales[{{ $locale }}][description]" rows="3"> @if(isset($item)) {{ $item->locales[$key]->description }} @endif</textarea>
+                                            <textarea class="form-control summernote" id="description" name="item_locales[{{ $locale }}][description]" rows="3">@if(isset($item)) {{ $item->locales[$key]->description }}@endif</textarea>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -127,7 +129,7 @@
                     <div class="form-group row">
                         <label for="price" class="col-sm-2 col-form-label">Цена<sup class="required">*</sup></label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="price" name="item[price]" @if(isset($item)) value="{{ $item->price }}" @endif>
+                            <input type="text" class="form-control" id="price" name="item[price]" @if(isset($item)) value="{{ $item->price }}"@endif>
                         </div>
                     </div>
                     {{--<div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">--}}
@@ -235,7 +237,7 @@
                     <div class="form-group row">
                         <label for="sticker" class="col-sm-2 col-form-label">Категория товара</label>
                         <div class="col-sm-10">
-                            <select class="form-control" id="store_subtract" name="categories[]" multiple>
+                            <select class="form-control" id="categories" name="categories[]" multiple>
                                 <option value="">-- Не выбрано --</option>
                                 @if(isset($categories) && count($categories) > 0)
                                     @foreach($categories as $category)
@@ -539,13 +541,112 @@
         </div>
         <div class="card-footer clearfix">
             <a href="{{ route('admin_items') }}" class="btn btn-secondary pull-left cancel">Отменить</a>
-            <button type="submit" class="btn btn-success pull-right">Создать</button>
+            @if(Route::is('edit_item'))
+                <button type="submit" class="btn btn-success pull-right">Изменить</button>
+            @else
+                <input type="button" class="btn btn-success pull-right" value="Создать">
+            @endif
         </div>
         </form>
     </div>
 @endsection
 
 @section('footer-scripts')
+    @if(!Route::is('edit_item'))
+        <script>
+            $('.btn').on('click', function() {
+                var alert = "";
+                $('#preview').each(function() {
+                    var $this = $(this);
+                    if ($this.val() == '') {
+                        console.log($this.val() + '- Upload file not selected!');
+                        alert = "<div class=\"alert alert-danger\" role=\"alert\"> Добавте файл изображения - Медиа -> Изображение</div>";
+                        return false;
+                    } else {
+                        alert = "";
+                        console.log($this.val() + ' File to upload');
+                        $this.removeClass('Error');
+                        return true;
+                    }
+                });
+
+                $('#name').each(function() {
+                    var $this = $(this);
+                    if ($this.val().length == 0) {
+                        console.log($this.val() + '- name not set');
+                        alert = alert + "<div class=\"alert alert-danger\" role=\"alert\">Нет Название.</div>";
+                        return false;
+                    } else {
+                        alert = alert + "";
+                        console.log($this.val() + ' name is set ' + $this.val().length);
+                        $this.removeClass('Error');
+                        return true;
+                    }
+                });
+
+                $('#description').each(function() {
+                    var $this = $(this);
+                    if ($this.val().length == 0) {
+                        console.log($this.val() + '- name not set');
+                        alert = alert + "<div class=\"alert alert-danger\" role=\"alert\">Нет описания.</div>";
+                        return false;
+                    } else {
+                        alert = alert + "";
+                        console.log($this.val() + ' name is set ' + $this.val().length);
+                        $this.removeClass('Error');
+                        return true;
+                    }
+                });
+
+                $('#price').each(function() {
+                    var $this = $(this);
+                    var is_num = $.isNumeric($this.val());
+                    if (!is_num || $this.val().length == 0) {
+                        console.log($this.val() + ' - name not set');
+                        alert = alert + "<div class=\"alert alert-danger\" role=\"alert\">Нет числового значения в Данные -> Цена.</div>";
+                        return false;
+                    } else {
+                        alert = alert + "";
+                        console.log($this.val() + ' price is set ' + $this.val().length + " is " + is_num);
+                        $this.removeClass('Error');
+                        return true;
+                    }
+                });
+
+                $('#code').each(function() {
+                    var $this = $(this);
+                    if ($this.val().length == 0) {
+                        console.log($this.val() + '- name not set');
+                        alert = alert + "<div class=\"alert alert-danger\" role=\"alert\">Нет Данные -> Код товара.</div>";
+                        return false;
+                    } else {
+                        alert = alert + "";
+                        console.log($this.val() + ' name is set ' + $this.val().length);
+                        $this.removeClass('Error');
+                        return true;
+                    }
+                });
+
+                var catval = $('#categories').find(":selected").text();
+                if (catval.length == 0) {
+                    console.log(catval + ' - category not set');
+                    alert = alert + "<div class=\"alert alert-danger\" role=\"alert\">Нужно выбрать Категория -> Категория товара.</div>";
+                } else {
+                    alert = alert + "";
+                    console.log(catval + ' category is set ' + catval.length);
+                }
+
+                if (alert.length > 0) {
+                    $('#alert').html(alert);
+                } else {
+                    $('#alert').html(alert);
+                    console.log("go go go..." + alert.length);
+                    $("#newForm").submit();
+                }
+            });
+        </script>
+    @endif
+
     <script>
       $(document).ready(function () {
         $('.cancel').on("click", function () {

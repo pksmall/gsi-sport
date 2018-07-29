@@ -18,11 +18,11 @@ class Localization
      */
     public function handle($request, Closure $next)
     {
-        $locale = $request->segment(1);
-        if (isset($locale) && in_array($locale, config('app.locales')) ) {
-            App::setLocale($locale);
-            Carbon::setLocale($locale);
-        }
+//        $locale = $request->segment(1);
+//        if (isset($locale) && in_array($locale, config('app.locales')) ) {
+            App::setLocale('ru');
+            Carbon::setLocale('ru');
+//        }
         return $next($request);
     }
 }

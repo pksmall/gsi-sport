@@ -12,14 +12,16 @@ $locales = ['ru'];
         </div>
     @endif
     @if($errors)
+        <div id="alert">
         @foreach ($errors->all() as $error)
             <div class="alert alert-danger" role="alert">
                 {{ $error }}
             </div>
         @endforeach
+        </div>
     @endif
     <div class="card">
-        <form action="@if(Route::is('edit_slide')) {{ route('update_slide', $item->id) }} @else {{ route('slide_store') }}@endif" method="post" enctype="multipart/form-data">
+        <form id="newForm" action="@if(Route::is('edit_slide')) {{ route('update_slide', $item->id) }} @else {{ route('slide_store') }}@endif" method="post" enctype="multipart/form-data">
             @if( Route::is('edit_slide') ) <input type="hidden" name="_method" value="put"> @endif
             {{ csrf_field() }}
             <div class="card-header">
@@ -54,7 +56,7 @@ $locales = ['ru'];
                                                 <label for="name" class="col-sm-2 col-form-label">Большое заглавие!<sup class="required">*</sup></label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control" id="name" name="item_locales[{{ $locale }}][name]"
-                                                           value="@if(isset($item->locales[$key]->name)) {{ $item->locales[$key]->name }} @else {{ ''  }} @endif">
+                                                           value="@if(isset($item->locales[$key]->name)){{ $item->locales[$key]->name }}@else{{''}}@endif">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -91,11 +93,11 @@ $locales = ['ru'];
                     </div>
                     <div class="tab-pane fade" id="media" role="tabpanel" aria-labelledby="media-tab">
                         <div class="form-group row">
-                            <label for="preview" class="col-sm-2 col-form-label">Изображение или видео</label>
+                            <label for="preview" class="col-sm-2 col-form-label">Изображение или видео<sup class="required">*</sup></label>
                             <div class="col-sm-10">
                                 @if(isset($item->slide_asset))<img class="fade_preview" src="{{ asset($item->slide_asset->path) }}" style="width: 250px;">
                                 <br class="fade_preview"/><br class="fade_preview"/>@endif
-                                <input type="file" class="form-control" id="preview" name="item[preview]">
+                                <input type="file" class="form-control" id="preview" name="item[preview]" value="">
                             </div>
                         </div>
                     </div>
@@ -120,13 +122,60 @@ $locales = ['ru'];
             </div>
             <div class="card-footer clearfix">
                 <a href="{{ route('slider') }}" class="btn btn-secondary pull-left cancel">Отменить</a>
-                <button type="submit" class="btn btn-success pull-right">@if(Route::is('edit_slide')) Изменить @else Создать @endif</button>
+                @if(Route::is('edit_slide'))
+                    <button type="submit"  class="btn btn-success pull-right">@if(Route::is('edit_slide')) Изменить @else Создать @endif</button>
+                @else
+                    <input type="button" class="btn btn-success pull-right" value="@if(Route::is('edit_slide')) Изменить @else Создать @endif">
+                @endif
+
+
             </div>
         </form>
     </div>
 @endsection
 
 @section('footer-scripts')
+    @if(!Route::is('edit_slide'))
+    <script>
+        $('.btn').on('click', function() {
+            var alert = "";
+            $('#preview').each(function() {
+                var $this = $(this);
+                if ($this.val() == '') {
+                    console.log($this.val() + '- Upload file not selected!');
+                    alert = "<div class=\"alert alert-danger\" role=\"alert\"> Добавте файл изображения- Медиа -> Изображение</div>";
+                    return false;
+                } else {
+                    alert = "";
+                    console.log($this.val() + ' File to upload');
+                    $this.removeClass('Error');
+                    return true;
+                }
+            });
+
+            $('#name').each(function() {
+                var $this = $(this);
+                if ($this.val().length == 0) {
+                    console.log($this.val() + '- name not set');
+                    alert = alert + "<div class=\"alert alert-danger\" role=\"alert\">Нет Большого заглавия.</div>";
+                    return false;
+                } else {
+                    alert = alert + "";
+                    console.log($this.val() + ' name is set ' + $this.val().length);
+                    $this.removeClass('Error');
+                    return true;
+                }
+            });
+            if (alert.length > 0) {
+                $('#alert').html(alert);
+            } else {
+                $('#alert').html(alert);
+                console.log("go go go..." + alert.length);
+                $("#newForm").submit();
+            }
+        });
+    </script>
+    @endif
     <script>
       $(document).ready(function () {
         $('.cancel').on("click", function () {
