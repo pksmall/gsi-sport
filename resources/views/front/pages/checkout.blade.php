@@ -47,7 +47,7 @@
                                 <label for="cash-out"><span>Наличными</span></label>
 
                                 <input id="card-out" name="paytype" type="radio" value="2" >
-                                <label for="card-out"><span>Visa/Mastercard</span></label>
+                                <label for="card-out"><span>LiqPay</span></label>
 
                             </div>
                         </form>
