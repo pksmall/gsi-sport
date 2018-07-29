@@ -9,6 +9,6 @@ class SlidesTranslations extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'slide_id', 'locale', 'name', 'title_desc', 'description', 'is_span', 'link', 'slug'
+        'slide_id', 'locale', 'name', 'title_desc', 'description', 'is_span', 'link', 'slug', 'short_name'
     ];
 }

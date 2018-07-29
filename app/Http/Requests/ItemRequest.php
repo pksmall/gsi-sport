@@ -30,8 +30,8 @@ class ItemRequest extends FormRequest
             'item_locales.en.name' => 'required', */
             'item.code' => 'required|unique:items,code,' . Request::get('item_id'),
             'item.price' => 'required|numeric',
-            'item.whs_price' => 'sometimes|nullable|numeric',
-            'item.old_price' => 'sometimes|nullable|numeric',
+//            'item.whs_price' => 'sometimes|nullable|numeric',
+//            'item.old_price' => 'sometimes|nullable|numeric',
             /*'item.qty' => 'required|numeric',
             'item.min_qty' => 'sometimes|nullable|numeric',
             'item.max_qty' => 'sometimes|nullable|numeric',*/
