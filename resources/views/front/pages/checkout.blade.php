@@ -173,12 +173,12 @@
             });
 
             <!-- Numbers -->
+            $('#reg-telephone').mask('+380 (00) 000-00-00', {placeholder: "+380 (__) ___-__-__"});
             $('#reg-telephone').on('input', function() {
-                $(this).mask('000 (00) 000-00-00', {placeholder: "___ (__) ___-__-__"});
                 var input=$(this);
                 var clearval = input.val();
                 var minlen = input.attr('min');
-                var len = input.val().length - 6;
+                var len = input.val().length - 7;
                 var minlenflag = false;
                 var error_element=$("span", input.parent());
                 if (len < minlen) {
