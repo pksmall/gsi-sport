@@ -173,7 +173,13 @@
             });
 
             <!-- Numbers -->
-            $('#reg-telephone').mask('+380 (00) 000-00-00', {placeholder: "+380 (__) ___-__-__"});
+            $('#reg-telephone').mask('+380 (00) 000-00-00', {
+                translation: {
+                    '5': { pattern: /\d/ },
+                    '0': { pattern: /0/ }
+                },
+                placeholder: "+380 (__) ___-__-__"}
+            );
             $('#reg-telephone').on('input', function() {
                 var input=$(this);
                 var clearval = input.val();

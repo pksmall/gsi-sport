@@ -89,7 +89,13 @@
         });
 
         <!-- Numbers -->
-        $('#telephone').mask('+380 (00) 000-00-00', {placeholder: "+380 (__) ___-__-__"});
+        $('#telephone').mask('+380 (55) 555-55-55', {
+            translation: {
+                '5': { pattern: /\d/ },
+                '0': { pattern: /0/ }
+            },
+            placeholder: "+380 (__) ___-__-__"}
+        );
         $('#telephone').on('input', function() {
             var input=$(this);
             var clearval = input.val();
@@ -110,7 +116,7 @@
                 input.removeClass("valid").addClass("invalid");
                 error_element.removeClass("error").addClass("error_show");
             }
-            console.log("Phlen: " + len + " FL: " + minlenflag + " V:" + clearval );
+            //console.log("Phlen: " + len + " FL: " + minlenflag + " V:" + clearval );
         });
 
         <!--Email must be an email -->
