@@ -173,7 +173,7 @@
             });
 
             <!-- Numbers -->
-            $('#reg-telephone').mask('+380 (00) 000-00-00', {
+            $('#reg-telephone').mask('+380 (55) 555-55-55', {
                 placeholder: "+380 (__) ___-__-__"}
             );
             $('#reg-telephone').on('input', function() {
