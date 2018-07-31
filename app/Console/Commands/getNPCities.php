@@ -2,24 +2,24 @@
 
 namespace App\Console\Commands;
 
-use App\NpRegions;
+use App\NpCities;
 use Illuminate\Console\Command;
 
-class getNPRegion extends Command
+class getNPCities extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'getnpregion';
+    protected $signature = 'getnpcities';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Get and Store NP region in DB';
+    protected $description = 'Get and Store NP cities in DB';
 
     /**
      * Create a new command instance.
@@ -42,8 +42,7 @@ class getNPRegion extends Command
         $jsonReq = "
         {
             \"modelName\": \"Address\",
-            \"calledMethod\": \"getAreas\",
-            \"methodProperties\": {},
+            \"calledMethod\": \"getCities\",
             \"apiKey\": \"".$_ENV['NP_APIKEY']."\"
         }";
 
@@ -65,18 +64,27 @@ class getNPRegion extends Command
         curl_close($ch);
 
         foreach ($resData->data as $key => $val) {
-            $xregion = \App\NpRegions::where('regionref', '=', $val->Ref)->get();
-            if ($xregion->count() == 0) {
-                $this->info(" R:" . $val->Description. " Ref: " . $val->Ref ." is save");
-                $region = new \App\NpRegions();
-                $region->name = $val->Description;
-                $region->nameru = $val->Description;
-                $region->regionref = $val->Ref;
-                $region->capitalregionref = $val->AreasCenter;
-                $region->save();
+            $excities = \App\NpCities::where('cityid', '=', $val->CityID)->get();
+            if ($excities->count() == 0) {
+                $this->info(" R:" . $val->Description. " N: ". $val->DescriptionRu . " Ref: " . $val->Ref . " ID:" . $val->CityID . " is save");
+                $cities = new \App\NpCities();
+                $cities->name = $val->Description;
+                $cities->nameru = $val->Description;
+                $cities->ref = $val->Ref;
+                $cities->regionref = $val->Area;
+                $cities->settlementtype = $val->SettlementType;
+                $cities->isbranch = $val->IsBranch;
+                $cities->cityid = $val->CityID;
+                $cities->settlementtypedesc = $val->SettlementTypeDescription;
+                $cities->settlementtypedescru = $val->SettlementTypeDescriptionRu;
+                $cities->save();
             } else {
-                $this->info("UA: " . $xregion[0]->name . " RU: " . $xregion[0]->nameru);
-                //$this->info("UPDATE np_regions SET nameru = '" . $xregion[0]->nameru ."' where id = " . $xregion[0]->id . ";");
+                // check if exists branch (NpWarehouses) in city
+                if ($excities[0]->isbranch != $val->IsBranch) {
+                    $this->info(" City: " . $excities[0]->isbranch ." change isbranch to " . $val->IsBranch);
+                    $excities[0]->isbranch = $val->IsBranch;
+                    $excities->save();
+                }
             }
         }
     }
