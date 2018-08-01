@@ -290,7 +290,7 @@
                         if (form_data[input]['name'] == '_token')  { continue; }
                         post_text = post_text + '{ "' + form_data[input]['name'] + '":' + '"' +  form_data[input]['value'] + '"},'
                         //form_data[input]['name'] == 'npposts' ||
-                        if (form_data[input]['name'] == 'deliverychoose') { continue; }
+                        if (form_data[input]['name'] == 'deliverychoose' || form_data[input]['name'] == 'weareregister') { continue; }
                         var element=$("#"+form_data[input]['name']);
                         var error_element=$('#err-'+form_data[input]['name']);
                         var valid = element.hasClass("valid");
