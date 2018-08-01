@@ -13,6 +13,11 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::group(['prefix' => '/v1'], function () {
+    Route::post('get_np_cities', 'ApiNpController@get_np_cities');
+    Route::post('get_np_warehouses', 'ApiNpController@get_np_warehouses');
+});
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

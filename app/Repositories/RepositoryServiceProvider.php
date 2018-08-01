@@ -9,6 +9,8 @@ use App\Item;
 use App\ItemAttribute;
 use App\ItemCategory;
 use App\ItemCharacteristic;
+use App\NpCities;
+use App\NpWarehouses;
 use App\Order;
 use App\Review;
 use App\User;
@@ -19,6 +21,16 @@ class RepositoryServiceProvider extends ServiceProvider
 
     public function register()
     {
+        $this->app->bind(NpCitiesRepositoryInterface::class, function($app) {
+            return new NpCitiesModel(new NpCities());
+        });
+        $this->app->bind(NpWarehousesRepositoryInterface::class, function($app) {
+            return new NpWarehousesModel(new NpWarehouses());
+        });
+
+        $this->app->bind(ItemsRepositoryInterface::class, function($app) {
+            return new ItemsModel(new Item());
+        });
         $this->app->bind(ItemsRepositoryInterface::class, function($app) {
             return new ItemsModel(new Item());
         });

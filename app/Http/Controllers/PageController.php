@@ -28,6 +28,7 @@ use App\ItemCategoriesTranslation;
 use App\ItemCategory;
 use App\ItemTerms;
 use App\ItemTranslation;
+use App\NpRegions;
 use App\Order;
 use App\OrderItem;
 use App\Repositories\ItemAttributesRepositoryInterface;
@@ -509,7 +510,9 @@ class PageController extends Controller
         $type_delivery->load('delivery');
         $type_pay = TypePaysTranslation::all();
         $type_pay->load('pay');
-        return view('front/pages/checkout')->with(['cart' => $cart, 'cartTotal' => $this->carttotal(),'user' => Auth::user() ]);
+        $regions = NpRegions::all();
+
+        return view('front/pages/checkout')->with(['cart' => $cart, 'regions' => $regions, 'cartTotal' => $this->carttotal(),'user' => Auth::user() ]);
     }
 
 

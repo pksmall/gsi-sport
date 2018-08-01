@@ -1,7 +1,7 @@
 /*
- * jQuery json to datalist
- * @version 0.1.0
- * @author Steven Mouret
+ * get NP cities
+ *
+ * @author Pavel Korzhenko
  * License MIT
  */
 
@@ -10,7 +10,6 @@
         jsonGetNpPosts: function (options) {
             var defaults = {
                 jsonVal: null,
-                token: null,
                 jsonPath: null
             };
 
@@ -22,35 +21,29 @@
                     o = $.extend(true, {}, options, objData);
 
                 var jsonVal = o.jsonVal;
-                var token = o.token;
                 var jsonPath = o.jsonPath,
                     $this_list = $this.attr('name');
-
                 if(jsonPath) {
-                    //console.log("var: " + jsonVal + " token:" + token);
+                    console.log("NpPost city: " + jsonVal + " path:" + jsonPath);
                     $.ajax({
                         type: 'POST',
                         url: jsonPath,
                         data: {
-                            obj: jsonVal,
-                            _token:  token
+                            city: jsonVal
                         }
                     }).always(function(data, textStatus, jqXHR) {
                         if (data.response == 'success') {
                             //console.log("resp data: " + data.data);
-                            // Save option in array
-                            var items = [];
-
                             var retobj = jQuery.parseJSON(data.data);
 
                             $('#'+$this_list).empty();
 
                             $.each(retobj, function(key, val) {
-                                var opt = $("<option></option>").text(val['name']);
+                                var opt = $("<option></option>").attr("value", val['sitekey']).text(val['name']);
                                 $('#'+$this_list).append(opt);
                             });
                         } else {
-                            console.log("resp error");
+                            console.log("resp error " + data.response + " stat: " + textStatus + " jq: " + jqXHR);
                             return;
                         }
                     });

@@ -69,7 +69,7 @@ class getNPCities extends Command
                 $this->info(" R:" . $val->Description. " N: ". $val->DescriptionRu . " Ref: " . $val->Ref . " ID:" . $val->CityID . " is save");
                 $cities = new \App\NpCities();
                 $cities->name = $val->Description;
-                $cities->nameru = $val->Description;
+                $cities->nameru = $val->DescriptionRu;
                 $cities->ref = $val->Ref;
                 $cities->regionref = $val->Area;
                 $cities->settlementtype = $val->SettlementType;

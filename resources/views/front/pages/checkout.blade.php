@@ -89,17 +89,14 @@
                                         </div>
                                     </div>
                                     <div class="table-cell">
-                                        <div class="table-text">
-                                            <input class="js-combobox" min="3" list="cityname" data-json-path="{{ asset('/get_np_cities') }}" id="npcity" name="city" type="text" placeholder="Город" data-content-token="{{ csrf_token() }}" autocomplete="off" disabled>
-                                            <datalist id="cityname">
-                                                <option data-id="e718a680-4b33-11e4-ab6d-005056801329">Київ</option>
-                                                <option data-id="e717110a-4b33-11e4-ab6d-005056801329">Дніпро</option>
-                                                <option data-id="e71abb60-4b33-11e4-ab6d-005056801329">Львів</option>
-                                                <option data-id="e71629ab-4b33-11e4-ab6d-005056801329">Вінниця</option>
-                                                <option data-id="e71f8b5f-4b33-11e4-ab6d-005056801329">Херсон</option>
-                                                <option data-id="e71b108c-4b33-11e4-ab6d-005056801329">Миколаїв</option>s
-                                            </datalist>
-                                            <span id="np-error" class="error"  for="city">Город доставки?</span>
+                                        <div class="table-text custom-select">
+                                            <select class="form-control" name="regionname" id="regionname" disabled>
+                                                <option data-id="" value="">Выберите область</option>
+                                                @foreach($regions as $region)
+                                                <option data-id="{{ $region->nameru }}" value="{{ $region->regionref }}">{{ $region->nameru }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span id="err-regionname" class="error"  for="city">Область доставки?</span>
                                         </div>
                                     </div>
                                 </div>
@@ -109,9 +106,24 @@
                                     </div>
                                     <div class="table-cell">
                                         <div class="table-text custom-select">
-                                            <select class="form-control form-disabled" id="npposts" name="npposts" data-json-path="{{ asset('/get_np_posts') }}" placeholder="Номер отделения" disabled>
+                                            <select class="form-control form-disabled" id="npcities" name="npcities" data-json-path="{{ asset('/api/v1/get_np_cities') }}" disabled>
+                                                <option data-id="" value="">Выберите город</option>
                                             </select>
                                         </div>
+                                        <span id="err-npcities" class="error"  for="city">Город доставки?</span>
+                                    </div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="table-cell">
+                                        &nbsp;
+                                    </div>
+                                    <div class="table-cell">
+                                        <div class="table-text custom-select">
+                                            <select class="form-control form-disabled" id="npposts" name="npposts" data-json-path="{{ asset('/api/v1/get_np_warehouses') }}"  disabled>
+                                                <option data-id="" value="">Выберите отделение</option>
+                                            </select>
+                                        </div>
+                                        <span id="err-npposts" class="error"  for="city">НП Отделение?</span>
                                     </div>
                                 </div>
                             </div>
@@ -143,7 +155,7 @@
     </div>
 @endsection
 @section('page-js-script')
-    <script src="{{ asset('/js/jquery-json-to-datalist.js') }}"></script>
+    <script src="{{ asset('/js/jquery-json-get-np-cities.js') }}"></script>
     <script src="{{ asset('/js/jquery-json-get-np-posts.js') }}"></script>
 
     <script type="text/javascript">
@@ -227,20 +239,6 @@
                 }
             });
 
-            $('#npcity').on('input', function() {
-                var input=$(this);
-                var is_name=input.val();
-                var error_element=$('#np-error');
-                if(is_name){
-                    input.removeClass("invalid").addClass("valid");
-                    error_element.removeClass("error_show").addClass("error");
-                } else{
-                    input.removeClass("valid").addClass("invalid");
-                    error_element.removeClass("error").addClass("error_show");
-                }
-            });
-
-
             $('#submitforms').on('click', function() {
                 $(this).html( $(this).data('loading-text') ? $(this).data('loading-text') : 'Загрузка...' );
                 $(this).prop('disabled', true);
@@ -250,7 +248,7 @@
                 var error_free = true;
                 var post_text = "[";
                 for (var input in form_data) {
-                    post_text = post_text + '{ "' + form_data[input]['name'] + '":' + '"' + form_data[input]['value'] + '"},'
+                    post_text = post_text + '{ "' + form_data[input]['name'] + '":' + '"' + form_data[input]['value'] + '"},';
                     var element=$("#"+form_data[input]['name']);
                     if (form_data[input]['name'] == 'paytype' || form_data[input]['name'] == '_token') { continue; }
                     var valid=element.hasClass("valid");
@@ -273,10 +271,11 @@
                 if (!$('#fxaddr').is(":disabled") || $('#selfdelivery').is(":checked")) {
                     //alert('fidex active');
                     for (var input in form_data) {
+//                        post_text = post_text + '{ "' + form_data[input]['name'] + '":' + '"' + form_data[input]['value'] + '"},';
                         if (form_data[input]['name'] == '_token') { continue; }
                         post_text = post_text + '{ "' + form_data[input]['name'] + '":' + '"' + form_data[input]['value'] + '"},'
                         var element=$("#"+form_data[input]['name']);
-                        if (form_data[input]['name'] == 'deliverychoose' ||form_data[input]['name'] == '_token' || form_data[input]['name'] == "weareregister") { continue; }
+                        if (form_data[input]['name'] == 'deliverychoose' ||form_data[input]['name'] == '_token') { continue; }
                         var error_element=$('#fx-error');
                         var valid=element.hasClass("valid");
                         if (!valid){error_element.removeClass("error").addClass("error_show"); error_free=false;}
@@ -286,30 +285,33 @@
                 }
 
 
-                if (!$('#npcity').is(":disabled")){
+                if (!$('#novapochta').is(":disabled")){
+                    console.log(form_data);
+                    var falseindex = 0;
                     for (var input in form_data) {
-                        if (form_data[input]['name'] == '_token') { continue; }
-                        if (form_data[input]['name'] == "city") {
-                            post_text = post_text + '{ "' + form_data[input]['name'] + '":' + '"' + $('#np' + form_data[input]['name']).val() + '"},'
-                        } else {
-                            post_text = post_text + '{ "' + form_data[input]['name'] + '":' + '"' +  form_data[input]['value'] + '"},'
+                        if (form_data[input]['name'] == '_token')  { continue; }
+                        post_text = post_text + '{ "' + form_data[input]['name'] + '":' + '"' +  form_data[input]['value'] + '"},'
+                        if (form_data[input]['name'] == 'npposts' || form_data[input]['name'] == 'deliverychoose') { continue; }
+                        var element=$("#"+form_data[input]['name']);
+                        var error_element=$('#err-'+form_data[input]['name']);
+                        var valid = element.hasClass("valid");
+                        if (!valid) {
+                            error_element.removeClass("error").addClass("error_show");
+                            falseindex++;
+                            error_free = false;
                         }
-                        var element=$("#np"+form_data[input]['name']);
-                        if (form_data[input]['name'] == "city") {
-                            if (form_data[input]['name'] == 'deliverychoose' ||form_data[input]['name'] == '_token' || form_data[input]['name'] == "weareregister") { continue; }
-                            var error_element = $('#np-error');
-                            var valid = element.hasClass("valid");
-                            if (!valid) {
-                                error_element.removeClass("error").addClass("error_show");
-                                error_free = false;
-                            }
-                            else {
-                                error_element.removeClass("error_show").addClass("error");
-                            }
+                        else {
+                            error_element.removeClass("error_show").addClass("error");
                         }
                         console.log("name:" + form_data[input]['name'] + ' errel: ' + valid);
                     }
+                    //console.log("fidx:" + falseindex);
+                    if (falseindex > 2) {
+                        $('#err-npregionname').removeClass("error_show").addClass("error");
+                        $('#err-npcities').removeClass("error_show").addClass("error");
+                    }
                 }
+
                 post_text = post_text.substring(0, post_text.length - 1);
                 post_text = post_text + ']';
                 console.log("PT: " + post_text);
@@ -350,16 +352,6 @@
             $('.js-combobox').on('input',function() {
                 var val = this.value;
 
-                if (val.length >= 3) {
-                    $('#submitforms').html( $('#submitforms').data('loading-text') ? $('#submitforms').data('loading-text') : 'Загрузка...' );
-                    $('#submitforms').prop('disabled', true);
-                    $('.js-combobox').jsonToDatalist({
-                        jsonVal: $(this).val(),
-                        token: $(this).data('content-token')
-                    });
-                    $('#submitforms').html( $('#submitforms').val()).prop('disabled', false);
-                }
-
                 if($('#cityname').find('option').filter(function() {
                         return this.value.toUpperCase() === val.toUpperCase();
                     }).length) {
@@ -392,7 +384,7 @@
             $('#selfdelivery').on('change',function() {
                 if ($(this).is(':checked')) {
                     $('#fxaddr').prop('disabled', true);
-                    $('#npcity').prop('disabled', true);
+                    $('#regionname').prop('disabled', true);
                     var error_element=$('#fx-error');
                     error_element.removeClass("error_show").addClass("error");
                     var error_element=$('#np-error');
@@ -403,8 +395,8 @@
             $('#novapochta').on('change',function() {
                 if ($(this).is(':checked')) {
                     $('#fxaddr').prop('disabled', true);
-                    $('#npcity').prop('disabled', false);
-                    $('#npcity').focus();
+                    $('#regionname').prop('disabled', false);
+                    $('#npcities').prop('disabled', true);
                     var error_element=$('#fx-error');
                     error_element.removeClass("error_show").addClass("error");
                     var error_element=$('#np-error');
@@ -414,7 +406,8 @@
             $('#fedex').on('change',function() {
                 if ($(this).is(':checked')) {
                     $('#npposts').prop('disabled', true);
-                    $('#npcity').prop('disabled', true);
+                    $('#regionname').prop('disabled', true);
+                    $('#npcities').prop('disabled', true);
                     $('#fxaddr').prop('disabled', false);
                     $('#fxaddr').focus();
                     var error_element=$('#fx-error');
@@ -423,6 +416,79 @@
                     error_element.removeClass("error_show").addClass("error");
                 }
             });
+
+            $('#npposts').on('change', function() {
+                var input=$(this);
+                var is_name=input.val();
+                var error_element=$('#err-npposts');
+                console.log('nppost name changes to :' + is_name);
+                if(is_name != "") {
+                    input.removeClass("invalid").addClass("valid");
+                    error_element.removeClass("error_show").addClass("error");
+                } else {
+                    input.removeClass("valid").addClass("invalid");
+                    $('#err-npregionname').removeClass("error_show").addClass("error");
+                    $('#err-npcities').removeClass("error_show").addClass("error");
+                    error_element.removeClass("error").addClass("error_show");
+                }
+            });
+
+            $('#npcities').on('change', function() {
+                var input=$(this);
+                var is_name=input.val();
+                var error_element=$('#err-npcities');
+                if(is_name != ""){
+                    input.removeClass("invalid").addClass("valid");
+                    error_element.removeClass("error_show").addClass("error");
+                    console.log('city name changes to :' + is_name);
+                    // get warehouses
+                    $('#submitforms').html( $('#submitforms').data('loading-text') ? $('#submitforms').data('loading-text') : 'Загрузка...' );
+                    $('#submitforms').prop('disabled', true);
+                    $('#npposts').jsonGetNpPosts({
+                            jsonVal: $(this).val()
+                    });
+                    $('#submitforms').html( $('#submitforms').val()).prop('disabled', false);
+
+                    $('#npposts').removeClass('form-disabled')
+                    $('#npposts').prop('disabled', false);
+                    $('#npposts').focus();
+
+                } else{
+                    input.removeClass("valid").addClass("invalid");
+                    $('#err-npregionname').removeClass("error_show").addClass("error");
+                    $('#err-npposts').removeClass("error_show").addClass("error");
+                    error_element.removeClass("error").addClass("error_show");
+                }
+            });
+
+            $('#regionname').on('change', function() {
+                var input=$(this);
+                var is_name=input.val();
+                var error_element=$('#err-regionname');
+                if(is_name != ""){
+                    input.removeClass("invalid").addClass("valid");
+                    error_element.removeClass("error_show").addClass("error");
+                    //console.log('regionname changes to :' + is_name);
+                    $('#npcities').removeClass('form-disabled');
+                    $('#npcities').prop('disabled', false);
+                    $('#npcities').focus();
+                    // get cities
+                    $('#submitforms').html( $('#submitforms').data('loading-text') ? $('#submitforms').data('loading-text') : 'Загрузка...' );
+                    $('#submitforms').prop('disabled', true);
+                    $('#npcities').jsonGetNpCities({
+                        jsonVal: $(this).val()
+                    });
+                    $('#submitforms').html( $('#submitforms').val()).prop('disabled', false);
+
+                } else{
+                    input.removeClass("valid").addClass("invalid");
+                    $('#err-npcities').removeClass("error_show").addClass("error");
+                    $('#err-npposts').removeClass("error_show").addClass("error");
+                    error_element.removeClass("error").addClass("error_show");
+                }
+            });
+
+
 
         });
     </script>

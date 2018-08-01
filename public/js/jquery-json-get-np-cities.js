@@ -7,10 +7,9 @@
 
 (function ($) {
     $.fn.extend({
-        jsonToDatalist: function (options) {
+        jsonGetNpCities: function (options) {
             var defaults = {
                 jsonVal: null,
-                token: null,
                 jsonPath: null
             };
 
@@ -22,32 +21,27 @@
                     o = $.extend(true, {}, options, objData);
 
                 var jsonVal = o.jsonVal;
-                var token = o.token;
                 var jsonPath = o.jsonPath,
-                    $this_list = $this.attr('list');
+                    $this_list = $this.attr('name');
 
                 if(jsonPath) {
-                    console.log("var: " + jsonVal + " token:" + token);
+                    //console.log("val: " + jsonVal + " path: " + jsonPath);
                     $.ajax({
                         type: 'POST',
                         url: jsonPath,
                         data: {
-                            obj: jsonVal,
-                            _token:  token
+                            region: jsonVal
                         }
                     }).always(function(data, textStatus, jqXHR) {
                         if (data.response == 'success') {
                             //console.log("resp data: " + data.data);
-                            // Save option in array
-                            var items = [];
-
                             var retobj = jQuery.parseJSON(data.data);
 
-                            console.log("list: " + $this_list);
+                            //console.log("list: " + $this_list);
                             $('#'+$this_list).empty();
                             $.each(retobj, function(key, val) {
                                 //var opt = $("<option></option>").attr("value", val['name']);
-                                var opt = $("<option></option>").attr("data-id", val['SettlementRef']).text(val['name']);
+                                var opt = $("<option></option>").attr("value", val['cityref']).text(val['name']);
                                 $('#'+$this_list).append(opt);
                             });
                         } else {

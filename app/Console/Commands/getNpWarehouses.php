@@ -50,7 +50,7 @@ class getNpWarehouses extends Command
 
         //$this->info("Url: " . $url . " jsonreq: " . $jsonReq);
 
-        $excities = \App\NpCities::where('isbranch', '=', 1)->get();
+        $excities = \App\NpCities::all();
         foreach ($excities as $city) {
             $this->info("City: " . $city->nameru . " IsBranch:" . $city->isbranch);
             $json = sprintf($jsonReq, $city->ref);

@@ -9,6 +9,8 @@ use App\GuestCart;
 use App\Http\Requests\AddToCartRequest;
 use App\Item;
 use App\LiqPay;
+use App\NpCities;
+use App\NpWarehouses;
 use App\Order;
 use App\OrderItem;
 use App\Settings;
@@ -416,16 +418,22 @@ class AjaxController extends Controller
         if (isset($reqdata['deliverychoose'])) {
             switch ($reqdata['deliverychoose']) {
                 case 2:
-                    $reqcity = $reqdata['city'];
-                    $reqmore = $reqdata['npposts'];
+                    $city = NpCities::where('ref', '=', $reqdata['npcities'])->first();
+                    $reqcity = $city['nameru'];
+                    $warehouse = NpWarehouses::where('sitekey', '=', $reqdata['npposts'])->first();
+                    if (strlen($warehouse['descriptionru']) == 0) {
+                        $reqmore = $warehouse['description'];
+                    } else {
+                        $reqmore = $warehouse['descriptionru'];
+                    }
                     break;
                 case 3:
-                    $reqcity = "Одеса";
+                    $reqcity = "Одеcса";
                     $reqmore = $reqdata['fxaddr'];
                     break;
                 default:
                     $reqdata['deliverychoose'] = 1;
-                    $reqcity = "Одеса";
+                    $reqcity = "Одеcса";
                     $reqmore = "Самовывоз";
 
                     break;
