@@ -37,11 +37,15 @@
                             var retobj = jQuery.parseJSON(data.data);
 
                             $('#'+$this_list).empty();
-
-                            $.each(retobj, function(key, val) {
-                                var opt = $("<option></option>").attr("value", val['sitekey']).text(val['name']);
+                            if (retobj.length > 0) {
+                                $.each(retobj, function(key, val) {
+                                    var opt = $("<option></option>").attr("value", val['sitekey']).text(val['name']);
+                                    $('#'+$this_list).append(opt);
+                                });
+                            } else {
+                                var opt = $("<option></option>").attr("value", '').text('Нет отделений!');
                                 $('#'+$this_list).append(opt);
-                            });
+                            }
                         } else {
                             console.log("resp error " + data.response + " stat: " + textStatus + " jq: " + jqXHR);
                             return;

@@ -168,8 +168,6 @@
 
     <script type="text/javascript">
         $(function() {
-            var oldOpt = $('#cityname').html();
-
             <!--Name can't be blank-->
             $('#reg-name').on('input', function() {
                 var input=$(this);
@@ -291,7 +289,8 @@
                     for (var input in form_data) {
                         if (form_data[input]['name'] == '_token')  { continue; }
                         post_text = post_text + '{ "' + form_data[input]['name'] + '":' + '"' +  form_data[input]['value'] + '"},'
-                        if (form_data[input]['name'] == 'npposts' || form_data[input]['name'] == 'deliverychoose') { continue; }
+                        //form_data[input]['name'] == 'npposts' ||
+                        if (form_data[input]['name'] == 'deliverychoose') { continue; }
                         var element=$("#"+form_data[input]['name']);
                         var error_element=$('#err-'+form_data[input]['name']);
                         var valid = element.hasClass("valid");
@@ -307,8 +306,9 @@
                     }
                     console.log("fidx:" + falseindex);
                     if (falseindex > 1) {
-                        $('#err-npregionname').removeClass("error_show").addClass("error");
+                        //$('#err-regionname').removeClass("error_show").addClass("error");
                         $('#err-npcities').removeClass("error_show").addClass("error");
+                        $('#err-npposts').removeClass("error_show").addClass("error");
                     }
                 }
 
@@ -349,46 +349,17 @@
                 //$(this).html( $(this).val() ).prop('disabled', false);
             });
 
-            $('.js-combobox').on('input',function() {
-                var val = this.value;
-
-                if($('#cityname').find('option').filter(function() {
-                        return this.value.toUpperCase() === val.toUpperCase();
-                    }).length) {
-                    var refid = $('#cityname option').filter(function() {
-                        return this.value == val;
-                    }).data('id');
-
-                    // get npposts
-                    $('#submitforms').html( $('#submitforms').data('loading-text') ? $('#submitforms').data('loading-text') : 'Загрузка...' ).prop('disabled', true);
-                    $('#npposts').jsonGetNpPosts({
-                        jsonVal: refid,
-                        token: $(this).data('content-token')
-                    });
-                    $('#submitforms').html( $('#submitforms').val()).prop('disabled', false);
-
-                    $('#npposts').removeClass('form-disabled')
-                    $('#npposts').prop('disabled', false);
-                    $('#npposts').focus();
-                }
-
-                if(val.length == 0) {
-                    $('#npposts').prop('disabled', true);
-                    $('#cityname').empty();
-                    $('#cityname').append(oldOpt);
-                    $(this).trigger('click');
-                    $(this).focus();
-                }
-            });
-
             $('#selfdelivery').on('change',function() {
                 if ($(this).is(':checked')) {
                     $('#fxaddr').prop('disabled', true);
+                    $('#npposts').prop('disabled', true);
                     $('#regionname').prop('disabled', true);
+                    $('#npcities').prop('disabled', true);
                     var error_element=$('#fx-error');
                     error_element.removeClass("error_show").addClass("error");
-                    var error_element=$('#np-error');
-                    error_element.removeClass("error_show").addClass("error");
+                    $('#err-regionname').removeClass("error_show").addClass("error");
+                    $('#err-npcities').removeClass("error_show").addClass("error");
+                    $('#err-npposts').removeClass("error_show").addClass("error");
                 }
             });
 
@@ -396,10 +367,9 @@
                 if ($(this).is(':checked')) {
                     $('#fxaddr').prop('disabled', true);
                     $('#regionname').prop('disabled', false);
-                    $('#npcities').prop('disabled', true);
+                    $('#npcities').prop('disabled', false);
+                    $('#npposts').prop('disabled', false);
                     var error_element=$('#fx-error');
-                    error_element.removeClass("error_show").addClass("error");
-                    var error_element=$('#np-error');
                     error_element.removeClass("error_show").addClass("error");
                 }
             });
@@ -412,8 +382,9 @@
                     $('#fxaddr').focus();
                     var error_element=$('#fx-error');
                     error_element.removeClass("error_show").addClass("error");
-                    var error_element=$('#np-error');
-                    error_element.removeClass("error_show").addClass("error");
+                    $('#err-regionname').removeClass("error_show").addClass("error");
+                    $('#err-npcities').removeClass("error_show").addClass("error");
+                    $('#err-npposts').removeClass("error_show").addClass("error");
                 }
             });
 
@@ -437,10 +408,12 @@
                 var input=$(this);
                 var is_name=input.val();
                 var error_element=$('#err-npcities');
+                $('#npposts').removeClass("invalid").addClass("valid");
+                $('#err-npposts').removeClass("error_show").addClass("error");
                 if(is_name != ""){
                     input.removeClass("invalid").addClass("valid");
                     error_element.removeClass("error_show").addClass("error");
-                    console.log('city name changes to :' + is_name);
+                    //console.log('city name changes to :' + is_name);
                     // get warehouses
                     $('#submitforms').html( $('#submitforms').data('loading-text') ? $('#submitforms').data('loading-text') : 'Загрузка...' );
                     $('#submitforms').prop('disabled', true);
@@ -455,9 +428,8 @@
 
                 } else{
                     input.removeClass("valid").addClass("invalid");
-                    $('#err-npregionname').removeClass("error_show").addClass("error");
-                    $('#err-npposts').removeClass("error_show").addClass("error");
                     error_element.removeClass("error").addClass("error_show");
+                    $('#err-regionname').removeClass("error_show").addClass("error");
                 }
             });
 
@@ -465,6 +437,8 @@
                 var input=$(this);
                 var is_name=input.val();
                 var error_element=$('#err-regionname');
+                $('#npposts').removeClass("invalid").addClass("valid");
+                $('#err-npposts').removeClass("error_show").addClass("error");
                 if(is_name != ""){
                     input.removeClass("invalid").addClass("valid");
                     error_element.removeClass("error_show").addClass("error");
