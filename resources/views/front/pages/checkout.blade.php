@@ -307,6 +307,11 @@
                     console.log("fidx:" + falseindex);
                     if (falseindex > 1) {
                         //$('#err-regionname').removeClass("error_show").addClass("error");
+                        //$('#err-npcities').removeClass("error_show").addClass("error");
+                        $('#err-npposts').removeClass("error_show").addClass("error");
+                    }
+                    if (falseindex > 2) {
+                        //$('#err-regionname').removeClass("error_show").addClass("error");
                         $('#err-npcities').removeClass("error_show").addClass("error");
                         $('#err-npposts').removeClass("error_show").addClass("error");
                     }
