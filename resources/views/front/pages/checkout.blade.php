@@ -284,7 +284,7 @@
 
 
                 if (!$('#novapochta').is(":disabled")){
-                    console.log(form_data);
+                    //console.log(form_data);
                     var falseindex = 0;
                     for (var input in form_data) {
                         if (form_data[input]['name'] == '_token')  { continue; }
@@ -340,8 +340,7 @@
                         dataType: "json"
                     }).always(function(data, textStatus, jqXHR) {
                         if (data.response == 'success') {
-                            console.log("rest success. d:" + data.data);
-                            //console.log("rest success. p:" + data.params);
+                            //console.log("rest success. d:" + data.data);
                             document.location.href = data.data;
                             return;
                         } else {
@@ -397,7 +396,7 @@
                 var input=$(this);
                 var is_name=input.val();
                 var error_element=$('#err-npposts');
-                console.log('nppost name changes to :' + is_name);
+                //console.log('nppost name changes to :' + is_name);
                 if(is_name != "") {
                     input.removeClass("invalid").addClass("valid");
                     error_element.removeClass("error_show").addClass("error");
