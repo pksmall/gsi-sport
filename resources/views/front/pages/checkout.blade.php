@@ -295,7 +295,7 @@
                         var element=$("#"+form_data[input]['name']);
                         var error_element=$('#err-'+form_data[input]['name']);
                         var valid = element.hasClass("valid");
-                        if (!valid) {
+                        if (!valid || form_data[input]['value'] == '') {
                             error_element.removeClass("error").addClass("error_show");
                             falseindex++;
                             error_free = false;
@@ -305,8 +305,8 @@
                         }
                         console.log("name:" + form_data[input]['name'] + ' errel: ' + valid);
                     }
-                    //console.log("fidx:" + falseindex);
-                    if (falseindex > 2) {
+                    console.log("fidx:" + falseindex);
+                    if (falseindex > 1) {
                         $('#err-npregionname').removeClass("error_show").addClass("error");
                         $('#err-npcities').removeClass("error_show").addClass("error");
                     }
