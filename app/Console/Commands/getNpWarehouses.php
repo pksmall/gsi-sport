@@ -18,7 +18,7 @@ class getNpWarehouses extends Command
      *
      * @var string
      */
-    protected $description = 'Get and store NP warehouses in DB.';
+    protected $description = 'Get and Store NP warehouses in DB.';
 
     /**
      * Create a new command instance.
