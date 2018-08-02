@@ -13,7 +13,7 @@
     <div class="header-produts">
         <h1 class="products-h1">Товары</h1>
         <div class="mob-menu">
-            <button class="btn tblue bmob-menu" type="button"><span><img src="assets/img/arrow-down.png"></span></button>
+            <button class="btn tblue bmob-menu" type="button"></button>
             <ul class="tab-mob">
                 <?php $index = 0; ?>
                 @foreach ($parent_categories as $p_category)
@@ -107,6 +107,10 @@
             // current cId
             var jsonVal = $('#itemsdataset').data('json-val');
             Cookies("curCid", jsonVal);
+
+            //console.log($.trim($('.tab-li-mob').first().text()));
+            var downarrow = "<span><img src=\"assets/img/arrow-down.png\"></span>";
+            $('.bmob-menu').html($.trim($('.tab-li-mob').first().text() + downarrow));
 
             // get page
             $('.pagination').on('click', '.page', function () {
