@@ -13,13 +13,16 @@
                             @case('checkout')
                                 <li> <a href="/products">товары</a></li>
                                 <li> <a href="/cart">корзина</a></li>
-                                <li> <a href="#">оформление покупки</a></li
+                                <li> <a href="#">оформление покупки</a></li>
                                 @break
+                            @case('products/{slug}')
+                                <li> <a href="/products">товары</a></li>
+                                @break;
                             @default
                                 <li><a href="#">
                                     {{  Route::is('news') ? 'новости' : '' }}
                                     {{  Route::is('products') ? 'товары' : '' }}
-                                    {{  Route::is('item') ? 'товары' : '' }}
+                                    {{--{{  Route::is('item') ? 'товары' : '' }}--}}
                                     {{  Route::is('about') ? 'о нас' : '' }}
                                     {{  Route::is('contacts') ? 'контакты' : '' }}
                                     {{  Route::is('login') ? 'вход' : '' }}
@@ -28,7 +31,7 @@
                                     {{  Route::is('forgot') ? 'забыли пароль?' : '' }}
                                     {{  Route::is('search') ? 'поиск' : '' }}
                                     {{  Route::is('order_search') ? 'оформление заказа' : '' }}
-
+                                        {{--{{ Route::getCurrentRoute()->uri }}--}}
                                 </a></li>
                                 @break
                         @endswitch
@@ -47,10 +50,10 @@
             @endif
             @if (Route::is('item'))
             <div class="center">
-                <ul class="breadcrumbs secondary">
-                    <li> <a href="#">Аксессуары</a></li>
-                    <li> <a href="#">Ракетка всепогодная Donic Alltec    </a></li>
-                </ul>
+                {{--<ul class="breadcrumbs secondary">--}}
+                    {{--<li> <a href="#">Аксессуары</a></li>--}}
+                    {{--<li> <a href="#">Ракетка всепогодная Donic Alltec    </a></li>--}}
+                {{--</ul>--}}
             </div>
             @endif
             @if (Route::is('news'))
@@ -127,7 +130,7 @@
                 var filter = $(this).find(':selected').data('content');
                 var dataurl = $(this).data('content-url');
                 var token = $(this).data('content-token');
-                console.log("filter: " + filter + " dataurl:" + dataurl + " token:" + token);
+                console.log("filter: " + filter + " dataurl:" + dataurl);
 
                 $.ajax({
                     type: 'POST',
@@ -138,8 +141,10 @@
                     }
                 }).always(function(data, textStatus, jqXHR) {
                     if (data.response == 'success') {
-                        console.log("success");
-                        document.location.href = "/products";
+                        console.log("success ");
+                        var cId = Cookies('curCid');
+                        console.log("cId: " + cId);
+                        $('#itemsdataset').jsonGetItemsData({jsonCid: cId});
                         return;
                     } else {
                         console.log("resp error");

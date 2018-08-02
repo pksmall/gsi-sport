@@ -128,15 +128,7 @@ class PageController extends Controller
     {
         $settings = Settings::first();
 
-        if (App::getLocale() == 'ru') {
-            $this->seo(isset($settings->title_shop) ? $settings->title_shop : trans('base.home'), $settings->title, $settings->description, $settings->keywords);
-        }
-        if (App::getLocale() == 'ua') {
-            $this->seo(isset($settings->title_shop) ? $settings->title_shop : trans('base.home'), $settings->title_ua, $settings->description_ua, $settings->keywords_ua);
-        }
-        if (App::getLocale() == 'en') {
-            $this->seo(isset($settings->title_shop) ? $settings->title_shop : trans('base.home'), $settings->title_en, $settings->description_en, $settings->keywords_en);
-        }
+        $this->seo(isset($settings->title_shop) ? $settings->title_shop : trans('base.home'), $settings->title, $settings->description, $settings->keywords);
 
         $slides = Slide::where('is_active', true)->get();
         $slides->load(['locales', 'slide_asset']);
@@ -177,33 +169,8 @@ class PageController extends Controller
         $this->setTitle(trans('base.shop'));
 
         $items = Item::query();
-        $items = $items->where('is_active', true);
-        $items->with('preview', 'locales');
+        $items = $items->where('is_active', true)->get();
 
-        if (($filter = $this->get_filter()) != null) {
-            switch ($filter) {
-                case 'abc-asc':
-                    $items = $items->join('item_translations', 'item_translations.item_id', '=', 'items.id')
-                        ->orderBy('item_translations.name', 'asc')->select('items.*');
-                    break;
-                case 'abc-desc':
-                    $items = $items->join('item_translations', 'item_translations.item_id', '=', 'items.id')
-                        ->orderBy('item_translations.name', 'desc')->select('items.*');
-                    break;
-                case 'price-desc':
-                    $items->orderBy('price', 'desc');
-                    break;
-                case 'price-acs':
-                    $items->orderBy('price', 'asc');
-                    break;
-                default:
-                    $items->orderBy('price', 'asc');
-                    break;
-            }
-        }
-        $items = $items->paginate(isset($this->config->item_limit) ? $this->config->item_limit : 10);
-
-        //dd($items);
         $categories = array();
         foreach($items as $item) {
             if (isset($categories[$item->categories[0]->parent_id])) {
@@ -221,10 +188,37 @@ class PageController extends Controller
         }
         //dd($categories);
 
+        $items = Item::query();
+        $items = $items->where('is_active', true);
+        $items->with('preview', 'locales');
+
+        if (($filter = $this->get_filter()) != null) {
+            switch ($filter) {
+                case 'abc-asc':
+                    $items = $items->join('item_translations', 'item_translations.item_id', '=', 'items.id')
+                        ->orderBy('item_translations.name', 'asc')->select('items.*');
+                    break;
+                case 'abc-desc':
+                    $items = $items->join('item_translations', 'item_translations.item_id', '=', 'items.id')
+                        ->orderBy('item_translations.name', 'desc')->select('items.*');
+                    break;
+                case 'price-desc':
+                    $items->orderBy('price', 'desc');
+                    break;
+                case 'price-asc':
+                    $items->orderBy('price', 'asc');
+                    break;
+                default:
+                    $items->orderBy('price', 'desc');
+                    break;
+            }
+        }
+        $items = $items->get();
+
         $additional_menu = ItemCategory::where('is_additional_menu', true)->get();
         $additional_menu->load('locales', 'subcategories.locales', 'subcategories', 'subcategories.subcategories.locales', 'subcategories.preview');
 
-        return view('front/pages/shop')->with(['items' => $items, 'filter' => $filter, 'cartTotal' => $this->carttotal(), 'sumitems' => $categories, 'additional_menu' => $additional_menu]);
+        return view('front/pages/shop')->with(['items' => $items, 'items_limit' => $this->config->item_limit, 'filter' => $filter, 'cartTotal' => $this->carttotal(), 'sumitems' => $categories, 'additional_menu' => $additional_menu]);
     }
 
 

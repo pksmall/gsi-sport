@@ -2933,8 +2933,8 @@ i {
     background: url("../img/icon-cart.svg") no-repeat; }
 
 .icon-cart.expand {
-    -webkit-animation: bounce 2s infinite;
-    animation: bounce 2s infinite;
+    -webkit-animation: bounce 5s infinite;
+    animation: bounce 5s infinite;
 }
 
 .icon-login {

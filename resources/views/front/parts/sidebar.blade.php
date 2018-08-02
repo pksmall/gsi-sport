@@ -21,7 +21,7 @@
             <li><a href="https://indesign.com">In</a></li>
             <li><a href="https://vk.com">Vk</a></li>
             <div class="cart-mob"><a class="cart" href="/cart">
-                    <div class="product-num blue1-text">9</div>
+                    <div class="product-num blue1-text" id="cartqty-mob">{{ $cartTotal }}</div>
                     <i class="icon-cart-mob"></i></a>
                     <a class="login" href="/login">
                     <i class="icon-login-mob"></i></a>

@@ -1,7 +1,7 @@
 /*
- * jQuery json to datalist
+ * jQuery json get NP cities
  * @version 0.1.0
- * @author Steven Mouret
+ * @author Pavel Korzhenko
  * License MIT
  */
 

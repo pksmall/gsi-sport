@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BlogArticlesTranslation;
 use App\ClientActivity;
 use App\ClientCart;
+use App\Config;
 use App\GuestCart;
 use App\Http\Requests\AddToCartRequest;
 use App\Item;
@@ -21,9 +22,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Mail;
+use Symfony\Component\HttpFoundation\Response;
 
 class AjaxController extends Controller
 {
+    public function __construct()
+    {
+        $this->config = Config::first();
+    }
+
     public function send(Request $request)
     {
 
@@ -632,6 +639,102 @@ class AjaxController extends Controller
         }
 
         return response()->json(['response' => $status]);
+    }
+
+    public function getItemsData(Request $request)
+    {
+        $status = "error";
+
+        $cid = $request['cid'];
+        $page = $request['page'];
+
+        // all in category
+        $allCidItems = Item::query();
+        $allCidItems->with('preview', 'locales');
+        $allCidItems->whereHas('categories', function($q) use ($cid) {
+            $q->where([['category_id', '=', $cid]])->orWhere([['parent_id',  '=',  $cid]]);
+        })->where('is_active', true)->get();
+
+        // custom pagenator
+        $items = Item::query();
+        $items->with('preview', 'locales');
+        $items->whereHas('categories', function($q) use ($cid) {
+            $q->where([['category_id', '=', $cid]])->orWhere([['parent_id',  '=',  $cid]]);
+        })->where('is_active', true)->limit($this->config->item_limit);
+        if ($page > 1) {
+            $items->offset($this->config->item_limit * ($page - 1));
+        }
+
+        if (($filter = $this->get_filter()) != null) {
+            switch ($filter) {
+                case 'abc-asc':
+                    $items = $items->join('item_translations', 'item_translations.item_id', '=', 'items.id')
+                        ->orderBy('item_translations.name', 'asc')->select('items.*');
+                    break;
+                case 'abc-desc':
+                    $items = $items->join('item_translations', 'item_translations.item_id', '=', 'items.id')
+                        ->orderBy('item_translations.name', 'desc')->select('items.*');
+                    break;
+                case 'price-desc':
+                    $items->orderBy('price', 'desc');
+                    break;
+                case 'price-asc':
+                    $items->orderBy('price', 'asc');
+                    break;
+                default:
+                    $items->orderBy('price', 'desc');
+                    break;
+            }
+        }
+        $items = $items->get();
+        Log::info("cid: " . $cid . " page: " . $page . " filter: " . $filter);
+
+        $pagenator = "";
+        if ($items) {
+            $countItems = $allCidItems->count();
+            //Log::info("NC:" . $countItems);
+            $status = 'success';
+            if ($page == 1) {
+                $numpages = ceil($countItems / $this->config->item_limit);
+                if ($numpages > 1) {
+                    for ($i = 1; $i <= $numpages; $i++) {
+                        if ($i == 1) {
+                            $active = 'active';
+                        } else {
+                            $active = "";
+                        }
+                        $pagenator = $pagenator .
+                            '<a href="#" class="page ' . $active . '" data-json-cid=' . $cid . ' data-json-page="' . $i . '" data-json-path="' . url('/get_items_data') . '">' . $i . '</a>';
+                    }
+                }
+            }
+
+            $dataitems = "";
+            foreach ($items as $item) {
+                $dataitems = $dataitems . '
+                <div class="product-item col-12">
+                    <a class="product-image" href="/products/' . $item->locales[0]->slug . '" style="background-image: url('.url($item->preview->path ).')"></a>
+                    <div class="product-info text-block-wrap">
+                        <div class="text-block"><a class="product-title" href="/products/' . $item->locales[0]->slug . '">' . $item->locales[0]->name . '</a>
+                            <div class="product-code">Код товара: ' . $item->code . '</div>
+                            <div class="product-more">
+                                <div class="product-price">' . $item->price . ' грн</div>
+                                <button class="btn blue" data-content-id="' . $item->id . '">в корзину</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn blue mobile-button" data-content-id="' . $item->id . '">в корзину</button>          
+                ';
+            }
+        }
+        return response()->json(['response' => $status, 'data' => $dataitems, 'pagenator' => $pagenator]);
+
+    }
+
+    private function get_filter()
+    {
+        return  request()->session()->has('filter') ? request()->session()->get('filter') : null;
     }
 }
 

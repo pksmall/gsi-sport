@@ -45,6 +45,7 @@
 <script src="{{ asset('js/jquery.validation.min.js') }}"></script>
 <script src="{{ asset('js/custom.js') }}"></script>
 <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
+<script src="{{ asset('https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js') }}"></script>
 @yield('header-js-script')
 @yield('page-js-script')
 </body>

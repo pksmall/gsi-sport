@@ -1,6 +1,6 @@
 /*
- * get NP cities
- *
+ * get NP posts
+ * @version 0.1.0
  * @author Pavel Korzhenko
  * License MIT
  */

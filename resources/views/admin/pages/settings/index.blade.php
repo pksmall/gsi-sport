@@ -20,7 +20,7 @@
             <div class="card-header">Все настройки</div>
             <div class="card-body">
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Мета-тег Title (RU)<sup class="required">*</sup></label>
+                        <label class="col-sm-2 col-form-label">Мета-тег Title<sup class="required">*</sup></label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="settings[title]" value="{{ old('', $settings->title) }}" />
                         </div>
@@ -38,7 +38,7 @@
                     {{--</div>--}}
                 {{--</div>--}}
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Мета-тег Description (RU)</label>
+                        <label class="col-sm-2 col-form-label">Мета-тег Description</label>
                         <div class="col-sm-10">
                             <textarea class="form-control summernote" id="exampleFormControlTextarea1" name="settings[description]" rows="3">{!! old('', $settings->description) !!}</textarea>
                         </div>
@@ -56,7 +56,7 @@
                     {{--</div>--}}
                 {{--</div>--}}
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Мета-тег Keywords (RU)</label>
+                        <label class="col-sm-2 col-form-label">Мета-тег Keywords</label>
                         <div class="col-sm-10">
                             <textarea class="form-control" id="exampleFormControlTextarea1" name="settings[keywords]" rows="3">{!! old('', $settings->keywords) !!}</textarea>
                         </div>
@@ -86,12 +86,12 @@
                             <input type="text" class="form-control" name="settings[owner]" value="{{ old('', $settings->owner) }}" />
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Адрес (RU)<sup class="required">*</sup></label>
-                        <div class="col-sm-10">
-                            <textarea class="form-control" id="exampleFormControlTextarea1" name="settings[address]" rows="3">{!! old('', $settings->address) !!}</textarea>
-                        </div>
-                    </div>
+                    {{--<div class="form-group row">--}}
+                        {{--<label class="col-sm-2 col-form-label">Адрес (RU)<sup class="required">*</sup></label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--<textarea class="form-control" id="exampleFormControlTextarea1" name="settings[address]" rows="3">{!! old('', $settings->address) !!}</textarea>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
                 {{--<div class="form-group row">--}}
                     {{--<label class="col-sm-2 col-form-label">Адрес (UA)<sup class="required">*</sup></label>--}}
                     {{--<div class="col-sm-10">--}}
@@ -104,24 +104,24 @@
                         {{--<textarea class="form-control" id="exampleFormControlTextarea1" name="settings[address_en]" rows="3">{!! old('', $settings->address_en) !!}</textarea>--}}
                     {{--</div>--}}
                 {{--</div>--}}
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Геокод</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="settings[geocode]" value="{{ old('', $settings->geocode) }}" />
-                        </div>
-                    </div>
+                    {{--<div class="form-group row">--}}
+                        {{--<label class="col-sm-2 col-form-label">Геокод</label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--<input type="text" class="form-control" name="settings[geocode]" value="{{ old('', $settings->geocode) }}" />--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">E-Mail<sup class="required">*</sup></label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="settings[email]" value="{{ old('', $settings->email) }}"/>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Телефон<sup class="required">*</sup></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="settings[telephone]" value="{{ old('', $settings->telephone) }}"/>
-                        </div>
-                    </div>
+                    {{--<div class="form-group row">--}}
+                        {{--<label class="col-sm-2 col-form-label">Телефон<sup class="required">*</sup></label>--}}
+                        {{--<div class="col-sm-10">--}}
+                            {{--<input type="text" class="form-control" name="settings[telephone]" value="{{ old('', $settings->telephone) }}"/>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
                     {{--<div class="form-group row">--}}
                         {{--<label class="col-sm-2 col-form-label">Режим работы (RU)</label>--}}
                         {{--<div class="col-sm-10">--}}
@@ -147,12 +147,12 @@
                         {{--<input type="text" class="form-control" name="config[exchange_rate]" value="{{ old('', $config->exchange_rate) }}" />--}}
                     {{--</div>--}}
                 {{--</div>--}}
-                {{--<div class="form-group row">--}}
-                    {{--<label class="col-sm-2 col-form-label">Лимит товаров<sup class="required">*</sup></label>--}}
-                    {{--<div class="col-sm-10">--}}
-                        {{--<input type="text" class="form-control" name="config[item_limit]" value="{{ old('', $config->item_limit) }}" />--}}
-                    {{--</div>--}}
-                {{--</div>--}}
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Лимит товаров<sup class="required">*</sup></label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="config[item_limit]" value="{{ old('', $config->item_limit) }}" />
+                    </div>
+                </div>
                 {{--<div class="form-group row">--}}
                     {{--<label class="col-sm-2 col-form-label">Количество дней для новинки<sup class="required">*</sup></label>--}}
                     {{--<div class="col-sm-10">--}}
