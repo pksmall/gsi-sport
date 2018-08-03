@@ -40,69 +40,23 @@ $(document).ready(function() {
 
     $('.tab-content:first-child').addClass('active');
 
-    $('.tab > li').on('click', function() {
-        var $this = $(this);
-        $('.sub-tab > li').removeClass('active');
-        $('.sub-tab-content').removeClass('active');
-        //.eq($(this).index()).addClass('active')
-        //.closest('.page-wrap').find('.tab-content').removeClass('active');
-        $this.addClass('active').siblings().removeClass('active');
-        var dId = $this.data('content-id');
-        console.log('id: ' + dId);
-        //$('#dataset'+dId).addClass('active');
-        $('#itemsdataset').jsonGetItemsData({jsonCid: dId});
-        $('.page').removeClass('active').first().addClass('active');
-    });
-
-    $('.sub-tab > li').on('click', function() {
-        var $this = $(this);
-        //$('.tab-content').removeClass('active');
-        $('.sub-tab > li').removeClass('active');
-        $('.sub-tab-content').removeClass('active');
-        $this.addClass('active').siblings().removeClass('active');
-//        closest('.page-wrap').find('.tab-content').removeClass('active');
-//        $this.addClass('active').siblings().removeClass('active');
-
-        var dId = $this.data('content-id');
-        console.log('dId: ' + dId);
-        //$('#dataset'+dId).addClass('active');
-        $('#itemsdataset').jsonGetItemsData({jsonCid: dId});
-        $('.page').removeClass('active').first().addClass('active');
-    });
-
-    var downarrow = "<span><img src=\"assets/img/arrow-down.png\"></span>";
-    $('.tab-mob > li').on('click', function() {
-        var $this = $(this);
-        $('.sub-tab > li').removeClass('active');
-        $('.sub-tab-content').removeClass('active');
-        //.eq($(this).index()).addClass('active')
-        //.closest('.page-wrap').find('.tab-content').removeClass('active');
-        $this.addClass('active').siblings().removeClass('active');
-        var dId = $this.data('content-id');
-        console.log('id: ' + dId);
-        //$('#dataset'+dId).addClass('active');
-        $('#itemsdataset').jsonGetItemsData({jsonCid: dId});
-        $('.page').removeClass('active').first().addClass('active');
-        $('.bmob-menu').html($this.text() + downarrow);
-    });
-
-    $('.sub-tab-mob > li').on('click', function() {
-        var $this = $(this);
-        //$('.tab-content').removeClass('active');
-        $('.sub-tab > li').removeClass('active');
-        $('.sub-tab-content').removeClass('active');
-        $this.addClass('active').siblings().removeClass('active');
-//        closest('.page-wrap').find('.tab-content').removeClass('active');
-//        $this.addClass('active').siblings().removeClass('active');
-        var dId = $this.data('content-id');
-        console.log('dId: ' + dId);
-        //$('#dataset'+dId).addClass('active');
-        $('#itemsdataset').jsonGetItemsData({jsonCid: dId});
-        $('.page').removeClass('active').first().addClass('active');
-        $('.bmob-menu').html($this.text() + downarrow);
-    });
-
     $('.history-page .mCSB_scrollTools .mCSB_draggerRail').css('background-color', 'transparent');
+
+    $('.tab > li').on('click', function () {
+        var $this = $(this);
+        $('.sub-tab > li').removeClass('active');
+        $('.sub-tab-content').removeClass('active');
+        $this.addClass('active').siblings().removeClass('active').closest('.page-wrap').find('.tab-content').removeClass('active').eq($(this).index()).addClass('active')
+    });
+
+    $('.sub-tab > li').on('click', function () {
+        var $this = $(this);
+        $('.tab-content').removeClass('active');
+        $('.sub-tab > li').removeClass('active');
+        $('.sub-tab-content').removeClass('active');
+        $this.addClass('active').siblings().removeClass('active').closest('.page-wrap').find('.tab-content').removeClass('active');
+        $this.addClass('active').siblings().removeClass('active');
+    });
 
 });
 

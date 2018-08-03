@@ -92,6 +92,9 @@
     </div>
 @endsection
 @section('page-js-script')
+    <script src="{{ asset('/assets/js/main-products.js') }}"></script>
+    <script src="{{ asset('/js/jquery-json-get-items-data.js') }}"></script>
+
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {
@@ -99,8 +102,6 @@
             }
         });
     </script>
-
-    <script src="{{ asset('/js/jquery-json-get-items-data.js') }}"></script>
 
     <script type="text/javascript">
         $(function() {
@@ -135,7 +136,7 @@
                     }
                 }).always(function(data, textStatus, jqXHR) {
                     if (data.response == 'success') {
-                        console.log("resp data: " + data.data);
+                        //console.log("resp data: " + data.data);
                         $('#cartqty-mob').html(data.data);
                         $('#cartqty').html(data.data);
                         $('.icon-cart').addClass('expand');

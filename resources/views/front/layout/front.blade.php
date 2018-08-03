@@ -41,7 +41,6 @@
 <script src="{{ asset('assets/libs/select2/select2.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/libs/custom-scrollbar/custom-scrollbar.concat.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/js/products.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets/js/main.js') }}" type="text/javascript"></script>
 <script src="{{ asset('js/jquery.validation.min.js') }}"></script>
 <script src="{{ asset('js/custom.js') }}"></script>
 <script src="{{ asset('js/jquery.mask.min.js') }}"></script>

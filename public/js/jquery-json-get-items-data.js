@@ -45,6 +45,11 @@
                             $('#itemsdataset').html(data.data);
                             if (jsonPage == 1) {
                                 $('.pagination').html(data.pagenator);
+                                if (data.pagenator.length == 0) {
+                                    $('.pagination').addClass('hide-box');
+                                } else {
+                                    $('.pagination').removeClass('hide-box');
+                                }
                             }
                             return;
                         } else {
