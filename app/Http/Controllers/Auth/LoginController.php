@@ -52,11 +52,13 @@ class LoginController extends Controller
         $lifetime = config('session.lifetime');
         $remember = $req->get('remember');
         config(['session.lifetime' =>   43800]);
-        //
+        $cart = $req->session()->has('cart') ? $req->session()->get('cart') : null;
         Session::flush();
         if(Auth::attempt(['email' => $req->email, 'password' => $req->password], $remember))
         {
             //Log::info("ST: '" .config('session.lifetime') . "'");
+            $req->session()->put('cart', $cart);
+            $req->session()->flash('cart-success', true);
             if ($req->user()->hasRole(1)) {
                 return redirect('/admin');
             }
@@ -64,6 +66,8 @@ class LoginController extends Controller
         }
         config(['session.lifetime' =>   $lifetime]);
         Session::flush();
+        $req->session()->put('cart', $cart);
+        $req->session()->flash('cart-success', true);
         //Log::info("ST: '" .config('session.lifetime') . "'");
         return back()->withInput()->with('message', 'Login Failed');
     }
