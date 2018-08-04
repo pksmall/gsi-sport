@@ -103,3 +103,36 @@ $(document).ready(function() {
         $('.bmob-menu').html($this.text() + downarrow);
     });
 });
+
+$(".trigger").click(function(){
+    $(".sidebar").toggleClass("active");
+});
+$(document).mouseup(function (e){
+    var div = $('.sidebar');
+    if (!div.is(e.target)
+        && div.has(e.target).length === 0) {
+        $(".sidebar").removeClass("active")
+    }
+});
+$(".trigger-top").click(function(){
+    $(".sidebar").removeClass("active");
+});
+
+var perem = 1;
+$(".bmob-menu").click(function(){
+    if(perem == 1){
+        $(".tab-mob").addClass("active");
+        perem = 0;
+    }else{
+        $(".tab-mob").removeClass("active");
+        perem = 1;
+    }
+});
+
+$(document).mouseup(function (e){
+    var div = $('.tab-mob');
+    if (!div.is(e.target)
+        && div.has(e.target).length === 0) {
+        $(".tab-mob").removeClass("active")
+    }
+});

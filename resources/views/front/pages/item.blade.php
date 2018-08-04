@@ -46,7 +46,7 @@
 @endsection
 @section('page-js-script')
     <script src="{{ asset('assets/js/main.js') }}" type="text/javascript"></script>
-    
+
     <script type="text/javascript">
         $(function() {
             $('button').on('click',function(){
