@@ -1,4 +1,6 @@
-# GSI Sport
+# GSI Sport at Laravel 5.6
+
+This working code can be viewed at [GSI Test Site](https://gsi.dtgb.solutions/products) 
 
 ## Install
 
